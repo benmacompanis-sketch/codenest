@@ -40,6 +40,7 @@ function BackgroundVideo() {
       className="absolute inset-0 w-full h-full object-cover"
       style={{ opacity: 0.5 }}
       autoPlay muted loop playsInline crossOrigin="anonymous"
+      poster="/codenest/video-poster.jpg"
       aria-hidden="true"
     />
   )

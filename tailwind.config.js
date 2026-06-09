@@ -45,6 +45,10 @@ export default {
           from: { opacity: '0', transform: 'translateY(16px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
+        rayPulse: {
+          '0%, 100%': { opacity: '0.5', transform: 'scaleY(1)' },
+          '50%': { opacity: '1', transform: 'scaleY(1.3)' },
+        },
       },
     },
   },

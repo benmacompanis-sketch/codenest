@@ -4,20 +4,12 @@ import { motion, useMotionValue, useTransform, animate, useInView } from 'framer
 const ease = [0.25, 0.1, 0.25, 1]
 
 const STATS = [
-  { value: 50, suffix: '+', label: 'Proyectos entregados' },
-  { value: 100, suffix: '%', label: 'Compromiso con el cliente' },
-  { value: 24, suffix: 'h', label: 'Tiempo máximo de respuesta' },
-  { value: 3, suffix: '+', label: 'Años de experiencia digital' },
+  { value: '4+', label: 'Rubros trabajados' },
+  { value: '100%', label: 'Clientes satisfechos' },
+  { value: '48hs', label: 'Tiempo de respuesta' },
 ]
 
-const VALUES = [
-  { name: 'Innovación', desc: 'Siempre buscamos nuevas formas de resolver problemas digitales.' },
-  { name: 'Calidad', desc: 'Cada pixel importa, cada línea de código cuenta.' },
-  { name: 'Compromiso', desc: 'Tu éxito es nuestro éxito. Nos involucramos en tu proyecto.' },
-  { name: 'Transparencia', desc: 'Comunicación clara y honesta en cada etapa del proceso.' },
-]
-
-function AnimatedCounter({ value, suffix }) {
+function AnimatedNumber({ end, suffix }) {
   const count = useMotionValue(0)
   const rounded = useTransform(count, (v) => Math.round(v))
   const ref = useRef(null)
@@ -25,114 +17,97 @@ function AnimatedCounter({ value, suffix }) {
 
   useEffect(() => {
     if (isInView) {
-      animate(count, value, { duration: 2.2, ease: 'easeOut' })
+      animate(count, end, { duration: 2, ease: 'easeOut' })
     }
-  }, [isInView, count, value])
+  }, [isInView, count, end])
 
   return (
-    <span ref={ref} className="font-inter font-black text-white leading-none" style={{ fontSize: 'clamp(44px, 5vw, 56px)' }}>
+    <span ref={ref} className="font-inter font-black text-[#0a0a0a] leading-none" style={{ fontSize: 'clamp(40px, 5vw, 56px)' }}>
       <motion.span>{rounded}</motion.span>
       <span className="text-brand">{suffix}</span>
     </span>
   )
 }
 
+function StatBlock({ stat }) {
+  // Parse value into number + suffix for animation when possible
+  const match = stat.value.match(/^(\d+)(.*)$/)
+  if (match) {
+    return (
+      <div className="flex flex-col gap-1">
+        <AnimatedNumber end={parseInt(match[1])} suffix={match[2]} />
+        <p className="font-inter text-[#0a0a0a]/50 text-sm">{stat.label}</p>
+      </div>
+    )
+  }
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="font-inter font-black text-[#0a0a0a] leading-none" style={{ fontSize: 'clamp(40px, 5vw, 56px)' }}>
+        {stat.value}
+      </span>
+      <p className="font-inter text-[#0a0a0a]/50 text-sm">{stat.label}</p>
+    </div>
+  )
+}
+
 export default function AboutSection() {
   return (
-    <section id="nosotros" className="relative py-28 md:py-36 overflow-hidden">
-      {/* Side glow */}
-      <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-brand/[0.06] blur-3xl pointer-events-none" aria-hidden="true" />
+    <section id="nosotros" className="relative py-28 md:py-36 overflow-hidden" style={{ background: '#f8f6f1' }}>
+      {/* Decorative large text */}
+      <div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
+        aria-hidden="true"
+      >
+        <span
+          className="font-inter font-black"
+          style={{ fontSize: 'clamp(140px, 20vw, 280px)', color: '#0a0a0a', opacity: 0.04, letterSpacing: '-0.04em' }}
+        >
+          I.D.E.A
+        </span>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
-          {/* Left — content */}
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.7, ease }}
-            >
-              <p className="section-label mb-4">Quiénes somos</p>
-              <h2 className="section-heading mb-6">
-                Somos <span className="gradient-text">I.D.E.A Code</span>
-              </h2>
-              <p className="font-inter text-white/55 text-[15px] leading-[1.85] mb-5">
-                Una agencia digital apasionada por transformar negocios a través de tecnología y diseño. Creemos que cada empresa, sin importar su tamaño, merece una presencia digital profesional.
-              </p>
-              <p className="font-inter text-white/40 text-[15px] leading-[1.85] mb-10">
-                Nuestro enfoque combina diseño cuidadoso con desarrollo técnico sólido, para entregar proyectos que no solo se ven bien, sino que trabajan para vos todos los días.
-              </p>
-            </motion.div>
-
-            {/* Values */}
-            <motion.div
-              className="space-y-5"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.7, delay: 0.2, ease }}
-            >
-              <p className="section-label mb-5">Nuestros valores</p>
-              {VALUES.map((v, i) => (
-                <motion.div
-                  key={v.name}
-                  className="flex gap-4 items-start"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08, ease }}
-                >
-                  <span className="mt-1 shrink-0 w-1.5 h-1.5 rounded-full bg-brand" />
-                  <div>
-                    <span className="font-inter font-bold text-white text-[14px]">{v.name} — </span>
-                    <span className="font-inter text-white/45 text-[14px]">{v.desc}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+          {/* Left */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7, ease }}
+          >
+            <p className="section-label mb-4">Nosotros</p>
+            <h2 className="section-heading mb-6">
+              Somos <span className="text-brand">I.D.E.A Code.</span>
+            </h2>
+            <p className="font-inter text-[#0a0a0a]/60 text-[15px] leading-[1.85] mb-5">
+              Un equipo de 2-3 apasionados del diseño web y la tecnología. Creemos que cada negocio, sin importar su tamaño, merece una presencia digital profesional y efectiva.
+            </p>
+            <p className="font-inter text-[#0a0a0a]/45 text-[15px] leading-[1.85]">
+              Trabajamos desde Argentina para todo el mundo. Cada proyecto es único y lo tratamos como si fuera nuestro propio negocio.
+            </p>
+          </motion.div>
 
           {/* Right — stats */}
-          <div>
-            <motion.div
-              className="grid grid-cols-2 gap-4"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.7, delay: 0.15, ease }}
-            >
-              {STATS.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  className="card-surface rounded-2xl p-7 flex flex-col gap-3"
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.55, delay: i * 0.09, ease }}
-                  whileHover={{ y: -3, transition: { duration: 0.25 } }}
-                >
-                  <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                  <p className="font-inter text-white/40 text-[13px] leading-snug">{stat.label}</p>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Mission box */}
-            <motion.div
-              className="mt-4 card-surface rounded-2xl p-7"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4, ease }}
-            >
-              <p className="section-label mb-3">Nuestra misión</p>
-              <p className="font-instrument italic text-white/80 text-[18px] leading-relaxed">
-                "Ayudar a negocios y emprendedores a tener una presencia digital profesional que les permita crecer y destacarse en un mundo cada vez más conectado."
-              </p>
-            </motion.div>
-          </div>
+          <motion.div
+            className="flex flex-col gap-10"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7, delay: 0.2, ease }}
+          >
+            {STATS.map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: i * 0.1, ease }}
+              >
+                <StatBlock stat={stat} />
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

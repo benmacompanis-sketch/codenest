@@ -153,6 +153,7 @@ export default function HeroSection() {
         position: 'absolute', inset: 0, zIndex: 3,
         display: 'flex', flexDirection: 'column', justifyContent: 'center',
         padding: 'clamp(20px, 5vw, 80px)',
+        paddingTop: 'clamp(100px, 14vw, 160px)',
         maxWidth: 1000,
         willChange: 'transform, opacity',
       }}>

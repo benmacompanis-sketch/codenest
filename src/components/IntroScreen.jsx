@@ -217,7 +217,7 @@ export default function IntroScreen({ onComplete }) {
         {/* Ícono + nombre en una fila */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px,2vw,20px)', justifyContent: 'center', marginBottom: 14 }}>
           <img
-            src="/logo-icon.png"
+            src="/logo-black.svg"
             alt=""
             style={{ height: 'clamp(52px,9vw,90px)', width: 'auto', filter: 'drop-shadow(0 0 20px rgba(94,210,156,0.5))' }}
           />

@@ -88,7 +88,7 @@ function ProjectCard({ project, index }) {
         style={{
           position: 'absolute', inset: 0,
           width: '100%', height: '100%',
-          objectFit: 'cover', objectPosition: 'top',
+          objectFit: 'cover', objectPosition: 'center top',
           transform: hovered ? 'scale(1.06)' : 'scale(1)',
           transition: 'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)',
         }}

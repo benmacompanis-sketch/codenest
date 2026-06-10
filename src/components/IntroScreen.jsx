@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
-const IDEA_CHARS = ['I', '.', 'D', '.', 'E', '.', 'A']
-
 export default function IntroScreen({ onComplete }) {
-  const curtainLeftRef  = useRef(null)
-  const curtainRightRef = useRef(null)
-  const [gone, setGone] = useState(false)
+  const overlayRef = useRef(null)
+  const [gone, setGone]   = useState(false)
 
   const finish = () => {
     document.body.style.overflow = ''
@@ -16,20 +13,37 @@ export default function IntroScreen({ onComplete }) {
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
-
-    // Safety fallback — never block site for more than 5s
-    const fallback = setTimeout(finish, 5000)
+    const fallback = setTimeout(finish, 6000)
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-      tl.to('.ic-letter', { y: '0%', duration: 0.7, stagger: 0.06 })
-        .to('.ic-code',   { x: 0, opacity: 1, duration: 0.5 }, '-=0.3')
-        .to('.ic-tag',    { opacity: 1, y: 0, duration: 0.4 }, '-=0.15')
+      tl.fromTo('.intro-idea',
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 0.8 }
+        )
+        .fromTo('.intro-code',
+          { clipPath: 'inset(0 100% 0 0)', x: -12 },
+          { clipPath: 'inset(0 0% 0 0)', x: 0, duration: 0.6 },
+          '-=0.3'
+        )
+        .fromTo('.intro-tagline',
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.5 },
+          '-=0.1'
+        )
+        .fromTo('.intro-line',
+          { scaleX: 0, transformOrigin: 'left center' },
+          { scaleX: 1, duration: 0.6, ease: 'power2.inOut' },
+          '-=0.3'
+        )
         .to({}, { duration: 0.7 })
-        .to(curtainLeftRef.current,  { x: '-100%', duration: 0.8, ease: 'power4.inOut' })
-        .to(curtainRightRef.current, { x: '100%',  duration: 0.8, ease: 'power4.inOut' }, '<')
-        .call(() => { clearTimeout(fallback); finish() })
+        .to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.7,
+          ease: 'power2.inOut',
+          onComplete: () => { clearTimeout(fallback); finish() }
+        })
     })
 
     return () => { ctx.revert(); clearTimeout(fallback); document.body.style.overflow = '' }
@@ -38,59 +52,56 @@ export default function IntroScreen({ onComplete }) {
   if (gone) return null
 
   return (
-    <div style={{
+    <div ref={overlayRef} style={{
       position: 'fixed', inset: 0, zIndex: 9999,
-      background: '#0a0a0a',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      overflow: 'hidden',
+      background: '#080808',
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      gap: 20,
     }}>
-      {/* Content */}
-      <div style={{ textAlign: 'center', position: 'relative', zIndex: 2 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center' }}>
-          {IDEA_CHARS.map((ch, i) => (
-            <span key={i} style={{ display: 'inline-block', overflow: 'hidden', lineHeight: 1.1 }}>
-              <span className="ic-letter" style={{
-                display: 'inline-block',
-                transform: 'translateY(110%)',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 900,
-                fontSize: 'clamp(48px, 7vw, 88px)',
-                color: '#ffffff',
-              }}>
-                {ch}
-              </span>
-            </span>
-          ))}
-          <span style={{ display: 'inline-block', width: '0.25em' }} />
-          <span style={{ display: 'inline-block', overflow: 'hidden', lineHeight: 1.1 }}>
-            <span className="ic-code" style={{
-              display: 'inline-block',
-              transform: 'translateX(28px)',
-              opacity: 0,
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 900,
-              fontSize: 'clamp(48px, 7vw, 88px)',
-              color: '#5ed29c',
-              textShadow: '0 0 36px rgba(94,210,156,0.5)',
-            }}>
-              Code
-            </span>
-          </span>
-        </div>
-        <p className="ic-tag" style={{
-          margin: '16px 0 0', opacity: 0, transform: 'translateY(8px)',
-          fontFamily: '"Plus Jakarta Sans", sans-serif',
-          fontWeight: 600, fontSize: 11,
-          color: 'rgba(255,255,255,0.28)',
-          letterSpacing: '0.22em', textTransform: 'uppercase',
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, position: 'relative' }}>
+        <span className="intro-idea" style={{
+          display: 'inline-block',
+          fontFamily: 'Inter, sans-serif', fontWeight: 900,
+          fontSize: 'clamp(44px, 8vw, 88px)',
+          color: '#f0ede6',
+          letterSpacing: '-0.03em',
+          lineHeight: 1,
         }}>
-          Innovación Digital para Empresas y Agencias
-        </p>
+          I.D.E.A
+        </span>
+        <span className="intro-code" style={{
+          display: 'inline-block',
+          fontFamily: 'Inter, sans-serif', fontWeight: 900,
+          fontSize: 'clamp(44px, 8vw, 88px)',
+          color: '#5ed29c',
+          letterSpacing: '-0.03em',
+          lineHeight: 1,
+          textShadow: '0 0 60px rgba(94,210,156,0.45)',
+        }}>
+          Code
+        </span>
+
+        <div className="intro-line" style={{
+          position: 'absolute',
+          bottom: -6,
+          left: 0,
+          width: '55%',
+          height: 2,
+          background: 'linear-gradient(to right, #5ed29c, transparent)',
+          borderRadius: 1,
+        }} />
       </div>
 
-      {/* Curtains */}
-      <div ref={curtainLeftRef}  style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: '50%', background: '#f8f6f1', zIndex: 10 }} />
-      <div ref={curtainRightRef} style={{ position: 'absolute', top: 0, bottom: 0, left: '50%', right: 0,  background: '#f8f6f1', zIndex: 10 }} />
+      <p className="intro-tagline" style={{
+        fontFamily: '"Plus Jakarta Sans", sans-serif',
+        fontWeight: 600, fontSize: 'clamp(9px, 1vw, 11px)',
+        color: 'rgba(240,237,230,0.3)',
+        letterSpacing: '0.26em', textTransform: 'uppercase',
+        margin: 0, opacity: 0,
+      }}>
+        Agencia de Diseño Web · Argentina
+      </p>
     </div>
   )
 }

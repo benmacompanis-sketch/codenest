@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Hls from 'hls.js'
 import MagneticButton from './MagneticButton'
 import { useTextScramble } from '../hooks/useTextScramble'
+import Logo from './Logo'
 
 const ParticleGlobe = lazy(() => import('./ParticleGlobe'))
 
@@ -150,13 +151,16 @@ export default function HeroSection() {
         padding: 'clamp(20px, 5vw, 80px)',
         maxWidth: 1000,
       }}>
-        {/* Label */}
-        <div className="hero-label" style={{ display:'flex', alignItems:'center', gap:12, marginBottom:32 }}>
-          <span style={{ width:32, height:1, background:'#5ed29c', opacity:0.7 }} />
-          <span style={{
-            fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
-            color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase',
-          }}>Agencia de Diseño Web · Argentina</span>
+        {/* Logo + label */}
+        <div className="hero-label" style={{ marginBottom: 36 }}>
+          <Logo size={22} style={{ marginBottom: 18, display: 'flex' }} />
+          <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+            <span style={{ width:32, height:1, background:'#5ed29c', opacity:0.7 }} />
+            <span style={{
+              fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
+              color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase',
+            }}>Agencia de Diseño Web · Argentina</span>
+          </div>
         </div>
 
         {/* Headline */}

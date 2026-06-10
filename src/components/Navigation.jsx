@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import MagneticButton from './MagneticButton'
+import Logo from './Logo'
 
 const WA = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
 const LINKS = [
@@ -37,9 +38,8 @@ export default function Navigation() {
         borderBottom: scrolled ? '1px solid rgba(240,237,230,0.06)' : '1px solid transparent',
         transition:'background 0.4s, border-color 0.4s, backdrop-filter 0.4s',
       }}>
-        <a href="#inicio" onClick={e => scroll(e,'#inicio')} style={{ textDecoration:'none', display:'flex', alignItems:'baseline', gap:3 }}>
-          <span style={{ fontFamily:'Inter,sans-serif', fontWeight:900, fontSize:17, color:'#f0ede6' }}>I.D.E.A</span>
-          <span style={{ fontFamily:'Inter,sans-serif', fontWeight:900, fontSize:17, color:'#5ed29c', marginLeft:4 }}>Code</span>
+        <a href="#inicio" onClick={e => scroll(e,'#inicio')} style={{ textDecoration:'none' }}>
+          <Logo size={17} />
         </a>
 
         <div style={{ display:'flex', alignItems:'center', gap:32 }} className="nav-desktop">

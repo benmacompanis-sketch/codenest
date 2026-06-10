@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { asset } from '../utils/assetPath'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowUpRight } from 'lucide-react'
@@ -13,7 +14,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #0c1628 0%, #1a3258 100%)',
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/ovelar-propiedades/',
-    img: '/codenest/portfolio/ovelar.png',
+    img: '/portfolio/ovelar.png',
     imgPos: '6% 30%',
     tag: 'Inmuebles · CABA',
   },
@@ -24,7 +25,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #030d12 0%, #062534 100%)',
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/Veterinaria/',
-    img: '/codenest/portfolio/veterinaria.png',
+    img: '/portfolio/veterinaria.png',
     imgPos: 'center center',
     tag: 'Clínica · Caballito',
   },
@@ -35,7 +36,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #100500 0%, #2a1200 100%)',
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/Cuchadelpari/',
-    img: '/codenest/portfolio/cuchadelpari.png',
+    img: '/portfolio/cuchadelpari.png',
     imgPos: '0% 35%',
     tag: 'Bar & Cocina · Buenos Aires',
   },
@@ -46,7 +47,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #f5f0eb 0%, #ede6dd 100%)',
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/barre-estudio/',
-    img: '/codenest/portfolio/barre.png',
+    img: '/portfolio/barre.png',
     imgPos: 'center center',
     tag: 'Estudio · Buenos Aires',
   },
@@ -87,7 +88,7 @@ function ProjectCard({ project, index }) {
     >
       {/* Screenshot via thum.io */}
       <img
-        src={project.img}
+        src={asset(project.img)}
         alt={project.name}
         style={{
           position: 'absolute', inset: 0,

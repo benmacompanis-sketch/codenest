@@ -1,3 +1,5 @@
+import { asset } from '../utils/assetPath'
+
 const WA_URL = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
 const IG_URL = 'https://instagram.com/ideacode._'
 const TK_URL = 'https://tiktok.com/@idea.code'
@@ -73,7 +75,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:16 }}>
-              <img src="/codenest/logo-icon.png" alt="" style={{ height:36, width:'auto' }} />
+              <img src={asset('/logo-icon.png')} alt="" style={{ height:36, width:'auto' }} />
               <div>
                 <div style={{ fontFamily:'Inter,sans-serif', fontWeight:900, fontSize:16, color:'#f0ede6', letterSpacing:'-0.02em', lineHeight:1 }}>
                   I.D.E.A <span style={{ color:'#5ed29c' }}>Code</span>

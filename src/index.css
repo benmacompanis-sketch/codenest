@@ -21,56 +21,39 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    background: #f8f6f1;
+    color: #0a0a0a;
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar — light theme */
   ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #070b0a; }
+  ::-webkit-scrollbar-track { background: #f0ede6; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(94, 210, 156, 0.25);
+    background: rgba(94, 210, 156, 0.4);
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(94, 210, 156, 0.5);
+    background: rgba(94, 210, 156, 0.7);
   }
 
   /* Selection color */
   ::selection {
-    background: rgba(94, 210, 156, 0.25);
-    color: #fff;
+    background: rgba(94, 210, 156, 0.3);
+    color: #0a0a0a;
   }
 }
 
 @layer components {
-  /* ── Liquid glass card ───────────────────────────────────── */
+  /* ── Glass card — light version ──────────────────────────── */
   .glass-card {
-    background: rgba(255, 255, 255, 0.02);
-    background-blend-mode: luminosity;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     box-shadow:
-      inset 0 1px 1px rgba(255, 255, 255, 0.12),
-      0 20px 40px rgba(0, 0, 0, 0.4);
+      inset 0 1px 1px rgba(255, 255, 255, 0.9),
+      0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     position: relative;
-  }
-
-  .glass-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    padding: 1px;
-    border-radius: inherit;
-    background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.22) 0%,
-      rgba(94, 210, 156, 0.08) 50%,
-      rgba(255, 255, 255, 0.04) 100%
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
   }
 
   /* ── Section label ───────────────────────────────────────── */
@@ -81,20 +64,21 @@
 
   /* ── Section heading ─────────────────────────────────────── */
   .section-heading {
-    @apply font-inter font-extrabold text-white leading-tight tracking-tight;
+    @apply font-inter font-extrabold text-[#0a0a0a] leading-tight tracking-tight;
     font-size: clamp(32px, 4vw, 52px);
   }
 
-  /* ── Card surface ────────────────────────────────────────── */
+  /* ── Card surface — light version ───────────────────────── */
   .card-surface {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    transition: border-color 0.3s ease, background 0.3s ease;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
 
   .card-surface:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(94, 210, 156, 0.25);
+    border-color: #5ed29c;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
   }
 
   /* ── Gradient text ───────────────────────────────────────── */
@@ -111,16 +95,16 @@
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
-    opacity: 0.035;
+    opacity: 0.025;
     pointer-events: none;
     z-index: 100;
   }
 }
 
 @layer utilities {
-  /* Dots background pattern */
+  /* Dots background pattern — light version */
   .bg-dots {
-    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
     background-size: 36px 36px;
   }
 

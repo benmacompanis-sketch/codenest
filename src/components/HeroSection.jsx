@@ -1,219 +1,163 @@
-import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import Hls from 'hls.js'
 
-const HLS_SRC = 'https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8'
 const WA_HERO = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
 
 const TICKER_ITEMS = [
   'Páginas Web', 'Menú Digital QR', 'Tienda Online',
   'Landing Pages', 'Branding Digital', 'Blog Personal',
-  'Páginas Web', 'Menú Digital QR', 'Tienda Online',
-  'Landing Pages', 'Branding Digital', 'Blog Personal',
+  'E-commerce', 'Diseño Web', 'SEO',
 ]
 
-const HEADLINE_WORDS = ['TU', 'NEGOCIO', 'MERECE', 'EXISTIR', 'EN', 'INTERNET']
+const headlineWords = ['Diseño web que', 'convierte visitas', 'en']
 
-const ease = [0.25, 0.1, 0.25, 1]
-
-function BackgroundVideo() {
-  const videoRef = useRef(null)
-
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    let hls
-    if (Hls.isSupported()) {
-      hls = new Hls({ enableWorker: false })
-      hls.loadSource(HLS_SRC)
-      hls.attachMedia(video)
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = HLS_SRC
-    }
-    return () => { if (hls) hls.destroy() }
-  }, [])
-
-  return (
-    <video
-      ref={videoRef}
-      className="absolute inset-0 w-full h-full object-cover"
-      style={{ opacity: 0.5 }}
-      autoPlay muted loop playsInline crossOrigin="anonymous"
-      poster="/codenest/video-poster.jpg"
-      aria-hidden="true"
-    />
-  )
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.3 },
+  },
 }
 
-function GlassCard() {
-  return (
-    <div className="animate-float glass-card rounded-2xl p-5 text-left" style={{ width: 204, height: 204 }}>
-      <div className="relative z-10 flex flex-col justify-between h-full">
-        <span className="font-jakarta font-bold text-brand/80 tracking-[0.18em] uppercase" style={{ fontSize: 11 }}>
-          I.D.E.A Code
-        </span>
-        <div>
-          <p className="text-white font-inter font-semibold leading-snug mb-2.5" style={{ fontSize: 17 }}>
-            Diseño web que convierte visitas en{' '}
-            <em className="font-instrument italic text-brand/90">clientes reales.</em>
-          </p>
-          <p className="text-white/40 font-inter leading-relaxed" style={{ fontSize: 11 }}>
-            Webs · QR · E-commerce · Branding
-          </p>
-        </div>
-      </div>
-    </div>
-  )
+const wordVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
 }
 
 export default function HeroSection() {
+  const scrollToPortfolio = (e) => {
+    e.preventDefault()
+    document.querySelector('#portfolio')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" aria-label="Inicio">
-      {/* Background video */}
-      <BackgroundVideo />
+    <section className="relative min-h-screen flex flex-col" style={{ background: '#f8f6f1' }}>
+      <div className="flex-1 flex items-center justify-center pt-20 pb-0">
+        <div className="max-w-7xl mx-auto px-6 w-full">
+          <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12">
+            {/* Main content */}
+            <div className="flex-1 max-w-3xl">
+              {/* Label */}
+              <motion.div
+                className="section-label mb-6"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+              >
+                Agencia de Diseño Web · Argentina
+              </motion.div>
 
-      {/* Left gradient */}
-      <div className="absolute inset-0 z-10 pointer-events-none"
-        style={{ background: 'linear-gradient(to right, #070b0a 0%, rgba(7,11,10,0.6) 55%, transparent 75%)' }} />
+              {/* Headline */}
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="font-inter font-black leading-none tracking-tight"
+                style={{ fontSize: 'clamp(56px, 7vw, 96px)' }}
+              >
+                {headlineWords.map((line, i) => (
+                  <motion.div key={i} variants={wordVariants} className="block text-[#0a0a0a]">
+                    {line}
+                  </motion.div>
+                ))}
+                <motion.div variants={wordVariants} className="block">
+                  <span className="text-[#0a0a0a]">en </span>
+                  <span className="text-brand">clientes.</span>
+                </motion.div>
+              </motion.div>
 
-      {/* Bottom gradient */}
-      <div className="absolute inset-0 z-10 pointer-events-none"
-        style={{ background: 'linear-gradient(to top, #070b0a 0%, rgba(7,11,10,0.5) 35%, transparent 60%)' }} />
+              {/* Description */}
+              <motion.p
+                className="font-inter text-[#0a0a0a]/55 text-lg mt-8 leading-relaxed"
+                style={{ maxWidth: 480 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.85, duration: 0.6 }}
+              >
+                Creamos páginas web, tiendas online y soluciones digitales que hacen crecer tu negocio. Diseño que convierte.
+              </motion.p>
 
-      {/* Top gradient */}
-      <div className="absolute top-0 left-0 right-0 h-32 z-10 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, #070b0a 0%, transparent 100%)' }} />
+              {/* CTAs */}
+              <motion.div
+                className="flex flex-wrap items-center gap-4 mt-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.0, duration: 0.6 }}
+              >
+                <a
+                  href={WA_HERO}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-inter font-semibold text-base bg-brand text-[#0a0a0a] px-8 py-4 rounded-full hover:bg-brand/90 transition-all hover:shadow-lg hover:shadow-brand/20 hover:-translate-y-0.5"
+                >
+                  Quiero mi web
+                </a>
+                <a
+                  href="#portfolio"
+                  onClick={scrollToPortfolio}
+                  className="font-inter font-medium text-base text-[#0a0a0a]/60 hover:text-[#0a0a0a] transition-colors flex items-center gap-2 group"
+                >
+                  Ver nuestro trabajo
+                  <span className="group-hover:translate-x-1 transition-transform">↓</span>
+                </a>
+              </motion.div>
+            </div>
 
-      {/* Vertical grid lines */}
-      <div className="absolute inset-0 z-10 hidden md:block pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-y-0 left-1/4 w-px bg-white/[0.07]" />
-        <div className="absolute inset-y-0 left-1/2 w-px bg-white/[0.07]" />
-        <div className="absolute inset-y-0 left-3/4 w-px bg-white/[0.07]" />
-      </div>
-
-      {/* Central ellipse glow */}
-      <div className="absolute top-0 inset-x-0 z-10 flex justify-center pointer-events-none" aria-hidden="true">
-        <svg width="1200" height="320" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <filter id="hero-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="30" />
-            </filter>
-          </defs>
-          <ellipse cx="600" cy="100" rx="480" ry="130" fill="rgba(20,200,140,0.18)" filter="url(#hero-glow)" />
-        </svg>
-      </div>
-
-      {/* Main content */}
-      <div className="relative z-20 flex flex-col items-center text-center px-6 md:px-12 w-full max-w-5xl mx-auto">
-
-        {/* Floating glass card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.88, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease }}
-        >
-          <GlassCard />
-        </motion.div>
-
-        {/* Eyebrow */}
-        <motion.p
-          className="section-label mt-3 mb-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.55, ease }}
-        >
-          Innovación Digital
-        </motion.p>
-
-        {/* Animated headline — word by word */}
-        <h1
-          className="font-inter font-extrabold uppercase tracking-tight leading-none text-white mb-6"
-          style={{ fontSize: 'clamp(38px, 6vw, 76px)' }}
-          aria-label="Tu negocio merece existir en internet."
-        >
-          {HEADLINE_WORDS.map((word, i) => (
-            <motion.span
-              key={i}
-              className="inline-block mr-[0.22em]"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.7 + i * 0.09, ease }}
+            {/* Stats card — desktop only */}
+            <motion.div
+              className="hidden lg:block"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.7, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
-              {word}
-            </motion.span>
-          ))}
-          <motion.span
-            className="inline-block text-brand"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.7 + HEADLINE_WORDS.length * 0.09 }}
-          >
-            .
-          </motion.span>
-        </h1>
+              <div
+                className="rounded-2xl p-8 w-64"
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid rgba(0,0,0,0.07)',
+                  boxShadow: '0 8px 40px rgba(0,0,0,0.07)',
+                }}
+              >
+                <p className="section-label mb-6">Resultados</p>
+                <div className="space-y-6">
+                  <div>
+                    <p className="font-inter font-black text-4xl text-[#0a0a0a]">4+</p>
+                    <p className="font-inter text-sm text-[#0a0a0a]/50 mt-0.5">Rubros trabajados</p>
+                  </div>
+                  <div className="h-px bg-black/06" />
+                  <div>
+                    <p className="font-inter font-black text-4xl text-[#0a0a0a]">100%</p>
+                    <p className="font-inter text-sm text-[#0a0a0a]/50 mt-0.5">Clientes satisfechos</p>
+                  </div>
+                  <div className="h-px bg-black/06" />
+                  <div>
+                    <p className="font-inter font-black text-4xl text-brand">48hs</p>
+                    <p className="font-inter text-sm text-[#0a0a0a]/50 mt-0.5">Tiempo de respuesta</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
 
-        {/* Description */}
-        <motion.p
-          className="font-inter mb-9"
-          style={{ fontSize: 15, color: 'rgba(255,255,255,0.62)', maxWidth: 520, lineHeight: 1.75 }}
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.4, ease }}
+      {/* Ticker */}
+      <div
+        className="mt-16 py-4 border-t border-b overflow-hidden"
+        style={{ borderColor: 'rgba(0,0,0,0.07)' }}
+      >
+        <div
+          className="flex gap-8 animate-ticker ticker-track whitespace-nowrap"
+          style={{ width: 'max-content' }}
         >
-          Creamos páginas web profesionales, tiendas online y soluciones digitales que hacen crecer tu negocio. Diseño que convierte.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-center gap-4"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.6, ease }}
-        >
-          <motion.a
-            href={WA_HERO}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2.5 rounded-full font-inter font-bold uppercase text-[13px] tracking-wider px-8 py-4"
-            style={{ background: '#5ed29c', color: '#070b0a' }}
-            whileHover={{ scale: 1.06, boxShadow: '0 0 28px rgba(94,210,156,0.5)' }}
-            whileTap={{ scale: 0.96 }}
-            transition={{ type: 'spring', stiffness: 280, damping: 18 }}
-          >
-            Quiero mi web
-            <ArrowRight size={15} strokeWidth={2.5} />
-          </motion.a>
-
-          <motion.a
-            href="#servicios"
-            className="flex items-center gap-2 font-inter font-semibold text-[13px] text-white/55 hover:text-white transition-colors duration-200 group"
-            onClick={(e) => {
-              e.preventDefault()
-              document.querySelector('#servicios')?.scrollIntoView({ behavior: 'smooth' })
-            }}
-          >
-            Ver servicios
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
-          </motion.a>
-        </motion.div>
-
-        {/* Ticker */}
-        <motion.div
-          className="w-full overflow-hidden mt-16 opacity-0"
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2, ease: 'easeOut' }}
-          aria-hidden="true"
-        >
-          <div className="flex ticker-track animate-ticker whitespace-nowrap">
-            {TICKER_ITEMS.map((item, i) => (
-              <span key={i} className="flex items-center gap-3 mr-10 font-jakarta font-semibold text-white/20 text-[11px] uppercase tracking-[0.2em] shrink-0">
-                <span className="text-brand/50 text-base">✦</span>
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+            <div key={i} className="flex items-center gap-3 shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand shrink-0" />
+              <span className="font-jakarta font-semibold text-sm text-[#0a0a0a]/60 uppercase tracking-wider">
                 {item}
               </span>
-            ))}
-          </div>
-        </motion.div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

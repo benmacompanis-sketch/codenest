@@ -14,6 +14,8 @@ export default {
       colors: {
         brand: '#5ed29c',
         dark: '#070b0a',
+        light: '#f8f6f1',
+        surface: '#ffffff',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

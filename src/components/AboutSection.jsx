@@ -14,7 +14,7 @@ const STATS = [
 const QA = [
   {
     q: '¿Quiénes son?',
-    a: 'Somos Benicio Nasello Bruno y Andrés Mayo, dos estudiantes de ORT apasionados por el desarrollo web y la tecnología. Armamos I.D.E.A Code con una misión clara: que cualquier negocio pueda tener una presencia digital profesional sin pagar una fortuna.',
+    a: 'Somos Benicio Nasello Bruno y Andrés Mayo, dos adolescentes estudiantes de ORT apasionados por el desarrollo web y la tecnología. Armamos I.D.E.A Code con una misión clara: que cualquier negocio pueda tener una presencia digital profesional sin pagar una fortuna.',
   },
   {
     q: '¿Qué significa I.D.E.A?',
@@ -196,7 +196,7 @@ export default function AboutSection() {
               fontFamily:'Inter,sans-serif', fontSize:15,
               color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:'0 0 20px',
             }}>
-              Dos estudiantes de ORT que creen que cada negocio merece una presencia digital profesional y efectiva — sin importar el tamaño.
+              Somos dos adolescentes estudiantes de ORT que creen que cada negocio merece una presencia digital profesional y efectiva — sin importar el tamaño.
             </p>
             <p style={{
               fontFamily:'Inter,sans-serif', fontSize:15,

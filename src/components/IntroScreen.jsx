@@ -215,7 +215,7 @@ export default function IntroScreen({ onComplete }) {
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0,
       }}>
         {/* Ícono + nombre en una fila */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px,2vw,20px)', justifyContent: 'center', marginBottom: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 0, justifyContent: 'center', marginBottom: 14 }}>
           <img
             src="/logo-brand.png"
             alt=""

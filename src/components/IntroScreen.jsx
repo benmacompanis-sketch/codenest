@@ -219,7 +219,7 @@ export default function IntroScreen({ onComplete }) {
           <img
             src="/logo-black.svg"
             alt=""
-            style={{ height: 'clamp(52px,9vw,90px)', width: 'auto', filter: 'drop-shadow(0 0 20px rgba(94,210,156,0.5))' }}
+            style={{ height: 'clamp(52px,9vw,90px)', width: 'auto', mixBlendMode: 'multiply' }}
           />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, textAlign: 'left' }}>
             <span style={{

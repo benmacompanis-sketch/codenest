@@ -88,7 +88,7 @@ export default function CustomCursor() {
         {hovered && (
           <span style={{
             fontFamily:'Inter,sans-serif', fontSize:9, fontWeight:700,
-            color:'#5ed29c', letterSpacing:'0.1em', textTransform:'uppercase',
+            color:'#080808', letterSpacing:'0.1em', textTransform:'uppercase',
             pointerEvents:'none',
           }}>ver</span>
         )}

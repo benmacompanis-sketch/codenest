@@ -1,94 +1,93 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MessageCircle } from 'lucide-react'
 
-const ease = [0.25, 0.1, 0.25, 1]
-const WA_CTA = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Estoy listo para llevar mi negocio online con I.D.E.A Code. ¿Podemos hablar?')}`
+gsap.registerPlugin(ScrollTrigger)
+
+const WA = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
 
 export default function CTASection() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.cta-line', {
+        scrollTrigger: { trigger: '.cta-line', start: 'top 85%' },
+        y: 80, opacity: 0, duration: 1, stagger: 0.15, ease: 'power4.out',
+      })
+      gsap.from('.cta-btn', {
+        scrollTrigger: { trigger: '.cta-btn', start: 'top 90%' },
+        scale: 0.85, opacity: 0, duration: 0.7, ease: 'back.out(1.4)',
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section
-      id="contacto"
-      className="relative py-28 md:py-40 overflow-hidden"
-      style={{ background: '#0a0a0a' }}
-    >
-      {/* Green glow behind button area */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse 60% 50% at 50% 80%, rgba(94,210,156,0.12) 0%, transparent 70%)',
-        }}
-        aria-hidden="true"
-      />
+    <section ref={sectionRef}
+      style={{
+        background: '#0a0a0a', position: 'relative', overflow: 'hidden',
+        padding: 'clamp(100px, 14vw, 180px) clamp(24px, 5vw, 80px)',
+        textAlign: 'center',
+      }}>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-12 text-center">
-        <motion.p
-          className="section-label mb-5"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease }}
-        >
-          Hablemos
-        </motion.p>
+      {/* Glow */}
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 600, height: 300, borderRadius: '50%',
+        background: 'radial-gradient(ellipse, rgba(94,210,156,0.15) 0%, transparent 70%)',
+        filter: 'blur(40px)', pointerEvents: 'none',
+      }} />
 
-        <motion.h2
-          className="font-inter font-black text-white tracking-tight leading-none mb-6"
-          style={{ fontSize: 'clamp(36px, 6vw, 72px)' }}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, delay: 0.1, ease }}
-        >
-          ¿Listo para llevar tu<br />
-          <span className="text-brand">negocio online?</span>
-        </motion.h2>
+      <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <div style={{ overflow: 'hidden', marginBottom: 8 }}>
+          <h2 className="cta-line" style={{
+            fontFamily: 'Inter, sans-serif', fontWeight: 900,
+            fontSize: 'clamp(40px, 7vw, 88px)', color: '#ffffff',
+            lineHeight: 1.0, margin: 0,
+          }}>¿Listo para llevar</h2>
+        </div>
+        <div style={{ overflow: 'hidden', marginBottom: 8 }}>
+          <h2 className="cta-line" style={{
+            fontFamily: 'Inter, sans-serif', fontWeight: 900,
+            fontSize: 'clamp(40px, 7vw, 88px)',
+            lineHeight: 1.0, margin: 0,
+            background: 'linear-gradient(90deg, #5ed29c, #a8f0cc)',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          }}>tu negocio online?</h2>
+        </div>
 
-        <motion.p
-          className="font-inter text-white/45 text-[16px] leading-relaxed mb-12 max-w-lg mx-auto"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, delay: 0.2, ease }}
-        >
-          Tu competencia ya está en internet. Es hora de que vos también destaqués con una presencia digital profesional.
-        </motion.p>
+        <p className="cta-line" style={{
+          fontFamily: 'Inter, sans-serif', fontSize: 16,
+          color: 'rgba(255,255,255,0.4)', lineHeight: 1.7,
+          margin: '28px auto 48px', maxWidth: 440,
+        }}>
+          Escribinos y te respondemos en menos de 24 horas. Sin compromiso.
+        </p>
 
-        <motion.div
-          className="flex flex-col items-center gap-4"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, delay: 0.3, ease }}
-        >
-          {/* Glow wrapper */}
-          <div className="relative">
-            <div
-              className="absolute -inset-4 rounded-full pointer-events-none"
-              style={{
-                background: 'radial-gradient(circle, rgba(94,210,156,0.35) 0%, transparent 70%)',
-                filter: 'blur(20px)',
-              }}
-              aria-hidden="true"
-            />
-            <motion.a
-              href={WA_CTA}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative flex items-center gap-3 font-inter font-bold text-[14px] uppercase tracking-wider bg-brand text-[#0a0a0a] rounded-full overflow-hidden"
-              style={{ padding: '1.125rem 2.5rem' }}
-              whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(94,210,156,0.5)' }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 280, damping: 18 }}
-            >
-              <MessageCircle size={18} strokeWidth={2} />
-              Escribinos por WhatsApp
-            </motion.a>
-          </div>
+        <a className="cta-btn" href={WA} target="_blank" rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            background: '#5ed29c', color: '#0a0a0a',
+            fontFamily: 'Inter, sans-serif', fontWeight: 700,
+            fontSize: 15, padding: '18px 40px', borderRadius: 999,
+            textDecoration: 'none',
+            transition: 'transform 0.2s, box-shadow 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform='scale(1.06)'; e.currentTarget.style.boxShadow='0 0 50px rgba(94,210,156,0.5)' }}
+          onMouseLeave={e => { e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.boxShadow='none' }}>
+          <MessageCircle size={18} />
+          Escribinos por WhatsApp
+        </a>
 
-          <p className="font-inter text-white/30 text-[12px] tracking-wide mt-2">
-            Respondemos en menos de 24hs
-          </p>
-        </motion.div>
+        <p style={{
+          fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 600,
+          fontSize: 11, color: 'rgba(255,255,255,0.2)',
+          letterSpacing: '0.15em', textTransform: 'uppercase',
+          marginTop: 20,
+        }}>Respondemos en menos de 24hs</p>
       </div>
     </section>
   )

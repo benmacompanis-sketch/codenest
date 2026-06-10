@@ -1,110 +1,88 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const STEPS = [
-  {
-    number: '01',
-    title: 'Consulta',
-    description: 'Nos contás tu proyecto, entendemos tus objetivos y te damos un presupuesto claro.',
-  },
-  {
-    number: '02',
-    title: 'Diseño',
-    description: 'Creamos el diseño visual de tu web para que lo apruebes antes de desarrollar.',
-  },
-  {
-    number: '03',
-    title: 'Desarrollo',
-    description: 'Construimos tu web con tecnología moderna, rápida y optimizada para Google.',
-  },
-  {
-    number: '04',
-    title: 'Lanzamiento',
-    description: 'Publicamos tu web y te entregamos todo. Soporte incluido.',
-  },
+  { num: '01', title: 'Consulta',    desc: 'Nos contás tu proyecto, entendemos tus objetivos y te damos un presupuesto claro y sin sorpresas.' },
+  { num: '02', title: 'Diseño',      desc: 'Creamos el diseño visual de tu web para que lo apruebes antes de escribir una línea de código.' },
+  { num: '03', title: 'Desarrollo',  desc: 'Construimos tu web con tecnología moderna, rápida y optimizada para aparecer en Google.' },
+  { num: '04', title: 'Lanzamiento', desc: 'Publicamos tu web y te entregamos todo. Soporte incluido durante los primeros 30 días.' },
 ]
 
-const ease = [0.25, 0.1, 0.25, 1]
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.13, delayChildren: 0.1 } },
-}
-
-const stepVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
-}
-
 export default function ProcessSection() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.proc-heading', {
+        scrollTrigger: { trigger: '.proc-heading', start: 'top 85%' },
+        y: 60, opacity: 0, duration: 0.9, ease: 'power3.out',
+      })
+      gsap.from('.proc-step', {
+        scrollTrigger: { trigger: '.proc-steps', start: 'top 80%' },
+        y: 60, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+      })
+      // Line draws itself
+      gsap.from('.proc-line', {
+        scrollTrigger: { trigger: '.proc-steps', start: 'top 75%' },
+        scaleX: 0, duration: 1.2, ease: 'power3.inOut', transformOrigin: 'left',
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="proceso" className="relative py-28 md:py-36 overflow-hidden" style={{ background: '#ffffff' }}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <motion.div
-          className="mb-16 md:mb-20 max-w-xl"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, ease }}
-        >
-          <p className="section-label mb-4">Cómo trabajamos</p>
-          <h2 className="section-heading mb-5">Simple, claro y sin vueltas.</h2>
-          <p className="font-inter text-[#0a0a0a]/50 text-[15px] leading-relaxed">
-            Un proceso diseñado para que te sientas cómodo en cada etapa y sepas exactamente qué esperar.
-          </p>
-        </motion.div>
+    <section ref={sectionRef} id="proceso"
+      style={{ background: '#ffffff', padding: 'clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <p style={{
+          fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 700,
+          fontSize: 11, color: '#5ed29c',
+          letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20,
+        }}>Cómo trabajamos</p>
 
-        {/* Steps */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6 relative"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-        >
-          {/* Dashed connector line — desktop only */}
-          <div
-            className="hidden md:block absolute top-10 left-[12.5%] right-[12.5%] h-px pointer-events-none"
-            style={{
-              borderTop: '1.5px dashed rgba(0,0,0,0.12)',
-            }}
-            aria-hidden="true"
-          />
+        <h2 className="proc-heading" style={{
+          fontFamily: 'Inter, sans-serif', fontWeight: 900,
+          fontSize: 'clamp(36px, 5vw, 64px)', color: '#0a0a0a',
+          lineHeight: 1.05, margin: '0 0 80px', maxWidth: 600,
+        }}>
+          Simple, claro<br />y <span style={{ color: '#5ed29c' }}>sin vueltas.</span>
+        </h2>
 
-          {STEPS.map((step, i) => (
-            <motion.div
-              key={step.number}
-              variants={stepVariants}
-              className="relative flex flex-col gap-4"
-            >
-              {/* Number bg decorative */}
-              <div className="relative">
-                <span
-                  className="absolute -top-4 -left-2 font-inter font-black select-none pointer-events-none leading-none"
-                  style={{
-                    fontSize: 'clamp(72px, 8vw, 96px)',
-                    color: 'rgba(0,0,0,0.04)',
-                    zIndex: 0,
-                  }}
-                  aria-hidden="true"
-                >
-                  {step.number}
-                </span>
-                <div
-                  className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center"
-                  style={{ background: 'rgba(94,210,156,0.12)', border: '1px solid rgba(94,210,156,0.3)' }}
-                >
-                  <span className="font-inter font-black text-brand text-sm">{i + 1}</span>
-                </div>
-              </div>
+        {/* Connector line */}
+        <div style={{ position: 'relative', marginBottom: 0 }}>
+          <div className="proc-line" style={{
+            position: 'absolute', top: 22, left: '12.5%', right: '12.5%', height: 1,
+            background: 'rgba(0,0,0,0.1)',
+            display: 'none',
+          }} />
+        </div>
 
-              <div className="mt-2">
-                <h3 className="font-inter font-extrabold text-[#0a0a0a] text-lg mb-2">{step.title}</h3>
-                <p className="font-inter text-[#0a0a0a]/50 text-[14px] leading-relaxed">{step.description}</p>
-              </div>
-            </motion.div>
+        <div className="proc-steps" style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+          gap: 40,
+        }}>
+          {STEPS.map(({ num, title, desc }) => (
+            <div key={num} className="proc-step">
+              <span style={{
+                fontFamily: 'Inter, sans-serif', fontWeight: 900,
+                fontSize: 52, color: 'rgba(0,0,0,0.06)',
+                lineHeight: 1, display: 'block', marginBottom: 12,
+              }}>{num}</span>
+              <h3 style={{
+                fontFamily: 'Inter, sans-serif', fontWeight: 700,
+                fontSize: 18, color: '#0a0a0a', margin: '0 0 10px',
+              }}>{title}</h3>
+              <p style={{
+                fontFamily: 'Inter, sans-serif', fontSize: 14,
+                color: 'rgba(0,0,0,0.5)', lineHeight: 1.65, margin: 0,
+              }}>{desc}</p>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

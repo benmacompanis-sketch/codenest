@@ -1,161 +1,165 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Hls from 'hls.js'
 import { ArrowRight } from 'lucide-react'
 
-const WA_HERO = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
+gsap.registerPlugin(ScrollTrigger)
 
-const TICKER_ITEMS = [
-  'Páginas Web', 'Menú Digital QR', 'Tienda Online',
-  'Landing Pages', 'Branding Digital', 'Blog Personal',
-  'E-commerce', 'Diseño Web', 'SEO',
+const HLS_SRC = 'https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8'
+const WA = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
+
+const TICKER = [
+  'Páginas Web','Tiendas Online','Menú QR','Landing Pages','Branding Digital','E-commerce',
+  'Páginas Web','Tiendas Online','Menú QR','Landing Pages','Branding Digital','E-commerce',
 ]
 
-const headlineWords = ['Diseño web que', 'convierte visitas', 'en']
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.3 },
-  },
-}
-
-const wordVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
-}
-
 export default function HeroSection() {
-  const scrollToPortfolio = (e) => {
-    e.preventDefault()
-    document.querySelector('#portfolio')?.scrollIntoView({ behavior: 'smooth' })
-  }
+  const sectionRef   = useRef(null)
+  const videoWrapRef = useRef(null)
+  const overlayRef   = useRef(null)
+  const contentRef   = useRef(null)
+  const videoRef     = useRef(null)
+  const whiteRef     = useRef(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    let hls
+    if (Hls.isSupported()) {
+      hls = new Hls({ enableWorker: false })
+      hls.loadSource(HLS_SRC)
+      hls.attachMedia(video)
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = HLS_SRC
+    }
+    return () => hls?.destroy()
+  }, [])
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.hero-word', {
+        y: '110%', duration: 1, stagger: 0.08, ease: 'power4.out', delay: 0.3,
+      })
+      gsap.from(['.hero-sub', '.hero-cta'], {
+        opacity: 0, y: 24, duration: 0.8, stagger: 0.15, delay: 1.0, ease: 'power3.out',
+      })
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=90%',
+          pin: true,
+          scrub: 1.5,
+        }
+      })
+      tl.to(contentRef.current,  { y: -120, opacity: 0, scale: 0.94 })
+        .to(videoWrapRef.current, { scale: 1.12 }, '<')
+        .to(overlayRef.current,   { opacity: 0.9 }, '<0.2')
+        .to(whiteRef.current,     { scaleY: 1, ease: 'power4.inOut' }, '-=0.15')
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <section className="relative min-h-screen flex flex-col" style={{ background: '#f8f6f1' }}>
-      <div className="flex-1 flex items-center justify-center pt-20 pb-0">
-        <div className="max-w-7xl mx-auto px-6 w-full">
-          <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12">
-            {/* Main content */}
-            <div className="flex-1 max-w-3xl">
-              {/* Label */}
-              <motion.div
-                className="section-label mb-6"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-              >
-                Agencia de Diseño Web · Argentina
-              </motion.div>
+    <section ref={sectionRef} id="inicio"
+      style={{ height: '100vh', position: 'relative', overflow: 'hidden', background: '#0a0a0a' }}>
 
-              {/* Headline */}
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="font-inter font-black leading-none tracking-tight"
-                style={{ fontSize: 'clamp(56px, 7vw, 96px)' }}
-              >
-                {headlineWords.map((line, i) => (
-                  <motion.div key={i} variants={wordVariants} className="block text-[#0a0a0a]">
-                    {line}
-                  </motion.div>
-                ))}
-                <motion.div variants={wordVariants} className="block">
-                  <span className="text-[#0a0a0a]">en </span>
-                  <span className="text-brand">clientes.</span>
-                </motion.div>
-              </motion.div>
+      <div ref={videoWrapRef} style={{ position: 'absolute', inset: 0, transformOrigin: 'center' }}>
+        <video ref={videoRef}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.55 }}
+          autoPlay muted loop playsInline crossOrigin="anonymous" aria-hidden="true" />
+      </div>
 
-              {/* Description */}
-              <motion.p
-                className="font-inter text-[#0a0a0a]/55 text-lg mt-8 leading-relaxed"
-                style={{ maxWidth: 480 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.85, duration: 0.6 }}
-              >
-                Creamos páginas web, tiendas online y soluciones digitales que hacen crecer tu negocio. Diseño que convierte.
-              </motion.p>
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0a0a0a 0%, transparent 55%)' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #0a0a0a 0%, transparent 65%)' }} />
+      <div ref={overlayRef} style={{ position: 'absolute', inset: 0, background: '#0a0a0a', opacity: 0.25 }} />
 
-              {/* CTAs */}
-              <motion.div
-                className="flex flex-wrap items-center gap-4 mt-10"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.0, duration: 0.6 }}
-              >
-                <a
-                  href={WA_HERO}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-inter font-semibold text-base bg-brand text-[#0a0a0a] px-8 py-4 rounded-full hover:bg-brand/90 transition-all hover:shadow-lg hover:shadow-brand/20 hover:-translate-y-0.5"
-                >
-                  Quiero mi web
-                </a>
-                <a
-                  href="#portfolio"
-                  onClick={scrollToPortfolio}
-                  className="font-inter font-medium text-base text-[#0a0a0a]/60 hover:text-[#0a0a0a] transition-colors flex items-center gap-2 group"
-                >
-                  Ver nuestro trabajo
-                  <span className="group-hover:translate-x-1 transition-transform">↓</span>
-                </a>
-              </motion.div>
+      <div ref={whiteRef} style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: '100%',
+        background: '#f8f6f1', transform: 'scaleY(0)', transformOrigin: 'bottom', zIndex: 5,
+      }} />
+
+      <div ref={contentRef} style={{
+        position: 'absolute', inset: 0, zIndex: 4,
+        display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        padding: 'clamp(24px, 5vw, 80px)', maxWidth: 920,
+      }}>
+        <p style={{
+          fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 700,
+          fontSize: 11, color: '#5ed29c',
+          letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 28,
+        }}>
+          Agencia de Diseño Web · Argentina
+        </p>
+
+        <h1 style={{ margin: 0, lineHeight: 1.0 }}>
+          {[['Diseño', 'web'], ['que', 'convierte'], ['visitas', 'en'], ['clientes.']].map((line, li) => (
+            <div key={li} style={{ overflow: 'hidden' }}>
+              {line.map((word, wi) => (
+                <span key={wi} className="hero-word" style={{
+                  display: 'inline-block',
+                  fontFamily: 'Inter, sans-serif', fontWeight: 900,
+                  fontSize: 'clamp(44px, 7.5vw, 96px)',
+                  color: (li === 3) ? '#5ed29c' : '#ffffff',
+                  textShadow: (li === 3) ? '0 0 60px rgba(94,210,156,0.4)' : 'none',
+                  marginRight: '0.22em',
+                }}>
+                  {word}
+                </span>
+              ))}
             </div>
+          ))}
+        </h1>
 
-            {/* Stats card — desktop only */}
-            <motion.div
-              className="hidden lg:block"
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.7, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <div
-                className="rounded-2xl p-8 w-64"
-                style={{
-                  background: '#ffffff',
-                  border: '1px solid rgba(0,0,0,0.07)',
-                  boxShadow: '0 8px 40px rgba(0,0,0,0.07)',
-                }}
-              >
-                <p className="section-label mb-6">Resultados</p>
-                <div className="space-y-6">
-                  <div>
-                    <p className="font-inter font-black text-4xl text-[#0a0a0a]">4+</p>
-                    <p className="font-inter text-sm text-[#0a0a0a]/50 mt-0.5">Rubros trabajados</p>
-                  </div>
-                  <div className="h-px bg-black/06" />
-                  <div>
-                    <p className="font-inter font-black text-4xl text-[#0a0a0a]">100%</p>
-                    <p className="font-inter text-sm text-[#0a0a0a]/50 mt-0.5">Clientes satisfechos</p>
-                  </div>
-                  <div className="h-px bg-black/06" />
-                  <div>
-                    <p className="font-inter font-black text-4xl text-brand">48hs</p>
-                    <p className="font-inter text-sm text-[#0a0a0a]/50 mt-0.5">Tiempo de respuesta</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+        <p className="hero-sub" style={{
+          fontFamily: 'Inter, sans-serif', fontSize: 15, lineHeight: 1.75,
+          color: 'rgba(255,255,255,0.52)', maxWidth: 460, margin: '28px 0 36px',
+        }}>
+          Creamos páginas web, tiendas online y soluciones digitales que hacen crecer tu negocio.
+        </p>
+
+        <div className="hero-cta" style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+          <a href={WA} target="_blank" rel="noopener noreferrer" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: '#5ed29c', color: '#0a0a0a',
+            fontFamily: 'Inter, sans-serif', fontWeight: 700,
+            fontSize: 13, letterSpacing: '0.08em', textTransform: 'uppercase',
+            padding: '14px 28px', borderRadius: 999, textDecoration: 'none',
+            transition: 'transform 0.2s, box-shadow 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform='scale(1.05)'; e.currentTarget.style.boxShadow='0 0 32px rgba(94,210,156,0.45)' }}
+          onMouseLeave={e => { e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.boxShadow='none' }}>
+            Quiero mi web <ArrowRight size={14} />
+          </a>
+          <a href="#portfolio" style={{
+            fontFamily: 'Inter, sans-serif', fontWeight: 600,
+            fontSize: 13, color: 'rgba(255,255,255,0.4)', textDecoration: 'none',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.color='#fff'}
+          onMouseLeave={e => e.currentTarget.style.color='rgba(255,255,255,0.4)'}>
+            Ver trabajos →
+          </a>
         </div>
       </div>
 
-      {/* Ticker */}
-      <div
-        className="mt-16 py-4 border-t border-b overflow-hidden"
-        style={{ borderColor: 'rgba(0,0,0,0.07)' }}
-      >
-        <div
-          className="flex gap-8 animate-ticker ticker-track whitespace-nowrap"
-          style={{ width: 'max-content' }}
-        >
-          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
-            <div key={i} className="flex items-center gap-3 shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand shrink-0" />
-              <span className="font-jakarta font-semibold text-sm text-[#0a0a0a]/60 uppercase tracking-wider">
-                {item}
-              </span>
-            </div>
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 6,
+        overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.06)',
+        padding: '12px 0', background: 'rgba(10,10,10,0.5)', backdropFilter: 'blur(8px)',
+      }}>
+        <div style={{ display: 'flex', animation: 'ticker 22s linear infinite', whiteSpace: 'nowrap' }}>
+          {TICKER.map((item, i) => (
+            <span key={i} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10, marginRight: 36,
+              fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 600,
+              fontSize: 11, color: 'rgba(255,255,255,0.2)',
+              letterSpacing: '0.18em', textTransform: 'uppercase', flexShrink: 0,
+            }}>
+              <span style={{ color: '#5ed29c', opacity: 0.5 }}>✦</span>{item}
+            </span>
           ))}
         </div>
       </div>

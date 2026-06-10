@@ -1,126 +1,138 @@
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
-const WA_URL = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
+const WA = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
 
-const links = [
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Proceso', href: '#proceso' },
-  { label: 'Nosotros', href: '#nosotros' },
+const LINKS = [
+  { label: 'Servicios',  href: '#servicios' },
+  { label: 'Portfolio',  href: '#portfolio' },
+  { label: 'Proceso',    href: '#proceso' },
+  { label: 'Nosotros',   href: '#nosotros' },
 ]
 
 export default function Navigation() {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled]   = useState(false)
+  const [menuOpen, setMenuOpen]   = useState(false)
+  const [isDark,   setIsDark]     = useState(true)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80)
+    const onScroll = () => {
+      const y = window.scrollY
+      setScrolled(y > 40)
+      // Hero is 100vh — switch to light nav after hero
+      const heroH = window.innerHeight
+      setIsDark(y < heroH * 0.7)
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const handleLinkClick = (e, href) => {
+  const scroll = (e, href) => {
     e.preventDefault()
     setMenuOpen(false)
     const el = document.querySelector(href)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    el?.scrollIntoView({ behavior: 'smooth' })
   }
+
+  const textColor   = isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)'
+  const logoColor   = isDark ? '#ffffff' : '#0a0a0a'
+  const navBg       = scrolled
+    ? (isDark ? 'rgba(10,10,10,0.85)' : 'rgba(248,246,241,0.9)')
+    : 'transparent'
+  const borderColor = scrolled
+    ? (isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)')
+    : 'transparent'
 
   return (
     <>
-      <nav
-        className="fixed top-0 left-0 right-0 z-[80] transition-shadow duration-300"
-        style={{
-          background: 'rgba(255,255,255,0.92)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(0,0,0,0.06)',
-          boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.06)' : 'none',
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-            className="font-inter font-black text-xl tracking-tight"
-          >
-            <span className="text-[#0a0a0a]">I.D.E.A</span>
-            <span className="text-brand"> Code</span>
-          </a>
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
+        background: navBg, backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        borderBottom: `1px solid ${borderColor}`,
+        transition: 'background 0.4s, border-color 0.4s',
+        padding: '0 clamp(20px, 4vw, 60px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        height: 64,
+      }}>
+        {/* Logo */}
+        <a href="#inicio" onClick={e => scroll(e, '#inicio')} style={{ textDecoration: 'none', display: 'flex', alignItems: 'baseline', gap: 3 }}>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 900, fontSize: 17, color: logoColor, transition: 'color 0.4s' }}>I.D.E.A</span>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 900, fontSize: 17, color: '#5ed29c', marginLeft: 4 }}>Code</span>
+        </a>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-8">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link.href)}
-                className="font-inter font-medium text-sm text-[#0a0a0a]/70 hover:text-[#0a0a0a] transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
-            <a
-              href={WA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-inter font-semibold text-sm bg-brand text-[#0a0a0a] px-5 py-2.5 rounded-full hover:bg-brand/90 transition-colors"
-            >
-              Hablemos
+        {/* Desktop links */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }} className="nav-links">
+          {LINKS.map(({ label, href }) => (
+            <a key={href} href={href} onClick={e => scroll(e, href)} style={{
+              fontFamily: 'Inter, sans-serif', fontWeight: 500, fontSize: 14,
+              color: textColor, textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = isDark ? '#ffffff' : '#0a0a0a'}
+            onMouseLeave={e => e.currentTarget.style.color = textColor}>
+              {label}
             </a>
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-black/5 transition-colors"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          ))}
+          <a href={WA} target="_blank" rel="noopener noreferrer" style={{
+            fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 13,
+            background: '#5ed29c', color: '#0a0a0a',
+            padding: '9px 20px', borderRadius: 999,
+            textDecoration: 'none', letterSpacing: '0.03em',
+            transition: 'transform 0.2s, box-shadow 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform='scale(1.05)'; e.currentTarget.style.boxShadow='0 0 20px rgba(94,210,156,0.4)' }}
+          onMouseLeave={e => { e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.boxShadow='none' }}>
+            Contacto
+          </a>
         </div>
+
+        {/* Hamburger (mobile) */}
+        <button
+          onClick={() => setMenuOpen(o => !o)}
+          style={{
+            display: 'none', background: 'none', border: 'none', cursor: 'pointer',
+            padding: 8, flexDirection: 'column', gap: 5,
+          }}
+          className="nav-hamburger"
+          aria-label="Menú"
+        >
+          {[0,1,2].map(i => (
+            <span key={i} style={{
+              display: 'block', width: 22, height: 2,
+              background: isDark ? '#ffffff' : '#0a0a0a',
+              borderRadius: 2, transition: 'background 0.3s',
+            }} />
+          ))}
+        </button>
       </nav>
 
-      {/* Mobile full-screen menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            className="fixed inset-0 z-[70] bg-white flex flex-col items-center justify-center gap-8"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25 }}
-          >
-            {links.map((link, i) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link.href)}
-                className="font-inter font-black text-4xl text-[#0a0a0a] hover:text-brand transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }}
-              >
-                {link.label}
-              </motion.a>
-            ))}
-            <motion.a
-              href={WA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 font-inter font-semibold text-base bg-brand text-[#0a0a0a] px-8 py-3 rounded-full"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              Hablemos
-            </motion.a>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 999,
+          background: '#0a0a0a',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+          gap: 32,
+        }}>
+          {LINKS.map(({ label, href }) => (
+            <a key={href} href={href} onClick={e => scroll(e, href)} style={{
+              fontFamily: 'Inter, sans-serif', fontWeight: 900, fontSize: 32,
+              color: '#ffffff', textDecoration: 'none',
+            }}>{label}</a>
+          ))}
+          <a href={WA} target="_blank" rel="noopener noreferrer" style={{
+            fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 16,
+            background: '#5ed29c', color: '#0a0a0a',
+            padding: '14px 32px', borderRadius: 999, textDecoration: 'none', marginTop: 16,
+          }}>Contacto</a>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 768px) {
+          .nav-links { display: none !important; }
+          .nav-hamburger { display: flex !important; }
+        }
+      `}</style>
     </>
   )
 }

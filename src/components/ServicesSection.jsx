@@ -1,126 +1,101 @@
-import { motion } from 'framer-motion'
-import { Globe, QrCode, ShoppingBag, Zap, Palette, FileText } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Globe, ShoppingBag, QrCode, Zap, Palette, FileText } from 'lucide-react'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const SERVICES = [
-  {
-    icon: Globe,
-    title: 'Páginas Web',
-    description: 'Tu presencia online profesional, diseñada para convertir visitas en clientes.',
-  },
-  {
-    icon: ShoppingBag,
-    title: 'Tiendas Online',
-    description: 'E-commerce completo con pasarela de pago, stock y gestión.',
-  },
-  {
-    icon: QrCode,
-    title: 'Menú Digital QR',
-    description: 'Menú digital para tu restaurante o bar, actualizable en tiempo real.',
-  },
-  {
-    icon: Zap,
-    title: 'Landing Pages',
-    description: 'Una página enfocada en un objetivo: captar leads o vender.',
-  },
-  {
-    icon: Palette,
-    title: 'Branding Digital',
-    description: 'Identidad visual para tu negocio: logo, colores, tipografía.',
-  },
-  {
-    icon: FileText,
-    title: 'Blog Personal',
-    description: 'Plataforma de contenido para posicionarte como experto.',
-  },
+  { icon: Globe,      title: 'Páginas Web',      desc: 'Tu presencia online profesional, diseñada para convertir visitas en clientes reales.' },
+  { icon: ShoppingBag,title: 'Tiendas Online',    desc: 'E-commerce completo con pasarela de pago, gestión de stock y panel de administración.' },
+  { icon: QrCode,     title: 'Menú Digital QR',   desc: 'Menú para tu restaurante o bar, actualizable en tiempo real desde el celular.' },
+  { icon: Zap,        title: 'Landing Pages',     desc: 'Una página enfocada en un objetivo: captar leads, vender o promocionar.' },
+  { icon: Palette,    title: 'Branding Digital',  desc: 'Identidad visual para tu negocio: logo, paleta de colores y tipografía.' },
+  { icon: FileText,   title: 'Blog Personal',     desc: 'Plataforma de contenido para posicionarte como experto en tu rubro.' },
 ]
 
-const ease = [0.25, 0.1, 0.25, 1]
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
-}
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 44 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
-}
-
-function ServiceCard({ service }) {
-  const Icon = service.icon
-  return (
-    <motion.div
-      variants={cardVariants}
-      whileHover={{ y: -4, transition: { duration: 0.25, ease: 'easeOut' } }}
-      className="group rounded-2xl p-7 flex flex-col gap-5 cursor-default"
-      style={{
-        background: '#ffffff',
-        border: '1px solid rgba(0,0,0,0.07)',
-        transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = '#5ed29c'
-        e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.08)'
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = 'rgba(0,0,0,0.07)'
-        e.currentTarget.style.boxShadow = 'none'
-      }}
-    >
-      {/* Icon */}
-      <div
-        className="w-11 h-11 rounded-xl flex items-center justify-center"
-        style={{ background: 'rgba(94,210,156,0.12)' }}
-      >
-        <Icon size={20} className="text-brand" strokeWidth={1.8} />
-      </div>
-
-      {/* Text */}
-      <div className="flex-1">
-        <p className="font-inter font-extrabold text-[#0a0a0a] text-[17px] leading-tight mb-2">
-          {service.title}
-        </p>
-        <p className="font-inter text-[#0a0a0a]/55 text-[14px] leading-relaxed">
-          {service.description}
-        </p>
-      </div>
-    </motion.div>
-  )
-}
-
 export default function ServicesSection() {
-  return (
-    <section id="servicios" className="relative py-28 md:py-36 overflow-hidden" style={{ background: '#ffffff' }}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <motion.div
-          className="mb-16 md:mb-20 max-w-xl"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, ease }}
-        >
-          <p className="section-label mb-4">Servicios</p>
-          <h2 className="section-heading mb-5">
-            Todo lo que tu negocio<br />necesita online.
-          </h2>
-          <p className="font-inter text-[#0a0a0a]/50 text-[15px] leading-relaxed">
-            Cada servicio está diseñado para que tu negocio destaque en internet y convierta más clientes.
-          </p>
-        </motion.div>
+  const sectionRef = useRef(null)
 
-        {/* Cards grid */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-        >
-          {SERVICES.map((service) => (
-            <ServiceCard key={service.title} service={service} />
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Heading reveal
+      gsap.from('.srv-heading', {
+        scrollTrigger: { trigger: '.srv-heading', start: 'top 85%', toggleActions: 'play none none none' },
+        y: 60, opacity: 0, duration: 0.9, ease: 'power3.out',
+      })
+
+      // Cards stagger in from below
+      gsap.from('.srv-card', {
+        scrollTrigger: { trigger: '.srv-grid', start: 'top 80%', toggleActions: 'play none none none' },
+        y: 80, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section ref={sectionRef} id="servicios"
+      style={{ background: '#f8f6f1', padding: 'clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)' }}>
+
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <p style={{
+          fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 700,
+          fontSize: 11, color: '#5ed29c',
+          letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20,
+        }}>Servicios</p>
+
+        <h2 className="srv-heading" style={{
+          fontFamily: 'Inter, sans-serif', fontWeight: 900,
+          fontSize: 'clamp(36px, 5vw, 64px)', color: '#0a0a0a',
+          lineHeight: 1.05, margin: '0 0 72px',
+          maxWidth: 700,
+        }}>
+          Todo lo que tu negocio<br />necesita <span style={{ color: '#5ed29c' }}>online.</span>
+        </h2>
+
+        <div className="srv-grid" style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: 20,
+        }}>
+          {SERVICES.map(({ icon: Icon, title, desc }, i) => (
+            <div key={i} className="srv-card" style={{
+              background: '#ffffff',
+              border: '1px solid rgba(0,0,0,0.07)',
+              borderRadius: 20, padding: '32px 28px',
+              transition: 'border-color 0.25s, transform 0.25s, box-shadow 0.25s',
+              cursor: 'default',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = '#5ed29c'
+              e.currentTarget.style.transform = 'translateY(-6px)'
+              e.currentTarget.style.boxShadow = '0 16px 40px rgba(94,210,156,0.12)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = 'rgba(0,0,0,0.07)'
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: 12,
+                background: 'rgba(94,210,156,0.12)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                marginBottom: 20,
+              }}>
+                <Icon size={20} color="#5ed29c" />
+              </div>
+              <h3 style={{
+                fontFamily: 'Inter, sans-serif', fontWeight: 700,
+                fontSize: 17, color: '#0a0a0a', margin: '0 0 10px',
+              }}>{title}</h3>
+              <p style={{
+                fontFamily: 'Inter, sans-serif', fontSize: 14,
+                color: 'rgba(0,0,0,0.5)', lineHeight: 1.65, margin: 0,
+              }}>{desc}</p>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

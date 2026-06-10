@@ -1,130 +1,130 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ArrowUpRight } from 'lucide-react'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const PROJECTS = [
-  {
-    name: 'Ovelar Propiedades',
-    category: 'Inmobiliaria',
-    bg: '#1a1a2e',
-    link: 'https://benmacompanis-sketch.github.io/ovelar-propiedades/',
-  },
-  {
-    name: 'Veterinaria',
-    category: 'Salud Animal',
-    bg: '#1a3a2a',
-    link: 'https://benmacompanis-sketch.github.io/Veterinaria/',
-  },
-  {
-    name: 'Cucha del Pari',
-    category: 'Gastronomía',
-    bg: '#2a1a0a',
-    link: 'https://benmacompanis-sketch.github.io/Cuchadelpari/',
-  },
-  {
-    name: 'Barre Estudio',
-    category: 'Fitness & Danza',
-    bg: '#1a1a3a',
-    link: 'https://benmacompanis-sketch.github.io/barre-estudio/',
-  },
+  { name: 'Ovelar Propiedades', cat: 'Inmobiliaria',     bg: '#111827', accent: '#6366f1', url: 'https://benmacompanis-sketch.github.io/ovelar-propiedades/' },
+  { name: 'Veterinaria',        cat: 'Salud Animal',     bg: '#052e16', accent: '#4ade80', url: 'https://benmacompanis-sketch.github.io/Veterinaria/' },
+  { name: 'Cucha del Pari',     cat: 'Gastronomía',      bg: '#1c0a00', accent: '#fb923c', url: 'https://benmacompanis-sketch.github.io/Cuchadelpari/' },
+  { name: 'Barre Estudio',      cat: 'Fitness & Danza',  bg: '#0f0a1e', accent: '#c084fc', url: 'https://benmacompanis-sketch.github.io/barre-estudio/' },
 ]
 
-const ease = [0.25, 0.1, 0.25, 1]
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
-}
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 44 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
-}
-
-function ProjectCard({ project }) {
-  const [hovered, setHovered] = useState(false)
-
-  return (
-    <motion.div
-      variants={cardVariants}
-      whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: 'easeOut' } }}
-      className="rounded-2xl overflow-hidden relative"
-      style={{ aspectRatio: '4/3', background: project.bg }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Content at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
-        <p
-          className="font-jakarta font-bold text-[11px] uppercase tracking-widest mb-1"
-          style={{ color: '#5ed29c' }}
-        >
-          {project.category}
-        </p>
-        <p className="font-inter font-black text-white text-xl leading-tight">{project.name}</p>
-      </div>
-
-      {/* Gradient overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)',
-        }}
-      />
-
-      {/* Hover button */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
-      >
-        <a
-          href={project.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-inter font-semibold text-sm bg-white text-[#0a0a0a] px-6 py-3 rounded-full hover:bg-white/90 transition-colors"
-          onClick={(e) => e.stopPropagation()}
-        >
-          Ver proyecto →
-        </a>
-      </motion.div>
-    </motion.div>
-  )
-}
-
 export default function PortfolioSection() {
-  return (
-    <section id="portfolio" className="relative py-28 md:py-36 overflow-hidden" style={{ background: '#f8f6f1' }}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <motion.div
-          className="mb-16 md:mb-20 max-w-xl"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, ease }}
-        >
-          <p className="section-label mb-4">Portfolio</p>
-          <h2 className="section-heading mb-5">
-            Proyectos que hablan<br />por sí solos.
-          </h2>
-          <p className="font-inter text-[#0a0a0a]/50 text-[15px] leading-relaxed">
-            Trabajamos con negocios de distintos rubros. Cada proyecto es único.
-          </p>
-        </motion.div>
+  const sectionRef = useRef(null)
 
-        {/* Cards grid */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 gap-5"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-        >
-          {PROJECTS.map((project) => (
-            <ProjectCard key={project.name} project={project} />
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.port-heading', {
+        scrollTrigger: { trigger: '.port-heading', start: 'top 85%' },
+        y: 60, opacity: 0, duration: 0.9, ease: 'power3.out',
+      })
+
+      // Cards alternate left/right entrance
+      gsap.utils.toArray('.port-card').forEach((card, i) => {
+        gsap.from(card, {
+          scrollTrigger: { trigger: card, start: 'top 85%' },
+          x: i % 2 === 0 ? -80 : 80,
+          opacity: 0, duration: 0.9, ease: 'power3.out',
+        })
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section ref={sectionRef} id="portfolio"
+      style={{ background: '#0a0a0a', padding: 'clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)' }}>
+
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <p style={{
+          fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 700,
+          fontSize: 11, color: '#5ed29c',
+          letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20,
+        }}>Portfolio</p>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 60, flexWrap: 'wrap', gap: 16 }}>
+          <h2 className="port-heading" style={{
+            fontFamily: 'Inter, sans-serif', fontWeight: 900,
+            fontSize: 'clamp(36px, 5vw, 64px)', color: '#ffffff',
+            lineHeight: 1.05, margin: 0, maxWidth: 600,
+          }}>
+            Proyectos que<br />hablan por sí <span style={{ color: '#5ed29c' }}>solos.</span>
+          </h2>
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: 14,
+            color: 'rgba(255,255,255,0.35)', maxWidth: 260, lineHeight: 1.65, margin: 0,
+          }}>
+            Cada web, diseñada a medida para el rubro y los objetivos del cliente.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(460px, 1fr))', gap: 16 }}>
+          {PROJECTS.map(({ name, cat, bg, accent, url }, i) => (
+            <a key={i} className="port-card" href={url} target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'block', textDecoration: 'none',
+                background: bg, borderRadius: 20,
+                aspectRatio: '16/10', position: 'relative', overflow: 'hidden',
+                transition: 'transform 0.3s, box-shadow 0.3s',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'scale(1.02)'
+                e.currentTarget.style.boxShadow = `0 24px 60px ${accent}33`
+                e.currentTarget.querySelector('.port-arrow').style.opacity = '1'
+                e.currentTarget.querySelector('.port-arrow').style.transform = 'scale(1)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'scale(1)'
+                e.currentTarget.style.boxShadow = 'none'
+                e.currentTarget.querySelector('.port-arrow').style.opacity = '0'
+                e.currentTarget.querySelector('.port-arrow').style.transform = 'scale(0.8)'
+              }}>
+
+              {/* Accent glow */}
+              <div style={{
+                position: 'absolute', top: -60, right: -60,
+                width: 200, height: 200, borderRadius: '50%',
+                background: accent, opacity: 0.12, filter: 'blur(40px)',
+              }} />
+
+              {/* Grid lines decoration */}
+              <div style={{ position: 'absolute', inset: 0, opacity: 0.04,
+                backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+                backgroundSize: '40px 40px',
+              }} />
+
+              {/* Content */}
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 28px 24px' }}>
+                <span style={{
+                  fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 700,
+                  fontSize: 10, color: accent,
+                  letterSpacing: '0.2em', textTransform: 'uppercase',
+                  display: 'block', marginBottom: 8,
+                }}>{cat}</span>
+                <p style={{
+                  fontFamily: 'Inter, sans-serif', fontWeight: 800,
+                  fontSize: 22, color: '#ffffff', margin: 0,
+                }}>{name}</p>
+              </div>
+
+              {/* Arrow */}
+              <div className="port-arrow" style={{
+                position: 'absolute', top: 20, right: 20,
+                width: 40, height: 40, borderRadius: '50%',
+                background: 'rgba(255,255,255,0.15)',
+                backdropFilter: 'blur(8px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                opacity: 0, transform: 'scale(0.8)',
+                transition: 'opacity 0.25s, transform 0.25s',
+              }}>
+                <ArrowUpRight size={18} color="#ffffff" />
+              </div>
+            </a>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

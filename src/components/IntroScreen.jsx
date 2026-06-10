@@ -55,6 +55,20 @@ export default function IntroScreen({ onComplete }) {
         playsInline
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />
+      {/* Cover Gemini watermark (bottom-right corner) */}
+      <div style={{
+        position: 'absolute', bottom: 0, right: 0,
+        width: 220, height: 60,
+        background: '#080808',
+        zIndex: 5, pointerEvents: 'none',
+      }} />
+      {/* Cover any top-left watermark too */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0,
+        width: 220, height: 60,
+        background: '#080808',
+        zIndex: 5, pointerEvents: 'none',
+      }} />
       {/* Flash overlay for transition */}
       <div ref={flashRef} style={{
         position: 'absolute', inset: 0,

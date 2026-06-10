@@ -25,7 +25,7 @@ const PROJECTS = [
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/Veterinaria/',
     img: '/codenest/portfolio/veterinaria.png',
-    imgPos: '40% center',
+    imgPos: 'center center',
     tag: 'Clínica · Caballito',
   },
   {

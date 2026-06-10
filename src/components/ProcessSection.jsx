@@ -8,7 +8,7 @@ const STEPS = [
   { num:'01', title:'Consulta',    desc:'Nos contás tu proyecto, entendemos tus objetivos y te damos un presupuesto claro.' },
   { num:'02', title:'Diseño',      desc:'Creamos el diseño visual para que lo apruebes antes de escribir una línea de código.' },
   { num:'03', title:'Desarrollo',  desc:'Construimos tu web con tecnología moderna, rápida y optimizada para Google.' },
-  { num:'04', title:'Lanzamiento', desc:'Publicamos tu web y te entregamos todo. Soporte incluido los primeros 30 días.' },
+  { num:'04', title:'Lanzamiento', desc:'Publicamos tu web y te entregamos todo. Ofrecemos mantenimiento mensual para cambios, actualizaciones y corrección de errores.' },
 ]
 
 function StepCard({ num, title, desc }) {

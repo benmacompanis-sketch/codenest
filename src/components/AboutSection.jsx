@@ -71,36 +71,52 @@ function AnimatedStat({ value, suffix, label }) {
   )
 }
 
-function QACard({ q, a, index }) {
+function QACard({ q, a }) {
   const [open, setOpen] = useState(false)
+  const bodyRef = useRef(null)
+
+  useEffect(() => {
+    if (!bodyRef.current) return
+    if (open) {
+      gsap.fromTo(bodyRef.current,
+        { height: 0, opacity: 0 },
+        { height: 'auto', opacity: 1, duration: 0.4, ease: 'power3.out' }
+      )
+    } else {
+      gsap.to(bodyRef.current, { height: 0, opacity: 0, duration: 0.28, ease: 'power3.in' })
+    }
+  }, [open])
+
   return (
     <div
       onClick={() => setOpen(o => !o)}
       style={{
         borderTop: '1px solid rgba(240,237,230,0.07)',
-        padding: '20px 0',
-        cursor: 'pointer',
+        padding: '20px 0', cursor: 'pointer',
+        background: open ? 'rgba(94,210,156,0.02)' : 'transparent',
+        transition: 'background 0.3s',
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
         <span style={{
           fontFamily: 'Inter,sans-serif', fontWeight: 700,
-          fontSize: 'clamp(14px,1.4vw,17px)', color: '#f0ede6',
+          fontSize: 'clamp(14px,1.4vw,17px)',
+          color: open ? '#ffffff' : '#f0ede6', transition: 'color 0.25s',
         }}>{q}</span>
         <span style={{
           color: '#5ed29c', fontSize: 20, lineHeight: 1, flexShrink: 0,
           transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
-          transition: 'transform 0.3s',
+          transition: 'transform 0.35s cubic-bezier(0.34,1.56,0.64,1)',
           display: 'inline-block',
         }}>+</span>
       </div>
-      {open && (
+      <div ref={bodyRef} style={{ height: 0, overflow: 'hidden', opacity: 0 }}>
         <p style={{
           fontFamily: 'Inter,sans-serif', fontSize: 14,
-          color: 'rgba(240,237,230,0.5)', lineHeight: 1.75,
-          margin: '14px 0 0', maxWidth: 620,
+          color: 'rgba(240,237,230,0.55)', lineHeight: 1.75,
+          margin: '14px 0 4px', maxWidth: 620,
         }}>{a}</p>
-      )}
+      </div>
     </div>
   )
 }
@@ -118,6 +134,21 @@ export default function AboutSection() {
         scrollTrigger: { trigger: '.about-right', start: 'top 80%' },
         x: 60, opacity: 0, duration: 1, delay: 0.15, ease: 'power3.out',
       })
+      gsap.from('.about-qa-label', {
+        scrollTrigger: { trigger: '.about-qa-label', start: 'top 88%' },
+        x: -30, opacity: 0, duration: 0.7, ease: 'power3.out',
+      })
+      gsap.utils.toArray('.about-qa-item').forEach((el, i) => {
+        gsap.from(el, {
+          scrollTrigger: { trigger: el, start: 'top 90%' },
+          x: -24, opacity: 0, duration: 0.6, delay: i * 0.07, ease: 'power3.out',
+        })
+      })
+      // Parallax watermark
+      gsap.to('.about-watermark', {
+        scrollTrigger: { trigger: sectionRef.current, start: 'top bottom', end: 'bottom top', scrub: 2 },
+        y: -60,
+      })
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -129,7 +160,7 @@ export default function AboutSection() {
       borderTop: '1px solid rgba(240,237,230,0.05)',
       position: 'relative', overflow: 'hidden',
     }}>
-      <div style={{
+      <div className="about-watermark" style={{
         position:'absolute', top:'50%', left:'50%',
         transform:'translate(-50%,-50%)',
         fontFamily:'Inter,sans-serif', fontWeight:900,
@@ -205,11 +236,15 @@ export default function AboutSection() {
 
         {/* Q&A personal */}
         <div>
-          <p style={{
+          <p className="about-qa-label" style={{
             fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
             color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:32,
           }}>Preguntas frecuentes</p>
-          {QA.map((item, i) => <QACard key={i} {...item} index={i} />)}
+          {QA.map((item, i) => (
+            <div key={i} className="about-qa-item">
+              <QACard {...item} />
+            </div>
+          ))}
           <div style={{ borderTop:'1px solid rgba(240,237,230,0.07)' }} />
         </div>
 

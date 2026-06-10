@@ -156,9 +156,17 @@ export default function PortfolioSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      gsap.from('.port-label', {
+        scrollTrigger: { trigger: '.port-label', start: 'top 88%' },
+        x: -30, opacity: 0, duration: 0.7, ease: 'power3.out',
+      })
       gsap.from('.port-title', {
         scrollTrigger: { trigger: '.port-title', start: 'top 85%' },
         y: 70, opacity: 0, duration: 1, ease: 'power4.out',
+      })
+      gsap.from('.port-sub', {
+        scrollTrigger: { trigger: '.port-sub', start: 'top 88%' },
+        opacity: 0, x: 30, duration: 0.8, delay: 0.2, ease: 'power3.out',
       })
     }, sectionRef)
     return () => ctx.revert()
@@ -174,7 +182,7 @@ export default function PortfolioSection() {
 
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:60, flexWrap:'wrap', gap:16 }}>
           <div>
-            <p style={{
+            <p className="port-label" style={{
               fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
               color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:16,
             }}>Portfolio</p>
@@ -186,7 +194,7 @@ export default function PortfolioSection() {
               Proyectos que<br />hablan por sí <span style={{ color:'#5ed29c' }}>solos.</span>
             </h2>
           </div>
-          <p style={{
+          <p className="port-sub" style={{
             fontFamily:'Inter,sans-serif', fontSize:14,
             color:'rgba(240,237,230,0.35)', maxWidth:260, lineHeight:1.7, margin:0,
           }}>

@@ -60,29 +60,39 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Dot */}
+      {/* Dot — hides when hovering links */}
       <div ref={dotRef} style={{
         position: 'fixed', top: 0, left: 0,
-        width: 10, height: 10, borderRadius: '50%',
+        width: hovered ? 0 : clicked ? 6 : 10,
+        height: hovered ? 0 : clicked ? 6 : 10,
+        borderRadius: '50%',
         background: '#5ed29c',
         pointerEvents: 'none', zIndex: 99999,
-        transition: 'transform 0.05s, width 0.2s, height 0.2s, opacity 0.2s',
+        transition: 'width 0.2s, height 0.2s',
         transform: 'translate(-100px, -100px)',
         mixBlendMode: 'difference',
-        ...(clicked && { width: 6, height: 6 }),
       }} />
-      {/* Circle */}
+      {/* Circle — expands with "ver" label on hover */}
       <div ref={circleRef} style={{
         position: 'fixed', top: 0, left: 0,
-        width: 40, height: 40, borderRadius: '50%',
-        border: `1.5px solid ${hovered ? '#5ed29c' : 'rgba(94,210,156,0.5)'}`,
-        background: hovered ? 'rgba(94,210,156,0.08)' : 'transparent',
+        width: hovered ? 64 : clicked ? 32 : 40,
+        height: hovered ? 64 : clicked ? 32 : 40,
+        borderRadius: '50%',
+        border: `1.5px solid ${hovered ? 'rgba(94,210,156,0.9)' : 'rgba(94,210,156,0.5)'}`,
+        background: hovered ? 'rgba(94,210,156,0.12)' : 'transparent',
         pointerEvents: 'none', zIndex: 99998,
         transform: 'translate(-100px, -100px)',
-        transition: 'border-color 0.2s, background 0.2s, width 0.25s, height 0.25s',
-        ...(hovered && { width: 56, height: 56 }),
-        ...(clicked && { width: 32, height: 32 }),
-      }} />
+        transition: 'border-color 0.2s, background 0.2s, width 0.3s cubic-bezier(0.34,1.56,0.64,1), height 0.3s cubic-bezier(0.34,1.56,0.64,1)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        {hovered && (
+          <span style={{
+            fontFamily:'Inter,sans-serif', fontSize:9, fontWeight:700,
+            color:'#5ed29c', letterSpacing:'0.1em', textTransform:'uppercase',
+            pointerEvents:'none',
+          }}>ver</span>
+        )}
+      </div>
     </>
   )
 }

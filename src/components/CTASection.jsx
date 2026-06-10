@@ -25,6 +25,21 @@ export default function CTASection() {
         scrollTrigger: { trigger: '.cta-btn', start: 'top 92%' },
         scale: 0.8, opacity: 0, duration: 0.7, ease: 'back.out(1.7)',
       })
+      // Breathing glow
+      gsap.to('.cta-glow', {
+        scale: 1.25, opacity: 0.18, duration: 3.5,
+        ease: 'sine.inOut', repeat: -1, yoyo: true,
+      })
+      // Floating dots
+      gsap.utils.toArray('.cta-dot').forEach((dot, i) => {
+        gsap.to(dot, {
+          y: -18 - i * 6,
+          x: i % 2 === 0 ? 10 : -10,
+          duration: 2.5 + i * 0.4,
+          ease: 'sine.inOut', repeat: -1, yoyo: true,
+          delay: i * 0.3,
+        })
+      })
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -37,14 +52,30 @@ export default function CTASection() {
       position: 'relative', overflow: 'hidden',
       borderTop: '1px solid rgba(240,237,230,0.05)',
     }}>
-      {/* Big glow */}
-      <div style={{
+      {/* Breathing glow */}
+      <div className="cta-glow" style={{
         position:'absolute', top:'50%', left:'50%',
         transform:'translate(-50%,-50%)',
         width:700, height:400, borderRadius:'50%',
-        background:'radial-gradient(ellipse, rgba(94,210,156,0.12) 0%, transparent 65%)',
+        background:'radial-gradient(ellipse, rgba(94,210,156,0.1) 0%, transparent 65%)',
         filter:'blur(60px)', pointerEvents:'none',
       }}/>
+      {/* Floating accent dots */}
+      {[
+        { top:'15%', left:'8%', size:6 },
+        { top:'70%', left:'5%', size:4 },
+        { top:'20%', right:'10%', size:5 },
+        { top:'65%', right:'8%', size:3 },
+        { top:'45%', left:'15%', size:3 },
+      ].map((s, i) => (
+        <div key={i} className="cta-dot" style={{
+          position:'absolute', borderRadius:'50%',
+          width: s.size, height: s.size,
+          background:'#5ed29c', opacity:0.3,
+          top:s.top, left:s.left, right:s.right,
+          pointerEvents:'none',
+        }}/>
+      ))}
 
       <div style={{ maxWidth:900, margin:'0 auto', position:'relative', zIndex:1 }}>
         <h2 style={{ margin:'0 0 32px', lineHeight:0.95, letterSpacing:'-0.03em' }}>

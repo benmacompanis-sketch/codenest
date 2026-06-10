@@ -98,7 +98,7 @@ export default function IntroScreen({ onComplete }) {
       <div ref={glowRef} style={{
         position: 'absolute',
         width: '80vw', height: '80vw',
-        background: 'radial-gradient(circle, #5ed29c 0%, rgba(94,210,156,0) 65%)',
+        background: 'radial-gradient(circle, rgba(94,210,156,0.6) 0%, rgba(94,210,156,0) 65%)',
         borderRadius: '50%',
         opacity: 0, transform: 'scale(0)',
         top: '30%', left: '50%', marginLeft: '-40vw', marginTop: '-40vw',
@@ -212,25 +212,36 @@ export default function IntroScreen({ onComplete }) {
       <div ref={logoRef} style={{
         position: 'absolute', zIndex: 3,
         opacity: 0, transform: 'scale(0.8)', textAlign: 'center',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0,
       }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, justifyContent: 'center' }}>
-          <span style={{
-            fontFamily: 'Inter,sans-serif', fontWeight: 900,
-            fontSize: 'clamp(40px,8vw,80px)', color: '#f0ede6',
-            letterSpacing: '-0.03em', lineHeight: 1,
-            textShadow: '0 0 40px rgba(94,210,156,0.4)',
-          }}>I.D.E.A</span>
-          <span style={{
-            fontFamily: 'Inter,sans-serif', fontWeight: 900,
-            fontSize: 'clamp(40px,8vw,80px)', color: '#ffffff',
-            letterSpacing: '-0.03em', lineHeight: 1,
-            textShadow: '0 0 40px rgba(255,255,255,0.5)',
-          }}>Code</span>
+        {/* Ícono + nombre en una fila */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px,2vw,20px)', justifyContent: 'center', marginBottom: 14 }}>
+          <img
+            src="/logo-icon.png"
+            alt=""
+            style={{ height: 'clamp(52px,9vw,90px)', width: 'auto', filter: 'drop-shadow(0 0 20px rgba(94,210,156,0.5))' }}
+          />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, textAlign: 'left' }}>
+            <span style={{
+              fontFamily: 'Inter,sans-serif', fontWeight: 900,
+              fontSize: 'clamp(36px,7vw,72px)', color: '#f0ede6',
+              letterSpacing: '-0.03em', lineHeight: 1,
+              textShadow: '0 0 40px rgba(94,210,156,0.35)',
+            }}>I.D.E.A <span style={{ color: '#5ed29c' }}>Code</span></span>
+            <span style={{
+              fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 600,
+              fontSize: 'clamp(8px,1.1vw,12px)', color: 'rgba(240,237,230,0.45)',
+              letterSpacing: '0.22em', textTransform: 'uppercase',
+            }}>Innovación Digital para Empresas y Agencias</span>
+          </div>
         </div>
+        {/* Línea divisora */}
+        <div style={{ width: 'clamp(200px,40vw,400px)', height: 1, background: 'rgba(94,210,156,0.25)', marginBottom: 14 }} />
+        {/* Tagline */}
         <p style={{
-          fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 600,
-          fontSize: 'clamp(11px,1.5vw,15px)', color: 'rgba(240,237,230,0.5)',
-          letterSpacing: '0.3em', textTransform: 'uppercase', margin: '48px 0 0',
+          fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 700,
+          fontSize: 'clamp(9px,1.1vw,12px)', color: 'rgba(240,237,230,0.4)',
+          letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0,
         }}>Agencia de Diseño Web · Argentina</p>
       </div>
 

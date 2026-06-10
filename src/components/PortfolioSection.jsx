@@ -14,7 +14,7 @@ const PROJECTS = [
     accent: '#c9a84c',
     url: 'https://benmacompanis-sketch.github.io/ovelar-propiedades/',
     img: '/codenest/portfolio/ovelar.png',
-    imgPos: '20% center',
+    imgPos: '6% 30%',
     tag: 'Inmuebles · CABA',
   },
   {
@@ -25,7 +25,7 @@ const PROJECTS = [
     accent: '#00e5b4',
     url: 'https://benmacompanis-sketch.github.io/Veterinaria/',
     img: '/codenest/portfolio/veterinaria.png',
-    imgPos: 'center center',
+    imgPos: '58% center',
     tag: 'Clínica · Caballito',
   },
   {
@@ -36,7 +36,7 @@ const PROJECTS = [
     accent: '#e8a020',
     url: 'https://benmacompanis-sketch.github.io/Cuchadelpari/',
     img: '/codenest/portfolio/cuchadelpari.png',
-    imgPos: '15% center',
+    imgPos: '4% 40%',
     tag: 'Bar & Cocina · Buenos Aires',
   },
   {
@@ -47,7 +47,7 @@ const PROJECTS = [
     accent: '#c8956c',
     url: 'https://benmacompanis-sketch.github.io/barre-estudio/',
     img: '/codenest/portfolio/barre.png',
-    imgPos: 'center center',
+    imgPos: 'center 35%',
     tag: 'Estudio · Buenos Aires',
   },
 ]

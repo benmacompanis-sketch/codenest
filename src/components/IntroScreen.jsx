@@ -230,7 +230,7 @@ export default function IntroScreen({ onComplete }) {
         <p style={{
           fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 600,
           fontSize: 'clamp(11px,1.5vw,15px)', color: 'rgba(240,237,230,0.5)',
-          letterSpacing: '0.3em', textTransform: 'uppercase', margin: '28px 0 0',
+          letterSpacing: '0.3em', textTransform: 'uppercase', margin: '48px 0 0',
         }}>Agencia de Diseño Web · Argentina</p>
       </div>
 

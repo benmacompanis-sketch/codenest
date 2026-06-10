@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
-// SVG cursor hand
-const CursorSVG = ({ style }) => (
+const FingerSVG = ({ style }) => (
+  <svg style={style} viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 44C16 44 4 36 4 22V14C4 11.8 5.8 10 8 10C10.2 10 12 11.8 12 14V24C12.5 23.2 13.7 22.5 15 22.5C16.5 22.5 17.8 23.3 18.4 24.5C19 23.5 20.2 22.8 21.5 22.8C22.8 22.8 23.9 23.5 24.5 24.5C25.1 23.7 26.1 23.2 27.2 23.2C29.3 23.2 31 24.9 31 27V33C31 39 24 44 16 44Z" fill="#f0ede6" stroke="rgba(0,0,0,0.3)" strokeWidth="1"/>
+    <circle cx="8" cy="7" r="3" fill="#5ed29c" opacity="0.8"/>
+  </svg>
+)
+
+const PointerSVG = ({ style }) => (
   <svg style={style} viewBox="0 0 40 50" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M10 35V10C10 7.8 11.8 6 14 6C16.2 6 18 7.8 18 10V22C18.6 21.4 19.5 21 20.5 21C22.1 21 23.5 22 23.9 23.4C24.5 22.5 25.6 22 26.8 22C28.4 22 29.8 23 30.2 24.5C30.8 23.7 31.8 23.2 32.9 23.2C35 23.2 36.7 24.9 36.7 27V33C36.7 39.6 31.3 45 24.7 45H22C17.6 45 13.9 42.2 12.3 38.2L10 35Z" fill="#f0ede6" stroke="#080808" strokeWidth="1.5"/>
   </svg>
@@ -25,6 +31,7 @@ export default function IntroScreen({ onComplete }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     const fallback = setTimeout(finish, 8000)
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
@@ -53,52 +60,44 @@ export default function IntroScreen({ onComplete }) {
           { scaleX: 1, duration: 0.5, ease: 'power2.inOut' }, '-=0.2'
         )
 
-      // 3. Pause — cursor enters from bottom right
+      // 3. Pause — cursor/finger enters
       .to({}, { duration: 0.4 })
       .fromTo('.intro-cursor',
-          { x: 80, y: 80, opacity: 0, scale: 0.8 },
+          { x: isTouch ? 40 : 80, y: isTouch ? 60 : 80, opacity: 0, scale: 0.8 },
           { x: 0, y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }
         )
 
-      // 4. Cursor moves toward the icon (icon is above center)
+      // 4. Move toward icon
       .to('.intro-cursor', {
-          x: -20, y: -140, duration: 0.7, ease: 'power2.inOut',
+          x: isTouch ? -10 : -20,
+          y: isTouch ? -100 : -140,
+          duration: 0.7, ease: 'power2.inOut',
         })
 
-      // 5. Click — cursor shrinks
-      .to('.intro-cursor', { scale: 0.75, duration: 0.08, ease: 'power2.in' })
+      // 5. Click/tap
+      .to('.intro-cursor', { scale: 0.7, duration: 0.08, ease: 'power2.in' })
+      .to('.intro-icon',   { scale: 0.88, duration: 0.08, ease: 'power2.in' }, '<')
 
-      // 6. Icon reacts — quick scale pulse
-      .to('.intro-icon', { scale: 0.88, duration: 0.08, ease: 'power2.in' }, '<')
-
-      // 7. Fluorescent flicker sequence
-      .to('.intro-icon', { scale: 1, duration: 0.05 })
+      // 6. Fluorescent flicker
+      .to('.intro-icon',   { scale: 1, duration: 0.05 })
       .to('.intro-cursor', { scale: 1, duration: 0.05 }, '<')
       .to('.intro-glow', { opacity: 0.15, scale: 1.1, duration: 0.04 })
-      .to('.intro-glow', { opacity: 0, scale: 1, duration: 0.06 })
+      .to('.intro-glow', { opacity: 0,    scale: 1,   duration: 0.06 })
       .to('.intro-glow', { opacity: 0.35, scale: 1.3, duration: 0.05 })
-      .to('.intro-glow', { opacity: 0, scale: 1, duration: 0.08 })
-      .to('.intro-glow', { opacity: 0.6, scale: 1.6, duration: 0.06 })
-      .to('.intro-glow', { opacity: 0.1, scale: 1.1, duration: 0.1 })
+      .to('.intro-glow', { opacity: 0,    scale: 1,   duration: 0.08 })
+      .to('.intro-glow', { opacity: 0.6,  scale: 1.6, duration: 0.06 })
+      .to('.intro-glow', { opacity: 0.1,  scale: 1.1, duration: 0.1  })
 
-      // 8. Full power ON — big glow
-      .to('.intro-glow', {
-          opacity: 1, scale: 3.5, duration: 0.5, ease: 'power2.out',
-        })
+      // 7. Full power ON
+      .to('.intro-glow', { opacity: 1, scale: 3.5, duration: 0.5, ease: 'power2.out' })
       .to('.intro-icon', {
           filter: 'drop-shadow(0 0 30px rgba(94,210,156,1)) drop-shadow(0 0 80px rgba(94,210,156,0.8))',
           duration: 0.4, ease: 'power2.out',
         }, '<')
 
-      // 9. Flash fills screen
-      .to('.intro-flash', {
-          opacity: 1, duration: 0.18, ease: 'power3.in',
-        }, '-=0.1')
-
-      // 10. Flash fades out revealing the web
-      .to('.intro-flash', {
-          opacity: 0, duration: 0.5, ease: 'power2.out',
-        })
+      // 8. Flash
+      .to('.intro-flash', { opacity: 1, duration: 0.18, ease: 'power3.in' }, '-=0.1')
+      .to('.intro-flash', { opacity: 0, duration: 0.5,  ease: 'power2.out' })
       .to(overlayRef.current, {
           opacity: 0, duration: 0.3,
           onComplete: () => { clearTimeout(fallback); finish() },
@@ -174,14 +173,20 @@ export default function IntroScreen({ onComplete }) {
         Agencia de Diseño Web · Argentina
       </p>
 
-      {/* Animated cursor */}
+      {/* Animated cursor (pointer on desktop, finger on mobile) */}
       <div className="intro-cursor" ref={cursorRef} style={{
         position: 'absolute',
         bottom: '28%', right: '38%',
         opacity: 0, zIndex: 5, pointerEvents: 'none',
       }}>
-        <CursorSVG style={{ width: 36, height: 44, filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.5))' }} />
+        <PointerSVG style={{ width: 36, height: 44, filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.5))', display: 'var(--show-pointer, block)' }} />
+        <FingerSVG  style={{ width: 28, height: 42, filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.5))', display: 'var(--show-finger, none)' }} />
       </div>
+      <style>{`
+        @media (hover: none) {
+          .intro-cursor { --show-pointer: none; --show-finger: block; }
+        }
+      `}</style>
     </div>
   )
 }

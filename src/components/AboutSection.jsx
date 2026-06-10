@@ -5,10 +5,29 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const STATS = [
-  { value: 30, suffix: '+', label: 'Proyectos entregados' },
+  { value: 4,  suffix: '+', label: 'Proyectos entregados' },
   { value: 100, suffix: '%', label: 'Clientes satisfechos' },
-  { value: 4, suffix: '+', label: 'Rubros distintos' },
+  { value: 7,  suffix: '',  label: 'Tipos de soluciones' },
   { value: 48, suffix: 'hs', label: 'Tiempo de respuesta' },
+]
+
+const QA = [
+  {
+    q: '¿Quiénes son?',
+    a: 'Somos Abraham y Pipa, dos socios argentinos apasionados del desarrollo web y la tecnología. Nos juntamos para armar I.D.E.A Code con una misión clara: que cualquier negocio pueda tener una presencia digital profesional sin pagar una fortuna.',
+  },
+  {
+    q: '¿Qué significa I.D.E.A?',
+    a: 'Innovación Digital para Empresas y Agencias. Creemos que una buena idea, bien ejecutada, puede transformar un negocio — y eso es exactamente lo que hacemos.',
+  },
+  {
+    q: '¿Cómo trabajan?',
+    a: 'Tenemos demos funcionales listas para cada rubro. Las personalizamos con los colores, logo y datos de tu negocio. Así el cliente ve algo funcionando desde el primer día y el proceso es rápido y transparente.',
+  },
+  {
+    q: '¿Dónde están?',
+    a: 'Somos 100% remotos y trabajamos desde Argentina para todo el país. Nos manejamos por WhatsApp, video llamada o donde te sea más cómodo.',
+  },
 ]
 
 function AnimatedStat({ value, suffix, label }) {
@@ -48,6 +67,40 @@ function AnimatedStat({ value, suffix, label }) {
   )
 }
 
+function QACard({ q, a, index }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div
+      onClick={() => setOpen(o => !o)}
+      style={{
+        borderTop: '1px solid rgba(240,237,230,0.07)',
+        padding: '20px 0',
+        cursor: 'pointer',
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
+        <span style={{
+          fontFamily: 'Inter,sans-serif', fontWeight: 700,
+          fontSize: 'clamp(14px,1.4vw,17px)', color: '#f0ede6',
+        }}>{q}</span>
+        <span style={{
+          color: '#5ed29c', fontSize: 20, lineHeight: 1, flexShrink: 0,
+          transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
+          transition: 'transform 0.3s',
+          display: 'inline-block',
+        }}>+</span>
+      </div>
+      {open && (
+        <p style={{
+          fontFamily: 'Inter,sans-serif', fontSize: 14,
+          color: 'rgba(240,237,230,0.5)', lineHeight: 1.75,
+          margin: '14px 0 0', maxWidth: 620,
+        }}>{a}</p>
+      )}
+    </div>
+  )
+}
+
 export default function AboutSection() {
   const sectionRef = useRef(null)
 
@@ -72,7 +125,6 @@ export default function AboutSection() {
       borderTop: '1px solid rgba(240,237,230,0.05)',
       position: 'relative', overflow: 'hidden',
     }}>
-      {/* Giant background text */}
       <div style={{
         position:'absolute', top:'50%', left:'50%',
         transform:'translate(-50%,-50%)',
@@ -84,11 +136,14 @@ export default function AboutSection() {
       }}>IDEA</div>
 
       <div style={{ maxWidth:1100, margin:'0 auto', position:'relative', zIndex:1 }}>
+
+        {/* Top: texto + stats */}
         <div style={{
           display:'grid',
           gridTemplateColumns:'1fr 1fr',
           gap:'clamp(40px,8vw,100px)',
           alignItems:'start',
+          marginBottom: 'clamp(60px,8vw,100px)',
         }}>
           <div className="about-left">
             <p style={{
@@ -104,23 +159,56 @@ export default function AboutSection() {
             </h2>
             <p style={{
               fontFamily:'Inter,sans-serif', fontSize:15,
-              color:'rgba(240,237,230,0.5)', lineHeight:1.8,
-              margin:'0 0 20px',
+              color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:'0 0 20px',
             }}>
-              Un equipo apasionado del diseño web y la tecnología. Creemos que cada negocio, sin importar su tamaño, merece una presencia digital profesional y efectiva.
+              Dos socios argentinos que creen que cada negocio merece una presencia digital profesional y efectiva — sin importar el tamaño.
             </p>
             <p style={{
               fontFamily:'Inter,sans-serif', fontSize:15,
-              color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:0,
+              color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:'0 0 32px',
             }}>
-              Trabajamos desde Argentina para todo el país. Rápidos, directos y comprometidos con el resultado.
+              Trabajamos con demos funcionales listas para cada rubro: el cliente ve algo real desde el primer día y el proceso es rápido y transparente.
             </p>
+
+            {/* Redes sociales */}
+            <div style={{ display:'flex', gap:16, flexWrap:'wrap' }}>
+              {[
+                { label:'@ideacode._', href:'https://instagram.com/ideacode._', platform:'Instagram' },
+                { label:'@idea.code',  href:'https://tiktok.com/@idea.code',    platform:'TikTok' },
+              ].map(({ label, href, platform }) => (
+                <a key={platform} href={href} target="_blank" rel="noopener noreferrer" style={{
+                  display:'inline-flex', alignItems:'center', gap:8,
+                  fontFamily:'Inter,sans-serif', fontWeight:600, fontSize:12,
+                  color:'rgba(94,210,156,0.7)', textDecoration:'none',
+                  border:'1px solid rgba(94,210,156,0.2)',
+                  borderRadius:999, padding:'8px 16px',
+                  transition:'all 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color='#5ed29c'; e.currentTarget.style.borderColor='rgba(94,210,156,0.5)' }}
+                onMouseLeave={e => { e.currentTarget.style.color='rgba(94,210,156,0.7)'; e.currentTarget.style.borderColor='rgba(94,210,156,0.2)' }}
+                >
+                  <span style={{ fontSize:10, letterSpacing:'0.1em', textTransform:'uppercase', opacity:0.6 }}>{platform}</span>
+                  {label}
+                </a>
+              ))}
+            </div>
           </div>
 
           <div className="about-right" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:32 }}>
             {STATS.map((s, i) => <AnimatedStat key={i} {...s} />)}
           </div>
         </div>
+
+        {/* Q&A personal */}
+        <div>
+          <p style={{
+            fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
+            color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:32,
+          }}>Preguntas frecuentes</p>
+          {QA.map((item, i) => <QACard key={i} {...item} index={i} />)}
+          <div style={{ borderTop:'1px solid rgba(240,237,230,0.07)' }} />
+        </div>
+
       </div>
     </section>
   )

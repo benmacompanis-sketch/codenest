@@ -1,17 +1,18 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Globe, ShoppingBag, QrCode, Zap, Palette, FileText } from 'lucide-react'
+import { Calendar, ShoppingBag, UtensilsCrossed, Home, FileText, GraduationCap, Stethoscope } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const SERVICES = [
-  { num:'01', icon: Globe,       title:'Páginas Web',     desc:'Tu presencia online profesional, diseñada para convertir visitas en clientes reales.' },
-  { num:'02', icon: ShoppingBag, title:'Tiendas Online',  desc:'E-commerce completo con pasarela de pago, stock y panel de administración.' },
-  { num:'03', icon: QrCode,      title:'Menú Digital QR', desc:'Menú para tu restaurante o bar, actualizable en tiempo real desde el celular.' },
-  { num:'04', icon: Zap,         title:'Landing Pages',   desc:'Una página enfocada en un objetivo: captar leads, vender o promocionar.' },
-  { num:'05', icon: Palette,     title:'Branding Digital',desc:'Identidad visual completa: logo, paleta, tipografía y manual de marca.' },
-  { num:'06', icon: FileText,    title:'Blog Personal',   desc:'Plataforma de contenido para posicionarte como experto en tu rubro.' },
+  { num:'01', icon: Calendar,       title:'Sistema de Reservas / Turnos',   desc:'Para barberías, médicos, veterinarias, salones, estudios de yoga. Calendario online + panel de admin.' },
+  { num:'02', icon: ShoppingBag,    title:'Tienda / Catálogo Online',        desc:'E-commerce completo con carrito, filtros, panel de admin y checkout. Ideal para ropa, accesorios, alimentos.' },
+  { num:'03', icon: UtensilsCrossed,title:'Menú Digital + Pedidos',          desc:'Menú por categorías con fotos, sistema de pedidos por mesa o para llevar y panel de cocina en tiempo real.' },
+  { num:'04', icon: Home,           title:'Catálogo Inmobiliario',           desc:'Listado de propiedades con filtros, galería de fotos y formulario de consulta. Para inmobiliarias y desarrolladoras.' },
+  { num:'05', icon: FileText,       title:'Servicios + Presupuesto Online',  desc:'Presentación de servicios con formulario de presupuesto. Para contadores, abogados, diseñadores y técnicos.' },
+  { num:'06', icon: GraduationCap,  title:'Cursos / Membresías',             desc:'Listado de cursos o planes, área de miembros y pasarela de pago. Para academias, profesores y coaches.' },
+  { num:'07', icon: Stethoscope,    title:'Ficha de Pacientes / Clientes',   desc:'Registro con historial, próximas citas y notas por visita. Para veterinarias, médicos, psicólogos y odontólogos.' },
 ]
 
 export default function ServicesSection() {

@@ -75,7 +75,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:16 }}>
-              <img src="/logo-black.svg" alt="" style={{ height:36, width:'auto' }} />
+              <img src={asset('/logo-icon.png')} alt="" style={{ height:36, width:'auto' }} />
               <div>
                 <div style={{ fontFamily:'Inter,sans-serif', fontWeight:900, fontSize:16, color:'#f0ede6', letterSpacing:'-0.02em', lineHeight:1 }}>
                   I.D.E.A <span style={{ color:'#5ed29c' }}>Code</span>

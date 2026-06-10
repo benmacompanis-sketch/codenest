@@ -44,7 +44,7 @@ export default function Navigation() {
         transition:'background 0.4s, border-color 0.4s, backdrop-filter 0.4s',
       }}>
         <a href="#inicio" onClick={e => scroll(e,'#inicio')} style={{ textDecoration:'none', display:'flex', alignItems:'center', gap:8 }}>
-          <img src="/logo-black.svg" alt="" style={{ height:40, width:'auto' }} />
+          <img src={asset('/logo-icon.png')} alt="" style={{ height:40, width:'auto' }} />
           <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
             <span style={{ fontFamily:'Inter,sans-serif', fontWeight:900, fontSize:17, color:'#f0ede6', letterSpacing:'-0.02em', lineHeight:1 }}>I.D.E.A <span style={{ color:'#5ed29c' }}>Code</span></span>
             <span style={{ fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:500, fontSize:8, color:'rgba(240,237,230,0.35)', letterSpacing:'0.13em', textTransform:'uppercase' }}>Innovación Digital para Empresas y Agencias</span>

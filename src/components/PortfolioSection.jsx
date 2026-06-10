@@ -5,8 +5,6 @@ import { ArrowUpRight } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const BASE = 'https://image.thum.io/get/width/1200/crop/900/'
-
 const PROJECTS = [
   {
     name: 'Ovelar Propiedades',
@@ -15,7 +13,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #0c1628 0%, #1a3258 100%)',
     accent: '#c9a84c',
     url: 'https://benmacompanis-sketch.github.io/ovelar-propiedades/',
-    img: BASE + 'https://benmacompanis-sketch.github.io/ovelar-propiedades/',
+    img: '/codenest/portfolio/ovelar.png',
     tag: 'Inmuebles · CABA',
   },
   {
@@ -25,17 +23,17 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #030d12 0%, #062534 100%)',
     accent: '#00e5b4',
     url: 'https://benmacompanis-sketch.github.io/Veterinaria/',
-    img: BASE + 'https://benmacompanis-sketch.github.io/Veterinaria/',
+    img: '/codenest/portfolio/veterinaria.png',
     tag: 'Clínica · Caballito',
   },
   {
-    name: 'Cucha del Pari',
+    name: 'Cucha del Parí',
     cat: 'Gastronomía',
     year: '2024',
     bg: 'linear-gradient(160deg, #100500 0%, #2a1200 100%)',
     accent: '#e8a020',
     url: 'https://benmacompanis-sketch.github.io/Cuchadelpari/',
-    img: BASE + 'https://benmacompanis-sketch.github.io/Cuchadelpari/',
+    img: '/codenest/portfolio/cuchadelpari.png',
     tag: 'Bar & Cocina · Buenos Aires',
   },
   {
@@ -45,7 +43,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #f5f0eb 0%, #ede6dd 100%)',
     accent: '#c8956c',
     url: 'https://benmacompanis-sketch.github.io/barre-estudio/',
-    img: BASE + 'https://benmacompanis-sketch.github.io/barre-estudio/',
+    img: '/codenest/portfolio/barre.png',
     tag: 'Estudio · Buenos Aires',
   },
 ]

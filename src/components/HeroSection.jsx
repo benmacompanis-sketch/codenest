@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, Suspense, lazy } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Hls from 'hls.js'
 import MagneticButton from './MagneticButton'
 import { useTextScramble } from '../hooks/useTextScramble'
+
+const Spline = lazy(() => import('@splinetool/react-spline'))
+const SPLINE = 'https://prod.spline.design/t631dlt8Qs4yEgfB/scene.splinecode'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -128,25 +131,22 @@ export default function HeroSection() {
         backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
       }} />
 
-      {/* Floating orb — parallax */}
+      {/* Spline 3D sphere — parallax */}
       <div ref={floatRef} style={{
-        position: 'absolute', top: '50%', right: '6%',
+        position: 'absolute', top: '50%', right: '-2%',
         transform: 'translateY(-50%)',
-        width: 'clamp(280px, 38vw, 560px)',
-        height: 'clamp(280px, 38vw, 560px)',
-        zIndex: 2, pointerEvents: 'none',
+        width: 'clamp(300px, 42vw, 620px)',
+        height: 'clamp(300px, 42vw, 620px)',
+        zIndex: 2,
       }}>
-        <div style={{
-          width: '100%', height: '100%', borderRadius: '50%',
-          border: '1px solid rgba(94,210,156,0.12)',
-          position: 'relative',
-          animation: 'spin 24s linear infinite',
-        }}>
-          <div style={{ position:'absolute', inset:20, borderRadius:'50%', border:'1px solid rgba(94,210,156,0.07)' }} />
-          <div style={{ position:'absolute', inset:0, borderRadius:'50%', background:'radial-gradient(circle at 30% 30%, rgba(94,210,156,0.06) 0%, transparent 60%)' }} />
-          <div style={{ position:'absolute', top:-5, left:'50%', marginLeft:-5, width:10, height:10, borderRadius:'50%', background:'#5ed29c', boxShadow:'0 0 16px rgba(94,210,156,0.9)' }} />
-          <div style={{ position:'absolute', bottom:'15%', right:-4, width:7, height:7, borderRadius:'50%', background:'rgba(94,210,156,0.5)', boxShadow:'0 0 8px rgba(94,210,156,0.5)' }} />
-        </div>
+        <Suspense fallback={
+          <div style={{
+            width:'100%', height:'100%', borderRadius:'50%',
+            background:'radial-gradient(circle at 40% 35%, rgba(94,210,156,0.08) 0%, transparent 65%)',
+          }} />
+        }>
+          <Spline scene={SPLINE} style={{ width:'100%', height:'100%' }} />
+        </Suspense>
       </div>
 
       {/* Main content */}

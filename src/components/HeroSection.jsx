@@ -151,16 +151,8 @@ export default function HeroSection() {
         padding: 'clamp(20px, 5vw, 80px)',
         maxWidth: 1000,
       }}>
-        {/* Logo + label */}
+        {/* Label */}
         <div className="hero-label" style={{ marginBottom: 36 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-            <img src="/codenest/logo-icon.png" alt="I.D.E.A Code icon"
-              style={{ height: 48, width: 'auto' }} />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <span style={{ fontFamily:'Inter,sans-serif', fontWeight:900, fontSize:22, color:'#f0ede6', letterSpacing:'-0.02em', lineHeight:1 }}>I.D.E.A <span style={{ color:'#5ed29c' }}>Code</span></span>
-              <span style={{ fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:500, fontSize:9, color:'rgba(240,237,230,0.35)', letterSpacing:'0.14em', textTransform:'uppercase' }}>Innovación Digital para Empresas y Agencias</span>
-            </div>
-          </div>
           <div style={{ display:'flex', alignItems:'center', gap:12 }}>
             <span style={{ width:32, height:1, background:'#5ed29c', opacity:0.7 }} />
             <span style={{

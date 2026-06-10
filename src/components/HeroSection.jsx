@@ -64,7 +64,7 @@ export default function HeroSection() {
     return () => clearTimeout(t)
   }, [])
 
-  // Mouse parallax
+  // Mouse parallax — throttled to every 2 frames
   useEffect(() => {
     const onMove = (e) => {
       mousePos.current = {
@@ -72,16 +72,18 @@ export default function HeroSection() {
         y: (e.clientY / window.innerHeight - 0.5) * 2,
       }
     }
-    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mousemove', onMove, { passive: true })
 
-    let raf
+    let raf, fc = 0
     const tick = () => {
-      if (floatRef.current) {
+      fc++
+      if (fc % 2 === 0 && floatRef.current) {
         gsap.to(floatRef.current, {
           x: mousePos.current.x * 30,
           y: mousePos.current.y * 20,
-          duration: 1.2,
+          duration: 1.4,
           ease: 'power2.out',
+          overwrite: 'auto',
         })
       }
       raf = requestAnimationFrame(tick)
@@ -102,20 +104,21 @@ export default function HeroSection() {
     return () => ctx.revert()
   }, [])
 
-  // Scroll pin + zoom out
+  // Scroll pin + fade out
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=80%',
+          end: '+=70%',
           pin: true,
-          scrub: 1.2,
+          scrub: 0.6,
+          anticipatePin: 1,
         }
       })
-      .to('.hero-content', { y: -100, opacity: 0, scale: 0.97 })
-      .to(videoRef.current, { scale: 1.1, opacity: 0.15 }, '<')
+      .to('.hero-content', { y: -80, opacity: 0, duration: 1 })
+      .to(videoRef.current, { opacity: 0.1, duration: 1 }, '<')
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -138,6 +141,7 @@ export default function HeroSection() {
         width: 'clamp(320px, 44vw, 640px)',
         height: 'clamp(320px, 44vw, 640px)',
         zIndex: 2,
+        willChange: 'transform',
       }}>
         <Suspense fallback={null}>
           <ParticleGlobe />
@@ -150,6 +154,7 @@ export default function HeroSection() {
         display: 'flex', flexDirection: 'column', justifyContent: 'center',
         padding: 'clamp(20px, 5vw, 80px)',
         maxWidth: 1000,
+        willChange: 'transform, opacity',
       }}>
         {/* Label */}
         <div className="hero-label" style={{ marginBottom: 36 }}>

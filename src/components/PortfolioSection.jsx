@@ -25,7 +25,7 @@ const PROJECTS = [
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/Veterinaria/',
     img: '/codenest/portfolio/veterinaria.png',
-    imgPos: '20% center',
+    imgPos: '65% center',
     tag: 'Clínica · Caballito',
   },
   {
@@ -47,7 +47,7 @@ const PROJECTS = [
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/barre-estudio/',
     img: '/codenest/portfolio/barre.png',
-    imgPos: '15% center',
+    imgPos: 'center center',
     tag: 'Estudio · Buenos Aires',
   },
 ]

@@ -1,0 +1,6 @@
+{
+  "name": "ideacode",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite"
+}

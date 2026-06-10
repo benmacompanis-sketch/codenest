@@ -11,16 +11,46 @@
     margin: 0;
     padding: 0;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Font rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #070b0a; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(94, 210, 156, 0.25);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(94, 210, 156, 0.5);
+  }
+
+  /* Selection color */
+  ::selection {
+    background: rgba(94, 210, 156, 0.25);
+    color: #fff;
+  }
 }
 
 @layer components {
-  /* Liquid glass card — gradient border via mask-composite xor technique */
+  /* ── Liquid glass card ───────────────────────────────────── */
   .glass-card {
-    background: rgba(255, 255, 255, 0.01);
+    background: rgba(255, 255, 255, 0.02);
     background-blend-mode: luminosity;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.12),
+      0 20px 40px rgba(0, 0, 0, 0.4);
     position: relative;
   }
 
@@ -28,21 +58,72 @@
     content: '';
     position: absolute;
     inset: 0;
-    padding: 1.4px;
+    padding: 1px;
     border-radius: inherit;
     background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.28) 0%,
+      145deg,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(94, 210, 156, 0.08) 50%,
       rgba(255, 255, 255, 0.04) 100%
     );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
   }
+
+  /* ── Section label ───────────────────────────────────────── */
+  .section-label {
+    @apply font-jakarta font-bold uppercase tracking-[0.22em] text-brand;
+    font-size: 11px;
+  }
+
+  /* ── Section heading ─────────────────────────────────────── */
+  .section-heading {
+    @apply font-inter font-extrabold text-white leading-tight tracking-tight;
+    font-size: clamp(32px, 4vw, 52px);
+  }
+
+  /* ── Card surface ────────────────────────────────────────── */
+  .card-surface {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+
+  .card-surface:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(94, 210, 156, 0.25);
+  }
+
+  /* ── Gradient text ───────────────────────────────────────── */
+  .gradient-text {
+    background: linear-gradient(135deg, #5ed29c 0%, #a8f0cc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Noise grain overlay ─────────────────────────────────── */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 100;
+  }
+}
+
+@layer utilities {
+  /* Dots background pattern */
+  .bg-dots {
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+
+  /* Ticker pause on hover */
+  .ticker-track:hover { animation-play-state: paused; }
 }

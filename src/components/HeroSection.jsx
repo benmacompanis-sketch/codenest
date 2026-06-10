@@ -131,8 +131,8 @@ export default function HeroSection() {
         backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
       }} />
 
-      {/* Particle Globe */}
-      <div ref={floatRef} style={{
+      {/* Particle Globe — hidden on mobile */}
+      <div ref={floatRef} className="hero-globe" style={{
         position: 'absolute', top: '50%', right: '2%',
         transform: 'translateY(-50%)',
         width: 'clamp(320px, 44vw, 640px)',
@@ -270,6 +270,10 @@ export default function HeroSection() {
       <style>{`
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @media (max-width: 768px) {
+          .hero-globe { display: none !important; }
+          .hero-content { max-width: 100% !important; }
+        }
       `}</style>
     </section>
   )

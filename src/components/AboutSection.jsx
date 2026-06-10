@@ -175,7 +175,7 @@ export default function AboutSection() {
         {/* Top: texto + stats */}
         <div style={{
           display:'grid',
-          gridTemplateColumns:'1fr 1fr',
+          gridTemplateColumns:'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
           gap:'clamp(40px,8vw,100px)',
           alignItems:'start',
           marginBottom: 'clamp(60px,8vw,100px)',

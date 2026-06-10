@@ -22,7 +22,7 @@ const QA = [
   },
   {
     q: '¿Cómo trabajan?',
-    a: 'Tenemos demos funcionales listas para cada rubro. Las personalizamos con los colores, logo y datos de tu negocio. Así el cliente ve algo funcionando desde el primer día y el proceso es rápido y transparente.',
+    a: 'Tenemos demos funcionales listas para cada rubro. Las personalizamos con los colores, logo y datos de tu negocio. Incorporamos inteligencia artificial en el proceso para entregar resultados más rápidos y creativos. Así el cliente ve algo funcionando desde el primer día.',
   },
   {
     q: '¿Dónde están?',
@@ -203,6 +203,12 @@ export default function AboutSection() {
               color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:'0 0 32px',
             }}>
               Trabajamos con demos funcionales listas para cada rubro: el cliente ve algo real desde el primer día y el proceso es rápido y transparente.
+            </p>
+            <p style={{
+              fontFamily:'Inter,sans-serif', fontSize:15,
+              color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:'0 0 32px',
+            }}>
+              Incorporamos <span style={{ color:'#5ed29c', fontWeight:600 }}>inteligencia artificial</span> en nuestro flujo de trabajo para entregar resultados más rápidos, más creativos y con mayor nivel de detalle — sin perder el toque humano.
             </p>
 
             {/* Redes sociales */}

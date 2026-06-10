@@ -44,11 +44,5 @@ export function initSecurity() {
     }
   }
 
-  setInterval(check, 1000)
-
-  // 5. Debugger trap — pauses execution if DevTools is open
-  setInterval(() => {
-    // eslint-disable-next-line no-debugger
-    (function() {}['constructor']('debugger')())
-  }, 3000)
+  setInterval(check, 2000)
 }

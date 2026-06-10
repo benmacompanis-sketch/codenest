@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
-const COUNT = 2200
-const RADIUS = 0.38 // fraction of canvas size
+const COUNT = 1400
+const RADIUS = 0.38
 
 export default function ParticleGlobe() {
   const canvasRef = useRef(null)
@@ -79,8 +79,13 @@ export default function ParticleGlobe() {
       }
     }
 
-    const draw = () => {
+    let frame = 0
+    let lastTime = 0
+    const draw = (now = 0) => {
+      if (now - lastTime < 24) { raf = requestAnimationFrame(draw); return } // ~40fps cap
+      lastTime = now
       t += 0.008
+      frame++
 
       // Lerp rotation toward mouse
       targetY = t * 0.5 + mouse.x * 0.6
@@ -116,27 +121,26 @@ export default function ParticleGlobe() {
         draw_pts.push({ sx, sy, z, scale, type: 'ring2' })
       }
 
-      // Sort back-to-front
-      draw_pts.sort((a, b) => a.z - b.z)
+      if (frame % 3 === 0) draw_pts.sort((a, b) => a.z - b.z)
 
+      ctx.fillStyle = 'rgb(94,210,156)'
       for (const p of draw_pts) {
-        const depth = (p.z + 1.5) / 3 // 0..1, brighter in front
-        const alpha = Math.max(0.05, depth * 0.9)
-
+        const depth = (p.z + 1.5) / 3
         if (p.type === 'dot') {
-          const size = Math.max(0.5, p.scale * 2.2)
+          const alpha = Math.max(0.05, depth * 0.9)
+          const size  = Math.max(0.5, p.scale * 2.2)
+          ctx.globalAlpha = alpha
           ctx.beginPath()
           ctx.arc(p.sx, p.sy, size, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(94,210,156,${alpha.toFixed(3)})`
           ctx.fill()
         } else {
-          const a = p.type === 'ring1' ? Math.max(0.04, depth * 0.22) : Math.max(0.03, depth * 0.14)
+          ctx.globalAlpha = p.type === 'ring1' ? Math.max(0.04, depth * 0.22) : Math.max(0.03, depth * 0.14)
           ctx.beginPath()
           ctx.arc(p.sx, p.sy, 1.2, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(94,210,156,${a.toFixed(3)})`
           ctx.fill()
         }
       }
+      ctx.globalAlpha = 1
 
       raf = requestAnimationFrame(draw)
     }
@@ -153,7 +157,7 @@ export default function ParticleGlobe() {
   return (
     <canvas
       ref={canvasRef}
-      style={{ display: 'block', width: '100%', height: '100%' }}
+      style={{ display: 'block', width: '100%', height: '100%', willChange: 'contents' }}
     />
   )
 }

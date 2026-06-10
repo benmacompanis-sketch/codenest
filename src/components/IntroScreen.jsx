@@ -18,7 +18,11 @@ export default function IntroScreen({ onComplete }) {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-      tl.fromTo('.intro-idea',
+      tl.fromTo('.intro-icon',
+          { opacity: 0, scale: 0.7, y: 10 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: 'back.out(1.5)' }
+        )
+        .fromTo('.intro-idea',
           { clipPath: 'inset(0 100% 0 0)' },
           { clipPath: 'inset(0 0% 0 0)', duration: 0.8 }
         )
@@ -59,11 +63,15 @@ export default function IntroScreen({ onComplete }) {
       alignItems: 'center', justifyContent: 'center',
       gap: 20,
     }}>
+      {/* Icon */}
+      <img className="intro-icon" src="/codenest/logo-icon.png" alt=""
+        style={{ height: 'clamp(70px, 10vw, 110px)', width: 'auto', marginBottom: 8 }} />
+
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, position: 'relative' }}>
         <span className="intro-idea" style={{
           display: 'inline-block',
           fontFamily: 'Inter, sans-serif', fontWeight: 900,
-          fontSize: 'clamp(44px, 8vw, 88px)',
+          fontSize: 'clamp(40px, 7vw, 80px)',
           color: '#f0ede6',
           letterSpacing: '-0.03em',
           lineHeight: 1,
@@ -73,7 +81,7 @@ export default function IntroScreen({ onComplete }) {
         <span className="intro-code" style={{
           display: 'inline-block',
           fontFamily: 'Inter, sans-serif', fontWeight: 900,
-          fontSize: 'clamp(44px, 8vw, 88px)',
+          fontSize: 'clamp(40px, 7vw, 80px)',
           color: '#5ed29c',
           letterSpacing: '-0.03em',
           lineHeight: 1,

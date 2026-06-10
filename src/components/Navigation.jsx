@@ -38,7 +38,8 @@ export default function Navigation() {
         borderBottom: scrolled ? '1px solid rgba(240,237,230,0.06)' : '1px solid transparent',
         transition:'background 0.4s, border-color 0.4s, backdrop-filter 0.4s',
       }}>
-        <a href="#inicio" onClick={e => scroll(e,'#inicio')} style={{ textDecoration:'none' }}>
+        <a href="#inicio" onClick={e => scroll(e,'#inicio')} style={{ textDecoration:'none', display:'flex', alignItems:'center', gap:8 }}>
+          <img src="/codenest/logo-icon.png" alt="" style={{ height:28, width:'auto' }} />
           <Logo size={17} />
         </a>
 

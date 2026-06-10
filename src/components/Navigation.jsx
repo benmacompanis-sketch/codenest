@@ -23,7 +23,11 @@ export default function Navigation() {
   const scroll = (e, href) => {
     e.preventDefault()
     setMenuOpen(false)
-    document.querySelector(href)?.scrollIntoView({ behavior:'smooth' })
+    if (href === '#inicio') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      document.querySelector(href)?.scrollIntoView({ behavior:'smooth' })
+    }
   }
 
   return (

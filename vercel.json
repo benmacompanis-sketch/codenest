@@ -1,5 +1,5 @@
 {
-  "name": "ideacode",
+  "name": "idea-code",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite"

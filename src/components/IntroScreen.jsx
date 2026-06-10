@@ -1,317 +1,286 @@
-import { useEffect, useState, useRef } from 'react'
-import { motion, AnimatePresence, useAnimation } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-const RAYS = [
-  { x1: 160, y1: 28, x2: 160, y2: 8, rotate: 0 },
-  { x1: 160, y1: 28, x2: 178, y2: 12, rotate: 25 },
-  { x1: 160, y1: 28, x2: 190, y2: 22, rotate: 48 },
-  { x1: 160, y1: 28, x2: 142, y2: 12, rotate: -25 },
-  { x1: 160, y1: 28, x2: 130, y2: 22, rotate: -48 },
-  { x1: 160, y1: 28, x2: 196, y2: 35, rotate: 68 },
-  { x1: 160, y1: 28, x2: 124, y2: 35, rotate: -68 },
-]
+// 7 rays radiating from top of bulb
+const RAY_ANGLES = [-65, -40, -18, 0, 18, 40, 65]
 
-function LogoSVG({ phase }) {
-  // phase: 'bulb' | 'rays' | 'full'
+function BulbIcon({ showRays }) {
   return (
-    <svg viewBox="0 80 320 200" xmlns="http://www.w3.org/2000/svg" style={{ width: 320, height: 200, overflow: 'visible' }}>
+    <svg
+      viewBox="0 0 120 150"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ width: 140, height: 175, overflow: 'visible' }}
+    >
       <defs>
-        <filter id="glow-green" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="6" result="blur" />
-          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="3.5" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
-        <filter id="glow-strong" x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="14" result="blur" />
-          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        <filter id="glow-strong" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="10" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
         <clipPath id="bulb-clip">
-          <ellipse cx="160" cy="148" rx="46" ry="50" />
+          <path d="M60 18 C38 18 22 34 22 56 C22 71 30 82 40 90 L40 100 L80 100 L80 90 C90 82 98 71 98 56 C98 34 82 18 60 18 Z" />
         </clipPath>
       </defs>
 
       {/* ── Rays ── */}
-      {RAYS.map((r, i) => (
-        <motion.line
+      {RAY_ANGLES.map((angle, i) => (
+        <motion.g
           key={i}
-          x1={160} y1={100}
-          x2={160} y2={82}
-          stroke="#5ed29c"
-          strokeWidth="4"
-          strokeLinecap="round"
-          style={{ transformOrigin: '160px 100px', rotate: r.rotate }}
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={
-            phase === 'rays' || phase === 'full'
-              ? { pathLength: 1, opacity: 1 }
-              : { pathLength: 0, opacity: 0 }
-          }
-          transition={{ duration: 0.25, delay: 0.05 * i, ease: 'easeOut' }}
-          filter="url(#glow-green)"
-        />
+          style={{ transformOrigin: '60px 56px', rotate: angle }}
+          initial={{ opacity: 0, scaleY: 0 }}
+          animate={showRays ? { opacity: 1, scaleY: 1 } : { opacity: 0, scaleY: 0 }}
+          transition={{ duration: 0.2, delay: i * 0.06, ease: 'easeOut' }}
+        >
+          <line
+            x1="60" y1="10"
+            x2="60" y2="1"
+            stroke="#5ed29c"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            filter="url(#glow)"
+          />
+        </motion.g>
       ))}
 
-      {/* ── Bulb outline ── */}
+      {/* ── Bulb glass — drawn stroke ── */}
       <motion.path
-        d="M160 95
-           C135 95 118 113 118 135
-           C118 150 126 162 138 168
-           L138 178
-           L182 178
-           L182 168
-           C194 162 202 150 202 135
-           C202 113 185 95 160 95 Z"
-        fill="none"
-        stroke="#1a1a1a"
-        strokeWidth="7"
-        strokeLinecap="round"
+        d="M60 18 C38 18 22 34 22 56 C22 71 30 82 40 90 L40 100 L80 100 L80 90 C90 82 98 71 98 56 C98 34 82 18 60 18 Z"
+        fill="transparent"
+        stroke="white"
+        strokeWidth="4.5"
         strokeLinejoin="round"
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 1.1, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 1.0, ease: [0.4, 0, 0.2, 1] }}
       />
 
-      {/* ── Globe grid inside bulb ── */}
+      {/* ── Globe fill (clipped to bulb) ── */}
       <motion.g
         clipPath="url(#bulb-clip)"
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.6, ease: 'easeOut' }}
-        style={{ transformOrigin: '160px 148px' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.55 }}
       >
-        {/* Globe fill */}
-        <ellipse cx="160" cy="148" rx="36" ry="40" fill="#3a7a52" />
-        {/* Vertical lines */}
-        {[-18, -9, 0, 9, 18].map((x, i) => (
-          <line key={`vl${i}`} x1={160 + x} y1={108} x2={160 + x} y2={188} stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" />
+        {/* Base fill */}
+        <ellipse cx="60" cy="62" rx="28" ry="30" fill="#3a7a52" />
+        {/* Vertical grid lines */}
+        {[-14, -7, 0, 7, 14].map((x, i) => (
+          <line key={`v${i}`} x1={60 + x} y1={30} x2={60 + x} y2={95} stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
         ))}
-        {/* Horizontal lines */}
-        {[-18, -9, 0, 9, 18, 27].map((y, i) => (
-          <line key={`hl${i}`} x1={124} y1={148 + y} x2={196} y2={148 + y} stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" />
+        {/* Horizontal grid lines */}
+        {[-20, -12, -4, 4, 12, 20, 28].map((y, i) => (
+          <line key={`h${i}`} x1={30} y1={62 + y} x2={90} y2={62 + y} stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
         ))}
-        {/* Globe outline */}
-        <ellipse cx="160" cy="148" rx="36" ry="40" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+        {/* Globe border */}
+        <ellipse cx="60" cy="62" rx="28" ry="30" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" />
       </motion.g>
 
-      {/* ── Code tag </> inside bulb ── */}
+      {/* ── </> tag ── */}
       <motion.text
-        x="160" y="142"
+        x="60" y="55"
         textAnchor="middle"
         fill="white"
-        fontSize="16"
+        fontSize="13"
         fontFamily="Inter, monospace"
-        fontWeight="700"
-        letterSpacing="-1"
-        opacity="0.9"
-        initial={{ opacity: 0, y: 148 }}
-        animate={{ opacity: 0.9, y: 142 }}
-        transition={{ duration: 0.4, delay: 0.85, ease: 'easeOut' }}
+        fontWeight="800"
+        opacity="0.95"
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 0.95, y: 55 }}
+        transition={{ duration: 0.35, delay: 0.8 }}
       >
         {'</>'}
       </motion.text>
 
-      {/* ── Base filament lines ── */}
+      {/* ── Filament base lines ── */}
       <motion.g
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.5 }}
+        transition={{ duration: 0.4, delay: 0.45 }}
       >
-        <rect x="145" y="178" width="30" height="4" rx="2" fill="#1a1a1a" />
-        <rect x="148" y="185" width="24" height="4" rx="2" fill="#1a1a1a" />
-        <rect x="152" y="192" width="16" height="4" rx="2" fill="#1a1a1a" />
-        <ellipse cx="160" cy="199" rx="7" ry="5" fill="#1a1a1a" />
+        <rect x="40" y="100" width="40" height="5" rx="2.5" fill="white" opacity="0.9" />
+        <rect x="43" y="109" width="34" height="5" rx="2.5" fill="white" opacity="0.75" />
+        <rect x="46" y="118" width="28" height="5" rx="2.5" fill="white" opacity="0.6" />
+        <ellipse cx="60" cy="130" rx="10" ry="6" fill="white" opacity="0.5" />
       </motion.g>
 
-      {/* ── Bulb inner glow pulse ── */}
-      {(phase === 'rays' || phase === 'full') && (
+      {/* ── Ambient glow pulse when rays appear ── */}
+      {showRays && (
         <motion.ellipse
-          cx="160" cy="148" rx="52" ry="55"
-          fill="rgba(94,210,156,0.08)"
+          cx="60" cy="56" rx="55" ry="58"
+          fill="rgba(94,210,156,0.07)"
           filter="url(#glow-strong)"
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: [0, 0.6, 0], scale: [0.9, 1.15, 0.9] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ transformOrigin: '160px 148px' }}
+          animate={{ opacity: [0, 0.8, 0.2], scale: [0.85, 1.1, 1.0] }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          style={{ transformOrigin: '60px 56px' }}
         />
       )}
     </svg>
   )
 }
 
-function IdeaCodeText({ show }) {
-  const letters = ['I', '.', 'D', '.', 'E', '.', 'A']
-
-  return (
-    <motion.div
-      className="flex items-baseline gap-0 select-none"
-      initial="hidden"
-      animate={show ? 'visible' : 'hidden'}
-    >
-      {/* I.D.E.A */}
-      <div className="flex items-baseline">
-        {letters.map((l, i) => (
-          <motion.span
-            key={i}
-            className="font-inter font-black"
-            style={{
-              fontSize: 'clamp(28px, 5vw, 52px)',
-              color: '#f0f0f0',
-              lineHeight: 1,
-              letterSpacing: l === '.' ? '-0.02em' : '0.01em',
-            }}
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            transition={{ duration: 0.45, delay: 0.05 * i, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            {l}
-          </motion.span>
-        ))}
-      </div>
-
-      {/* space + Code */}
-      <motion.span
-        className="font-inter font-black ml-3"
-        style={{
-          fontSize: 'clamp(28px, 5vw, 52px)',
-          color: '#5ed29c',
-          lineHeight: 1,
-          textShadow: '0 0 30px rgba(94,210,156,0.5)',
-        }}
-        variants={{
-          hidden: { opacity: 0, x: 20 },
-          visible: { opacity: 1, x: 0 },
-        }}
-        transition={{ duration: 0.5, delay: 0.42, ease: [0.25, 0.1, 0.25, 1] }}
-      >
-        Code
-      </motion.span>
-    </motion.div>
-  )
-}
-
-function Tagline({ show }) {
-  return (
-    <motion.p
-      className="font-inter"
-      style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.14em', marginTop: 8 }}
-      initial={{ opacity: 0, y: 10 }}
-      animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-      transition={{ duration: 0.5, delay: 0.7, ease: 'easeOut' }}
-    >
-      INNOVACIÓN DIGITAL PARA EMPRESAS Y AGENCIAS
-    </motion.p>
-  )
-}
-
-function SplitCurtain({ trigger }) {
-  return (
-    <AnimatePresence>
-      {trigger && (
-        <>
-          <motion.div
-            className="absolute inset-y-0 left-0 w-1/2"
-            style={{ background: '#070b0a', zIndex: 10 }}
-            initial={{ x: 0 }}
-            animate={{ x: '-100%' }}
-            exit={{}}
-            transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
-          />
-          <motion.div
-            className="absolute inset-y-0 right-0 w-1/2"
-            style={{ background: '#070b0a', zIndex: 10 }}
-            initial={{ x: 0 }}
-            animate={{ x: '100%' }}
-            exit={{}}
-            transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
-          />
-        </>
-      )}
-    </AnimatePresence>
-  )
-}
-
 export default function IntroScreen({ onComplete }) {
-  const [phase, setPhase] = useState('bulb')   // bulb → rays → full → exit
-  const [done, setDone] = useState(false)
+  const [phase, setPhase] = useState('draw')  // draw → rays → text → exit
+  const [gone, setGone]   = useState(false)
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase('rays'), 900)
-    const t2 = setTimeout(() => setPhase('full'), 1350)
-    const t3 = setTimeout(() => setPhase('exit'), 2800)
-    const t4 = setTimeout(() => {
-      setDone(true)
-      onComplete?.()
-    }, 3700)
+    const t1 = setTimeout(() => setPhase('rays'),  900)
+    const t2 = setTimeout(() => setPhase('text'),  1300)
+    const t3 = setTimeout(() => setPhase('exit'),  3000)
+    const t4 = setTimeout(() => { setGone(true); onComplete?.() }, 4000)
     return () => [t1, t2, t3, t4].forEach(clearTimeout)
   }, [])
 
-  if (done) return null
+  if (gone) return null
+
+  const showText = phase === 'text' || phase === 'exit'
+  const showCurtain = phase === 'exit'
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9999] overflow-hidden flex items-center justify-center"
+      className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
       style={{ background: '#070b0a' }}
     >
-      {/* Ambient glow behind logo */}
+      {/* Radial ambient */}
       <motion.div
-        className="absolute"
+        className="absolute pointer-events-none"
         style={{
-          width: 480,
-          height: 480,
+          width: 600, height: 600,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(94,210,156,0.12) 0%, transparent 70%)',
-          filter: 'blur(40px)',
+          background: 'radial-gradient(circle, rgba(94,210,156,0.1) 0%, transparent 65%)',
+          filter: 'blur(30px)',
         }}
-        initial={{ opacity: 0, scale: 0.6 }}
+        initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
+        transition={{ duration: 1.4, ease: 'easeOut' }}
       />
 
       {/* Center content */}
-      <div className="relative z-20 flex flex-col items-center gap-3">
+      <motion.div
+        className="relative z-10 flex flex-col items-center"
+        style={{ gap: 16 }}
+        animate={showCurtain ? { opacity: 0, scale: 0.92 } : { opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: [0.4, 0, 1, 1] }}
+      >
         {/* Icon */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.7, y: 20 }}
+          initial={{ opacity: 0, scale: 0.65, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.34, 1.26, 0.64, 1] }}
+          transition={{ duration: 0.7, ease: [0.34, 1.3, 0.64, 1] }}
         >
-          <LogoSVG phase={phase} />
+          <BulbIcon showRays={phase !== 'draw'} />
         </motion.div>
 
-        {/* Text */}
-        <IdeaCodeText show={phase === 'full' || phase === 'exit'} />
-        <Tagline show={phase === 'full' || phase === 'exit'} />
+        {/* I.D.E.A Code */}
+        <motion.div
+          className="flex items-baseline"
+          initial="hidden"
+          animate={showText ? 'visible' : 'hidden'}
+          variants={{ visible: { transition: { staggerChildren: 0.045 } } }}
+        >
+          {['I', '.', 'D', '.', 'E', '.', 'A'].map((ch, i) => (
+            <motion.span
+              key={i}
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 900,
+                fontSize: 'clamp(32px, 5vw, 56px)',
+                color: '#f2f2f2',
+                lineHeight: 1,
+                display: 'inline-block',
+              }}
+              variants={{
+                hidden: { opacity: 0, y: 28 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } },
+              }}
+            >
+              {ch}
+            </motion.span>
+          ))}
+          <motion.span
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 900,
+              fontSize: 'clamp(32px, 5vw, 56px)',
+              color: '#5ed29c',
+              lineHeight: 1,
+              marginLeft: '0.25em',
+              display: 'inline-block',
+              textShadow: '0 0 28px rgba(94,210,156,0.55)',
+            }}
+            variants={{
+              hidden: { opacity: 0, x: 18 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] } },
+            }}
+          >
+            Code
+          </motion.span>
+        </motion.div>
+
+        {/* Tagline */}
+        <motion.p
+          style={{
+            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontWeight: 600,
+            fontSize: 11,
+            color: 'rgba(255,255,255,0.3)',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            margin: 0,
+          }}
+          initial={{ opacity: 0 }}
+          animate={showText ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          Innovación Digital para Empresas y Agencias
+        </motion.p>
 
         {/* Progress bar */}
         <motion.div
-          className="mt-8 rounded-full overflow-hidden"
-          style={{ width: 120, height: 1.5, background: 'rgba(255,255,255,0.08)' }}
+          style={{
+            width: 100, height: 1.5,
+            background: 'rgba(255,255,255,0.08)',
+            borderRadius: 99,
+            overflow: 'hidden',
+            marginTop: 12,
+          }}
           initial={{ opacity: 0 }}
-          animate={{ opacity: phase !== 'bulb' ? 1 : 0 }}
+          animate={showText ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
           <motion.div
-            style={{ height: '100%', background: '#5ed29c', borderRadius: 9999 }}
+            style={{ height: '100%', background: '#5ed29c', borderRadius: 99 }}
             initial={{ width: '0%' }}
-            animate={{ width: phase === 'exit' ? '100%' : phase === 'full' ? '75%' : '40%' }}
-            transition={{ duration: 0.6, ease: 'easeInOut' }}
+            animate={{
+              width: phase === 'exit' ? '100%' : phase === 'text' ? '65%' : '30%',
+            }}
+            transition={{ duration: 0.7, ease: 'easeInOut' }}
           />
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Split curtain exit */}
-      <SplitCurtain trigger={phase === 'exit'} />
-
-      {/* Final fade of center content before curtain fully opens */}
       <AnimatePresence>
-        {phase === 'exit' && (
-          <motion.div
-            className="absolute inset-0 z-[15] bg-dark"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0 }}
-            exit={{ opacity: 0 }}
-          />
+        {showCurtain && (
+          <>
+            <motion.div
+              key="left"
+              style={{ position: 'absolute', inset: 0, right: '50%', background: '#070b0a', zIndex: 20 }}
+              initial={{ x: 0 }}
+              animate={{ x: '-100%' }}
+              transition={{ duration: 0.85, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
+            />
+            <motion.div
+              key="right"
+              style={{ position: 'absolute', inset: 0, left: '50%', background: '#070b0a', zIndex: 20 }}
+              initial={{ x: 0 }}
+              animate={{ x: '100%' }}
+              transition={{ duration: 0.85, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
+            />
+          </>
         )}
       </AnimatePresence>
     </motion.div>

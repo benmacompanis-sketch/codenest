@@ -1,145 +1,159 @@
-import { useRef, useMemo } from 'react'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import * as THREE from 'three'
+import { useEffect, useRef } from 'react'
 
-function Particles() {
-  const mesh = useRef(null)
-  const mouse = useRef({ x: 0, y: 0 })
-  const { size } = useThree()
-
-  // Generate points on a sphere surface
-  const { positions, originalPositions } = useMemo(() => {
-    const count = 2800
-    const pos = new Float32Array(count * 3)
-    const orig = new Float32Array(count * 3)
-
-    for (let i = 0; i < count; i++) {
-      const phi   = Math.acos(-1 + (2 * i) / count)
-      const theta = Math.sqrt(count * Math.PI) * phi
-      const r = 2.2
-
-      const x = r * Math.sin(phi) * Math.cos(theta)
-      const y = r * Math.sin(phi) * Math.sin(theta)
-      const z = r * Math.cos(phi)
-
-      pos[i * 3]     = x
-      pos[i * 3 + 1] = y
-      pos[i * 3 + 2] = z
-      orig[i * 3]     = x
-      orig[i * 3 + 1] = y
-      orig[i * 3 + 2] = z
-    }
-    return { positions: pos, originalPositions: orig }
-  }, [])
-
-  // Mouse tracking
-  useMemo(() => {
-    const onMove = (e) => {
-      mouse.current.x = (e.clientX / window.innerWidth  - 0.5) * 2
-      mouse.current.y = (e.clientY / window.innerHeight - 0.5) * 2
-    }
-    window.addEventListener('mousemove', onMove)
-    return () => window.removeEventListener('mousemove', onMove)
-  }, [])
-
-  useFrame(({ clock }) => {
-    if (!mesh.current) return
-    const t = clock.getElapsedTime()
-
-    // Slow rotation
-    mesh.current.rotation.y = t * 0.12
-    mesh.current.rotation.x = Math.sin(t * 0.08) * 0.15
-
-    // Mouse influence — tilt
-    mesh.current.rotation.y += mouse.current.x * 0.3
-    mesh.current.rotation.x += mouse.current.y * 0.15
-
-    // Breathe — subtle scale pulse
-    const breathe = 1 + Math.sin(t * 0.6) * 0.015
-    mesh.current.scale.setScalar(breathe)
-
-    // Distort points near mouse
-    const pos = mesh.current.geometry.attributes.position
-    for (let i = 0; i < pos.count; i++) {
-      const ox = originalPositions[i * 3]
-      const oy = originalPositions[i * 3 + 1]
-      const oz = originalPositions[i * 3 + 2]
-
-      // Wave ripple
-      const wave = Math.sin(ox * 1.5 + t * 1.2) * 0.04
-             + Math.cos(oy * 1.5 + t * 0.9) * 0.04
-
-      pos.setXYZ(i, ox + wave, oy + wave, oz + wave)
-    }
-    pos.needsUpdate = true
-  })
-
-  return (
-    <points ref={mesh}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          array={positions}
-          count={positions.length / 3}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.028}
-        color="#5ed29c"
-        transparent
-        opacity={0.75}
-        sizeAttenuation
-      />
-    </points>
-  )
-}
-
-function Ring() {
-  const mesh = useRef(null)
-  useFrame(({ clock }) => {
-    if (!mesh.current) return
-    const t = clock.getElapsedTime()
-    mesh.current.rotation.x = 0.4 + Math.sin(t * 0.3) * 0.08
-    mesh.current.rotation.y = t * 0.08
-    mesh.current.rotation.z = t * 0.04
-  })
-  return (
-    <mesh ref={mesh}>
-      <torusGeometry args={[2.65, 0.008, 4, 180]} />
-      <meshBasicMaterial color="#5ed29c" transparent opacity={0.18} />
-    </mesh>
-  )
-}
-
-function Ring2() {
-  const mesh = useRef(null)
-  useFrame(({ clock }) => {
-    if (!mesh.current) return
-    const t = clock.getElapsedTime()
-    mesh.current.rotation.x = -0.6
-    mesh.current.rotation.y = -t * 0.06
-    mesh.current.rotation.z = t * 0.05
-  })
-  return (
-    <mesh ref={mesh}>
-      <torusGeometry args={[2.9, 0.005, 4, 180]} />
-      <meshBasicMaterial color="#5ed29c" transparent opacity={0.10} />
-    </mesh>
-  )
-}
+const COUNT = 2200
+const RADIUS = 0.38 // fraction of canvas size
 
 export default function ParticleGlobe() {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let raf
+    let mouse = { x: 0, y: 0 }
+    let rotX = 0, rotY = 0
+    let targetX = 0, targetY = 0
+
+    // Build sphere points (fibonacci lattice)
+    const pts = []
+    for (let i = 0; i < COUNT; i++) {
+      const phi   = Math.acos(-1 + (2 * i) / COUNT)
+      const theta = Math.sqrt(COUNT * Math.PI) * phi
+      pts.push({
+        ox: Math.sin(phi) * Math.cos(theta),
+        oy: Math.sin(phi) * Math.sin(theta),
+        oz: Math.cos(phi),
+      })
+    }
+
+    // Ring points
+    const RING1 = [], RING2 = []
+    for (let i = 0; i < 300; i++) {
+      const a = (i / 300) * Math.PI * 2
+      const r1 = 1.22
+      RING1.push({ ox: Math.cos(a) * r1, oy: Math.sin(a) * r1, oz: 0 })
+      const r2 = 1.34
+      RING2.push({ ox: Math.cos(a) * r2, oy: 0, oz: Math.sin(a) * r2 })
+    }
+
+    const onMove = (e) => {
+      const rect = canvas.getBoundingClientRect()
+      mouse.x = ((e.clientX - rect.left) / rect.width  - 0.5) * 2
+      mouse.y = ((e.clientY - rect.top)  / rect.height - 0.5) * 2
+    }
+    window.addEventListener('mousemove', onMove)
+
+    const resize = () => {
+      const size = Math.min(canvas.parentElement.offsetWidth, canvas.parentElement.offsetHeight)
+      canvas.width  = size * devicePixelRatio
+      canvas.height = size * devicePixelRatio
+      canvas.style.width  = size + 'px'
+      canvas.style.height = size + 'px'
+    }
+
+    resize()
+    const ro = new ResizeObserver(resize)
+    ro.observe(canvas.parentElement)
+
+    let t = 0
+
+    const project = (x, y, z, cx, cy, r) => {
+      // Rotate around Y (mouse X)
+      const cosY = Math.cos(rotY), sinY = Math.sin(rotY)
+      let x1 =  x * cosY + z * sinY
+      let z1 = -x * sinY + z * cosY
+
+      // Rotate around X (mouse Y)
+      const cosX = Math.cos(rotX), sinX = Math.sin(rotX)
+      let y1 =  y * cosX - z1 * sinX
+      let z2 =  y * sinX + z1 * cosX
+
+      const fov = 4
+      const scale = fov / (fov + z2)
+      return {
+        sx: cx + x1 * r * scale,
+        sy: cy + y1 * r * scale,
+        z: z2,
+        scale,
+      }
+    }
+
+    const draw = () => {
+      t += 0.008
+
+      // Lerp rotation toward mouse
+      targetY = t * 0.5 + mouse.x * 0.6
+      targetX = mouse.y * 0.3
+      rotY += (targetY - rotY) * 0.04
+      rotX += (targetX - rotX) * 0.04
+
+      const W = canvas.width, H = canvas.height
+      ctx.clearRect(0, 0, W, H)
+
+      const cx = W / 2, cy = H / 2
+      const r  = Math.min(W, H) * RADIUS
+
+      // Collect all points for depth sorting
+      const draw_pts = []
+
+      for (const p of pts) {
+        const wave = Math.sin(p.ox * 4 + t * 1.5) * 0.04
+                   + Math.cos(p.oy * 4 + t * 1.1) * 0.04
+        const nx = p.ox * (1 + wave)
+        const ny = p.oy * (1 + wave)
+        const nz = p.oz * (1 + wave)
+        const { sx, sy, z, scale } = project(nx, ny, nz, cx, cy, r)
+        draw_pts.push({ sx, sy, z, scale, type: 'dot' })
+      }
+
+      for (const p of RING1) {
+        const { sx, sy, z, scale } = project(p.ox, p.oy, p.oz, cx, cy, r)
+        draw_pts.push({ sx, sy, z, scale, type: 'ring1' })
+      }
+      for (const p of RING2) {
+        const { sx, sy, z, scale } = project(p.ox, p.oy, p.oz, cx, cy, r)
+        draw_pts.push({ sx, sy, z, scale, type: 'ring2' })
+      }
+
+      // Sort back-to-front
+      draw_pts.sort((a, b) => a.z - b.z)
+
+      for (const p of draw_pts) {
+        const depth = (p.z + 1.5) / 3 // 0..1, brighter in front
+        const alpha = Math.max(0.05, depth * 0.9)
+
+        if (p.type === 'dot') {
+          const size = Math.max(0.5, p.scale * 2.2)
+          ctx.beginPath()
+          ctx.arc(p.sx, p.sy, size, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(94,210,156,${alpha.toFixed(3)})`
+          ctx.fill()
+        } else {
+          const a = p.type === 'ring1' ? Math.max(0.04, depth * 0.22) : Math.max(0.03, depth * 0.14)
+          ctx.beginPath()
+          ctx.arc(p.sx, p.sy, 1.2, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(94,210,156,${a.toFixed(3)})`
+          ctx.fill()
+        }
+      }
+
+      raf = requestAnimationFrame(draw)
+    }
+
+    raf = requestAnimationFrame(draw)
+
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('mousemove', onMove)
+      ro.disconnect()
+    }
+  }, [])
+
   return (
-    <Canvas
-      camera={{ position: [0, 0, 6], fov: 45 }}
-      style={{ background: 'transparent' }}
-      dpr={[1, 1.5]}
-    >
-      <ambientLight intensity={0.5} />
-      <Particles />
-      <Ring />
-      <Ring2 />
-    </Canvas>
+    <canvas
+      ref={canvasRef}
+      style={{ display: 'block', width: '100%', height: '100%' }}
+    />
   )
 }

@@ -9,18 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.6.1",
-    "@splinetool/react-spline": "^4.1.0",
-    "@splinetool/runtime": "^1.12.97",
     "framer-motion": "^11.3.0",
     "gsap": "^3.15.0",
     "hls.js": "^1.5.7",
     "lenis": "^1.1.9",
     "lucide-react": "^0.414.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "three": "^0.184.0"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",

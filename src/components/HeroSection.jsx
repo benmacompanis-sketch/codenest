@@ -271,7 +271,15 @@ export default function HeroSection() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @media (max-width: 768px) {
-          .hero-globe { display: none !important; }
+          .hero-globe {
+            top: auto !important;
+            bottom: 60px !important;
+            right: 50% !important;
+            transform: translateX(50%) !important;
+            width: 280px !important;
+            height: 280px !important;
+            opacity: 0.6;
+          }
           .hero-content { max-width: 100% !important; }
         }
       `}</style>

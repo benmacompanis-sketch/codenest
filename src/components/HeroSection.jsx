@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState, Suspense, lazy } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Hls from 'hls.js'
 import MagneticButton from './MagneticButton'
 import { useTextScramble } from '../hooks/useTextScramble'
 
-const Spline = lazy(() => import('@splinetool/react-spline'))
-const SPLINE = 'https://prod.spline.design/t631dlt8Qs4yEgfB/scene.splinecode'
+const ParticleGlobe = lazy(() => import('./ParticleGlobe'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -131,21 +130,16 @@ export default function HeroSection() {
         backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
       }} />
 
-      {/* Spline 3D sphere — parallax */}
+      {/* Particle Globe */}
       <div ref={floatRef} style={{
-        position: 'absolute', top: '50%', right: '-2%',
+        position: 'absolute', top: '50%', right: '-4%',
         transform: 'translateY(-50%)',
-        width: 'clamp(300px, 42vw, 620px)',
-        height: 'clamp(300px, 42vw, 620px)',
+        width: 'clamp(320px, 44vw, 640px)',
+        height: 'clamp(320px, 44vw, 640px)',
         zIndex: 2,
       }}>
-        <Suspense fallback={
-          <div style={{
-            width:'100%', height:'100%', borderRadius:'50%',
-            background:'radial-gradient(circle at 40% 35%, rgba(94,210,156,0.08) 0%, transparent 65%)',
-          }} />
-        }>
-          <Spline scene={SPLINE} style={{ width:'100%', height:'100%' }} />
+        <Suspense fallback={null}>
+          <ParticleGlobe />
         </Suspense>
       </div>
 

@@ -28,9 +28,9 @@ export default function IntroScreen({ onComplete }) {
 
       tl.fromTo(cursorRef.current,
         { x: isTouch ? 50 : 80, y: isTouch ? 100 : 120, opacity: 0 },
-        { x: 15, y: 25, opacity: 1, duration: 1.2, ease: 'power3.out', delay: 0.4 }
+        { x: -8, y: -2, opacity: 1, duration: 1.2, ease: 'power3.out', delay: 0.4 }
       )
-      .to(cursorRef.current, { scale: 0.9, y: 30, duration: 0.1 })
+      .to(cursorRef.current, { scale: 0.9, y: 4, duration: 0.1 })
       .to(buttonRef.current, { y: 4, duration: 0.1 }, '<')
       .to(buttonInnerRef.current, { attr: { fill: '#111111' }, duration: 0.1 }, '<')
       .to(glowRef.current, { opacity: 0.5, scale: 0.3, duration: 0.05, delay: 0.1 })
@@ -121,9 +121,9 @@ export default function IntroScreen({ onComplete }) {
           }}>I.D.E.A</span>
           <span style={{
             fontFamily: 'Inter,sans-serif', fontWeight: 900,
-            fontSize: 'clamp(40px,8vw,80px)', color: '#5ed29c',
+            fontSize: 'clamp(40px,8vw,80px)', color: '#ffffff',
             letterSpacing: '-0.03em', lineHeight: 1,
-            textShadow: '0 0 60px rgba(94,210,156,0.7)',
+            textShadow: '0 0 40px rgba(255,255,255,0.5)',
           }}>Code</span>
         </div>
         <p style={{

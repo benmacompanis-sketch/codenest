@@ -11,6 +11,7 @@ import CTASection from './components/CTASection'
 import ScrollProgress from './components/ScrollProgress'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import IntroScreen from './components/IntroScreen'
+import Footer from './components/Footer'
 
 export default function App() {
   const [introComplete, setIntroComplete] = useState(false)
@@ -35,6 +36,7 @@ export default function App() {
             <AboutSection />
             <CTASection />
           </main>
+          <Footer />
           <FloatingWhatsApp />
         </div>
       </LenisProvider>

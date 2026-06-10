@@ -14,7 +14,7 @@ const STATS = [
 const QA = [
   {
     q: '¿Quiénes son?',
-    a: 'Somos Abraham y Pipa, dos socios argentinos apasionados del desarrollo web y la tecnología. Nos juntamos para armar I.D.E.A Code con una misión clara: que cualquier negocio pueda tener una presencia digital profesional sin pagar una fortuna.',
+    a: 'Somos Benicio Nasello Bruno y Andrés Mayo, dos estudiantes de ORT apasionados por el desarrollo web y la tecnología. Armamos I.D.E.A Code con una misión clara: que cualquier negocio pueda tener una presencia digital profesional sin pagar una fortuna.',
   },
   {
     q: '¿Qué significa I.D.E.A?',
@@ -27,6 +27,10 @@ const QA = [
   {
     q: '¿Dónde están?',
     a: 'Somos 100% remotos y trabajamos desde Argentina para todo el país. Nos manejamos por WhatsApp, video llamada o donde te sea más cómodo.',
+  },
+  {
+    q: '¿Cuánto cuesta?',
+    a: 'Cada proyecto es distinto, por eso los precios se hablan por privado. Escribinos por WhatsApp y te damos un presupuesto sin compromiso en menos de 24 horas.',
   },
 ]
 
@@ -161,7 +165,7 @@ export default function AboutSection() {
               fontFamily:'Inter,sans-serif', fontSize:15,
               color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:'0 0 20px',
             }}>
-              Dos socios argentinos que creen que cada negocio merece una presencia digital profesional y efectiva — sin importar el tamaño.
+              Dos estudiantes de ORT que creen que cada negocio merece una presencia digital profesional y efectiva — sin importar el tamaño.
             </p>
             <p style={{
               fontFamily:'Inter,sans-serif', fontSize:15,

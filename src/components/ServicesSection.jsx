@@ -117,6 +117,39 @@ export default function ServicesSection() {
           ))}
           <div style={{ borderTop:'1px solid rgba(240,237,230,0.06)' }} />
         </div>
+
+        {/* Custom service note */}
+        <div style={{
+          marginTop: 48,
+          padding: '28px 32px',
+          borderRadius: 16,
+          border: '1px solid rgba(94,210,156,0.15)',
+          background: 'rgba(94,210,156,0.04)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          flexWrap: 'wrap', gap: 16,
+        }}>
+          <div>
+            <p style={{ fontFamily:'Inter,sans-serif', fontWeight:700, fontSize:16, color:'#f0ede6', margin:'0 0 6px' }}>
+              ¿No encontrás lo que buscás?
+            </p>
+            <p style={{ fontFamily:'Inter,sans-serif', fontSize:14, color:'rgba(240,237,230,0.4)', margin:0 }}>
+              Contanos tu idea y vemos si podemos hacerlo. Los precios siempre se hablan por privado.
+            </p>
+          </div>
+          <a
+            href={`https://wa.me/541134076364?text=${encodeURIComponent('Hola! Tengo una idea que no está en el listado, ¿podemos hablar?')}`}
+            target="_blank" rel="noopener noreferrer"
+            style={{
+              fontFamily:'Inter,sans-serif', fontWeight:700, fontSize:13,
+              background:'#5ed29c', color:'#080808',
+              padding:'12px 24px', borderRadius:999, textDecoration:'none',
+              letterSpacing:'0.04em', flexShrink:0, whiteSpace:'nowrap',
+            }}
+          >
+            Hablemos →
+          </a>
+        </div>
+
       </div>
     </section>
   )

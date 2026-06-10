@@ -153,7 +153,11 @@ export default function HeroSection() {
       }}>
         {/* Logo + label */}
         <div className="hero-label" style={{ marginBottom: 36 }}>
-          <Logo size={22} style={{ marginBottom: 18, display: 'flex' }} />
+          <img
+            src="/codenest/logo.png"
+            alt="I.D.E.A Code"
+            style={{ height: 36, width: 'auto', marginBottom: 20, imageRendering: 'auto' }}
+          />
           <div style={{ display:'flex', alignItems:'center', gap:12 }}>
             <span style={{ width:32, height:1, background:'#5ed29c', opacity:0.7 }} />
             <span style={{

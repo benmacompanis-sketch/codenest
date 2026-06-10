@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, Suspense, lazy } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Hls from 'hls.js'
 import MagneticButton from './MagneticButton'
 import { useTextScramble } from '../hooks/useTextScramble'
+
+const Spline = lazy(() => import('@splinetool/react-spline'))
+const SPLINE_URL = 'https://prod.spline.design/61c82204-dd46-443c-89a8-9ece4bf91a57/scene.splinecode'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -128,37 +131,21 @@ export default function HeroSection() {
         backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
       }} />
 
-      {/* Floating decorative element — parallax */}
+      {/* Spline 3D — parallax */}
       <div ref={floatRef} style={{
-        position: 'absolute', top: '12%', right: '8%', zIndex: 2,
+        position: 'absolute', top: '50%', right: '-5%',
+        transform: 'translateY(-50%)',
+        width: 'clamp(320px, 45vw, 680px)',
+        height: 'clamp(320px, 45vw, 680px)',
+        zIndex: 2,
         pointerEvents: 'none',
       }}>
-        <div style={{
-          width: 'clamp(180px, 20vw, 300px)',
-          height: 'clamp(180px, 20vw, 300px)',
-          borderRadius: '50%',
-          border: '1px solid rgba(94,210,156,0.15)',
-          position: 'relative',
-          animation: 'spin 20s linear infinite',
-        }}>
-          <div style={{
-            position: 'absolute', inset: 20,
-            borderRadius: '50%',
-            border: '1px solid rgba(94,210,156,0.08)',
-          }} />
-          <div style={{
-            position: 'absolute', inset: 40,
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(94,210,156,0.08) 0%, transparent 70%)',
-          }} />
-          {/* Orbit dot */}
-          <div style={{
-            position:'absolute', top: -4, left:'50%', marginLeft:-4,
-            width: 8, height: 8, borderRadius:'50%',
-            background: '#5ed29c',
-            boxShadow: '0 0 12px rgba(94,210,156,0.8)',
-          }} />
-        </div>
+        <Suspense fallback={null}>
+          <Spline
+            scene={SPLINE_URL}
+            style={{ width: '100%', height: '100%' }}
+          />
+        </Suspense>
       </div>
 
       {/* Main content */}

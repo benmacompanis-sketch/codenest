@@ -133,7 +133,7 @@ export default function HeroSection() {
 
       {/* Particle Globe */}
       <div ref={floatRef} style={{
-        position: 'absolute', top: '50%', right: '-4%',
+        position: 'absolute', top: '50%', right: '2%',
         transform: 'translateY(-50%)',
         width: 'clamp(320px, 44vw, 640px)',
         height: 'clamp(320px, 44vw, 640px)',

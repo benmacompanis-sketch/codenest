@@ -25,7 +25,7 @@ const PROJECTS = [
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/Veterinaria/',
     img: '/codenest/portfolio/veterinaria.png',
-    imgPos: '65% center',
+    imgPos: 'center center',
     tag: 'Clínica · Caballito',
   },
   {
@@ -81,8 +81,8 @@ function ProjectCard({ project, index }) {
         aspectRatio: '4/3', position: 'relative',
         transform: hovered ? 'scale(1.02)' : 'scale(1)',
         transition: 'transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s',
-        boxShadow: hovered ? `0 30px 80px ${project.accent}25` : '0 0 0 rgba(0,0,0,0)',
-        border: `1px solid ${hovered ? project.accent + '30' : 'rgba(240,237,230,0.06)'}`,
+        boxShadow: hovered ? `0 30px 80px rgba(94,210,156,0.2)` : '0 0 0 rgba(0,0,0,0)',
+        border: `1px solid ${hovered ? 'rgba(94,210,156,0.5)' : 'rgba(240,237,230,0.12)'}`,
       }}
     >
       {/* Screenshot via thum.io */}

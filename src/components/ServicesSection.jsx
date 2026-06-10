@@ -1,173 +1,184 @@
-import { motion } from 'framer-motion'
-import { Globe, QrCode, ShoppingBag, Zap, Palette, BookOpen, ArrowUpRight } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Calendar, ShoppingBag, UtensilsCrossed, Home, FileText, GraduationCap, Stethoscope, Zap } from 'lucide-react'
 
-const wa = (msg) => `https://wa.me/541134076364?text=${encodeURIComponent(msg)}`
+gsap.registerPlugin(ScrollTrigger)
 
 const SERVICES = [
-  {
-    icon: Globe,
-    title: 'Páginas Web',
-    subtitle: 'Profesionales',
-    description: 'Presencia digital elegante y funcional para cualquier tipo de negocio. Diseñadas para impresionar y convertir.',
-    cta: 'Quiero mi web',
-    msg: 'Hola! Me interesa una página web profesional. ¿Podemos hablar?',
-  },
-  {
-    icon: QrCode,
-    title: 'Menú Digital',
-    subtitle: 'con Código QR',
-    description: 'Modernizá tu restaurante o café con un menú digital moderno accesible desde cualquier celular con un escaneo.',
-    cta: 'Quiero mi menú',
-    msg: 'Hola! Me interesa un menú digital QR. ¿Podemos hablar?',
-  },
-  {
-    icon: ShoppingBag,
-    title: 'Tienda Online',
-    subtitle: 'E-Commerce',
-    description: 'Vendé tus productos las 24 horas del día con carrito de compras, pagos integrados y gestión de inventario.',
-    cta: 'Quiero mi tienda',
-    msg: 'Hola! Me interesa crear una tienda online. ¿Podemos hablar?',
-  },
-  {
-    icon: Zap,
-    title: 'Landing Page',
-    subtitle: 'Alta Conversión',
-    description: 'Sitios de una página diseñados con un objetivo claro: convertir visitas en clientes y leads reales.',
-    cta: 'Quiero mi landing',
-    msg: 'Hola! Me interesa una landing page de alta conversión. ¿Podemos hablar?',
-  },
-  {
-    icon: Palette,
-    title: 'Identidad Visual',
-    subtitle: 'Branding Digital',
-    description: 'Diseño de marca digital que transmite la personalidad, valores y profesionalismo de tu negocio.',
-    cta: 'Quiero mi marca',
-    msg: 'Hola! Me interesa identidad visual digital y branding. ¿Podemos hablar?',
-  },
-  {
-    icon: BookOpen,
-    title: 'Blog Personal',
-    subtitle: 'Tu Voz Digital',
-    description: 'Espacios digitales cuidadosamente diseñados para compartir ideas y construir autoridad en tu área.',
-    cta: 'Quiero mi blog',
-    msg: 'Hola! Me interesa crear un blog personal. ¿Podemos hablar?',
-  },
+  { num:'01', icon: Calendar,        title:'Sistema de Reservas / Turnos',  desc:'Para barberías, médicos, veterinarias, salones, estudios de yoga. Calendario online, formulario de turno y panel de administración.' },
+  { num:'02', icon: ShoppingBag,     title:'Tienda / Catálogo Online',       desc:'E-commerce completo con carrito, filtros, panel de admin y checkout. Ideal para ropa, accesorios, alimentos y cualquier producto físico.' },
+  { num:'03', icon: UtensilsCrossed, title:'Menú Digital + Pedidos',         desc:'Menú por categorías con fotos, sistema de pedidos por mesa o para llevar, y panel de cocina en tiempo real.' },
+  { num:'04', icon: Home,            title:'Catálogo Inmobiliario',          desc:'Listado de propiedades con filtros, galería de fotos y formulario de consulta. Para inmobiliarias y desarrolladoras.' },
+  { num:'05', icon: FileText,        title:'Servicios + Presupuesto Online', desc:'Presentación de servicios con formulario de presupuesto. Para contadores, abogados, diseñadores y técnicos independientes.' },
+  { num:'06', icon: GraduationCap,   title:'Cursos / Membresías',            desc:'Listado de cursos o planes, área de miembros y pasarela de pago. Para academias, profesores y coaches.' },
+  { num:'07', icon: Stethoscope,     title:'Ficha de Pacientes / Clientes',  desc:'Registro con historial, próximas citas y notas por visita. Para veterinarias, médicos, psicólogos y odontólogos.' },
+  { num:'08', icon: Zap,             title:'Automatizaciones Personalizadas', desc:'Flujos automáticos para tu negocio: notificaciones, recordatorios, integración con WhatsApp, emails automáticos y conexión entre herramientas. Ahorrás tiempo y no perdés ningún cliente.' },
 ]
 
-const ease = [0.25, 0.1, 0.25, 1]
+function ServiceRow({ num, icon: Icon, title, desc, index }) {
+  const [open, setOpen] = useState(false)
+  const descRef = useRef(null)
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
-}
+  useEffect(() => {
+    if (!descRef.current) return
+    if (open) {
+      gsap.fromTo(descRef.current,
+        { height: 0, opacity: 0 },
+        { height: 'auto', opacity: 1, duration: 0.4, ease: 'power3.out' }
+      )
+    } else {
+      gsap.to(descRef.current, { height: 0, opacity: 0, duration: 0.3, ease: 'power3.in' })
+    }
+  }, [open])
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 44 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
-}
-
-function ServiceCard({ service }) {
-  const Icon = service.icon
   return (
-    <motion.div
-      variants={cardVariants}
-      whileHover={{ y: -5, transition: { duration: 0.3, ease: 'easeOut' } }}
-      className="card-surface rounded-2xl p-7 flex flex-col gap-5 cursor-default group"
+    <div
+      className="srv-row"
+      onClick={() => setOpen(o => !o)}
+      style={{
+        borderTop: '1px solid rgba(240,237,230,0.06)',
+        padding: '0',
+        cursor: 'pointer',
+        background: open ? 'rgba(94,210,156,0.03)' : 'transparent',
+        transition: 'background 0.3s',
+      }}
     >
-      {/* Icon */}
-      <div className="w-11 h-11 rounded-xl bg-brand/10 border border-brand/15 flex items-center justify-center transition-all duration-300 group-hover:bg-brand/18 group-hover:border-brand/30">
-        <Icon size={20} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={1.8} />
-      </div>
-
-      {/* Text */}
-      <div className="flex-1">
-        <p className="font-inter font-extrabold text-white text-[18px] leading-tight mb-0.5">{service.title}</p>
-        <p className="font-jakarta font-bold text-brand/70 text-[11px] uppercase tracking-widest mb-3">{service.subtitle}</p>
-        <p className="font-inter text-white/50 text-[14px] leading-relaxed">{service.description}</p>
-      </div>
-
-      {/* CTA */}
-      <motion.a
-        href={wa(service.msg)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-1.5 font-inter font-semibold text-[13px] text-white/40 hover:text-brand transition-colors duration-200 group/link w-fit"
-        whileHover={{ x: 3 }}
-        transition={{ duration: 0.2 }}
-        onClick={(e) => e.stopPropagation()}
+      <div style={{ display:'flex', alignItems:'center', gap:24, padding:'24px 16px 24px 0' }}
+        onMouseEnter={e => { if(!open) e.currentTarget.parentElement.style.background='rgba(94,210,156,0.02)' }}
+        onMouseLeave={e => { if(!open) e.currentTarget.parentElement.style.background='transparent' }}
       >
-        {service.cta}
-        <ArrowUpRight size={14} className="transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-      </motion.a>
-    </motion.div>
+        <span className="srv-num" style={{
+          fontFamily:'Inter,sans-serif', fontWeight:900, fontSize:12,
+          color: open ? '#5ed29c' : 'rgba(240,237,230,0.15)',
+          letterSpacing:'0.1em', minWidth:32,
+          transition:'color 0.2s',
+        }}>{num}</span>
+
+        <div style={{
+          width:38, height:38, borderRadius:10, flexShrink:0,
+          background: open ? 'rgba(94,210,156,0.15)' : 'rgba(94,210,156,0.08)',
+          display:'flex', alignItems:'center', justifyContent:'center',
+          transition:'background 0.3s',
+        }}>
+          <Icon size={17} color="#5ed29c" />
+        </div>
+
+        <span style={{
+          fontFamily:'Inter,sans-serif', fontWeight:700,
+          fontSize:'clamp(15px,2vw,21px)',
+          color: open ? '#f0ede6' : '#c8c4bd',
+          flex:1, letterSpacing:'-0.01em',
+          transition:'color 0.2s',
+        }}>{title}</span>
+
+        <span style={{
+          fontFamily:'Inter,sans-serif', fontSize:18,
+          color:'rgba(94,210,156,0.5)', marginLeft:'auto', flexShrink:0,
+          transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
+          transition:'transform 0.3s',
+          display:'inline-block', lineHeight:1,
+        }}>+</span>
+      </div>
+
+      {/* Expandable description */}
+      <div ref={descRef} style={{ height:0, overflow:'hidden', opacity:0 }}>
+        <p style={{
+          fontFamily:'Inter,sans-serif', fontSize:14,
+          color:'rgba(240,237,230,0.5)', lineHeight:1.75,
+          margin:'0 0 20px', paddingLeft:86,
+        }}>{desc}</p>
+      </div>
+    </div>
   )
 }
 
 export default function ServicesSection() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.srv-title', {
+        scrollTrigger: { trigger: '.srv-title', start: 'top 85%' },
+        y: 80, opacity: 0, duration: 1, ease: 'power4.out',
+      })
+      gsap.utils.toArray('.srv-row').forEach((row) => {
+        gsap.from(row, {
+          scrollTrigger: { trigger: row, start: 'top 90%' },
+          x: -40, opacity: 0, duration: 0.6, ease: 'power3.out',
+        })
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="servicios" className="relative py-28 md:py-36 overflow-hidden">
-      {/* Subtle dots bg */}
-      <div className="absolute inset-0 bg-dots opacity-100 pointer-events-none" aria-hidden="true" />
-      {/* Top fade */}
-      <div className="absolute top-0 left-0 right-0 h-24 pointer-events-none" style={{ background: 'linear-gradient(to bottom, #070b0a, transparent)' }} />
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none" style={{ background: 'linear-gradient(to top, #070b0a, transparent)' }} />
+    <section ref={sectionRef} id="servicios" style={{
+      background: '#080808',
+      padding: 'clamp(80px,10vw,140px) clamp(24px,5vw,80px)',
+      borderTop: '1px solid rgba(240,237,230,0.05)',
+    }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <motion.div
-          className="mb-16 md:mb-20 max-w-xl"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.7, ease }}
-        >
-          <p className="section-label mb-4">Lo que hacemos</p>
-          <h2 className="section-heading mb-5">
-            Soluciones Digitales<br />
-            para tu <span className="gradient-text">Negocio</span>
-          </h2>
-          <p className="font-inter text-white/50 text-[15px] leading-relaxed">
-            Cada servicio está diseñado para que tu negocio destaque en internet y convierta más clientes.
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:72, flexWrap:'wrap', gap:20 }}>
+          <div>
+            <p style={{
+              fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
+              color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:16,
+            }}>Servicios</p>
+            <h2 className="srv-title" style={{
+              fontFamily:'Inter,sans-serif', fontWeight:900,
+              fontSize:'clamp(36px,5vw,64px)', color:'#f0ede6',
+              lineHeight:1.05, margin:0, letterSpacing:'-0.02em',
+            }}>
+              Todo lo que necesitás<br /><span style={{ color:'#5ed29c' }}>online.</span>
+            </h2>
+          </div>
+          <p style={{
+            fontFamily:'Inter,sans-serif', fontSize:14,
+            color:'rgba(240,237,230,0.35)', maxWidth:280, lineHeight:1.7, margin:0,
+          }}>
+            Hacé click en cualquier servicio para saber más.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Cards grid */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-40px' }}
-        >
-          {SERVICES.map((service) => (
-            <ServiceCard key={service.title} service={service} />
-          ))}
-        </motion.div>
+        <div>
+          {SERVICES.map((s, i) => <ServiceRow key={i} {...s} index={i} />)}
+          <div style={{ borderTop:'1px solid rgba(240,237,230,0.06)' }} />
+        </div>
 
-        {/* Bottom CTA */}
-        <motion.div
-          className="mt-14 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3, ease }}
-        >
-          <p className="font-inter text-white/35 text-[14px] mb-5">
-            ¿No encontrás lo que buscás? Hablemos de tu proyecto.
-          </p>
-          <motion.a
-            href={`https://wa.me/541134076364?text=${encodeURIComponent('Hola! Tengo un proyecto digital y quiero saber si pueden ayudarme. ¿Podemos hablar?')}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-inter font-semibold text-[13px] text-brand border border-brand/30 px-6 py-3 rounded-full hover:bg-brand/10 transition-all duration-200"
-            whileHover={{ scale: 1.04, borderColor: 'rgba(94,210,156,0.6)' }}
-            whileTap={{ scale: 0.97 }}
+        {/* Custom service note */}
+        <div style={{
+          marginTop: 48,
+          padding: '28px 32px',
+          borderRadius: 16,
+          border: '1px solid rgba(94,210,156,0.15)',
+          background: 'rgba(94,210,156,0.04)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          flexWrap: 'wrap', gap: 16,
+        }}>
+          <div>
+            <p style={{ fontFamily:'Inter,sans-serif', fontWeight:700, fontSize:16, color:'#f0ede6', margin:'0 0 6px' }}>
+              ¿No encontrás lo que buscás?
+            </p>
+            <p style={{ fontFamily:'Inter,sans-serif', fontSize:14, color:'rgba(240,237,230,0.4)', margin:0 }}>
+              Contanos tu idea y vemos si podemos hacerlo. Los precios siempre se hablan por privado.
+            </p>
+          </div>
+          <a
+            href={`https://wa.me/541134076364?text=${encodeURIComponent('Hola! Tengo una idea que no está en el listado, ¿podemos hablar?')}`}
+            target="_blank" rel="noopener noreferrer"
+            style={{
+              fontFamily:'Inter,sans-serif', fontWeight:700, fontSize:13,
+              background:'#5ed29c', color:'#080808',
+              padding:'12px 24px', borderRadius:999, textDecoration:'none',
+              letterSpacing:'0.04em', flexShrink:0, whiteSpace:'nowrap',
+            }}
           >
-            Consultar proyecto a medida
-            <ArrowUpRight size={14} />
-          </motion.a>
-        </motion.div>
+            Hablemos →
+          </a>
+        </div>
+
       </div>
     </section>
   )

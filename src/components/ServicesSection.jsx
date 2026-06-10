@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Calendar, ShoppingBag, UtensilsCrossed, Home, FileText, GraduationCap, Stethoscope } from 'lucide-react'
+import { Calendar, ShoppingBag, UtensilsCrossed, Home, FileText, GraduationCap, Stethoscope, Zap } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -13,6 +13,7 @@ const SERVICES = [
   { num:'05', icon: FileText,        title:'Servicios + Presupuesto Online', desc:'Presentación de servicios con formulario de presupuesto. Para contadores, abogados, diseñadores y técnicos independientes.' },
   { num:'06', icon: GraduationCap,   title:'Cursos / Membresías',            desc:'Listado de cursos o planes, área de miembros y pasarela de pago. Para academias, profesores y coaches.' },
   { num:'07', icon: Stethoscope,     title:'Ficha de Pacientes / Clientes',  desc:'Registro con historial, próximas citas y notas por visita. Para veterinarias, médicos, psicólogos y odontólogos.' },
+  { num:'08', icon: Zap,             title:'Automatizaciones Personalizadas', desc:'Flujos automáticos para tu negocio: notificaciones, recordatorios, integración con WhatsApp, emails automáticos y conexión entre herramientas. Ahorrás tiempo y no perdés ningún cliente.' },
 ]
 
 function ServiceRow({ num, icon: Icon, title, desc, index }) {

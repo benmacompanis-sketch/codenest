@@ -1,168 +1,288 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Hls from 'hls.js'
-import { ArrowRight } from 'lucide-react'
+import MagneticButton from './MagneticButton'
+import { useTextScramble } from '../hooks/useTextScramble'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const HLS_SRC = 'https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8'
-const WA = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
+const HLS   = 'https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8'
+const WA    = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
+const LINES = ['Diseño web que', 'convierte visitas', 'en clientes.']
 
 const TICKER = [
-  'Páginas Web','Tiendas Online','Menú QR','Landing Pages','Branding Digital','E-commerce',
-  'Páginas Web','Tiendas Online','Menú QR','Landing Pages','Branding Digital','E-commerce',
+  'Páginas Web','E-commerce','Menú QR','Landing Pages','Branding Digital',
+  'Páginas Web','E-commerce','Menú QR','Landing Pages','Branding Digital',
 ]
 
-export default function HeroSection() {
-  const sectionRef   = useRef(null)
-  const videoWrapRef = useRef(null)
-  const overlayRef   = useRef(null)
-  const contentRef   = useRef(null)
-  const videoRef     = useRef(null)
-  const whiteRef     = useRef(null)
-
+function VideoBackground({ videoRef }) {
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
+    const v = videoRef.current
+    if (!v) return
     let hls
     if (Hls.isSupported()) {
       hls = new Hls({ enableWorker: false })
-      hls.loadSource(HLS_SRC)
-      hls.attachMedia(video)
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = HLS_SRC
+      hls.loadSource(HLS)
+      hls.attachMedia(v)
+    } else if (v.canPlayType('application/vnd.apple.mpegurl')) {
+      v.src = HLS
     }
     return () => hls?.destroy()
   }, [])
 
+  return (
+    <div style={{ position: 'absolute', inset: 0 }}>
+      <video ref={videoRef}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4 }}
+        autoPlay muted loop playsInline crossOrigin="anonymous" />
+      {/* Vignette */}
+      <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse at center, transparent 30%, #080808 100%)' }} />
+      {/* Bottom gradient */}
+      <div style={{ position:'absolute', inset:0, background:'linear-gradient(to top, #080808 0%, transparent 50%)' }} />
+    </div>
+  )
+}
+
+export default function HeroSection() {
+  const sectionRef  = useRef(null)
+  const videoRef    = useRef(null)
+  const floatRef    = useRef(null)
+  const mousePos    = useRef({ x: 0, y: 0 })
+  const [ready, setReady] = useState(false)
+
+  const { display: line1 } = useTextScramble(LINES[0], ready, 1100)
+  const { display: line2 } = useTextScramble(LINES[1], ready, 1300)
+  const { display: line3 } = useTextScramble('em clientes.', ready, 1500)
+
+  // Trigger scramble after mount
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), 400)
+    return () => clearTimeout(t)
+  }, [])
+
+  // Mouse parallax
+  useEffect(() => {
+    const onMove = (e) => {
+      mousePos.current = {
+        x: (e.clientX / window.innerWidth  - 0.5) * 2,
+        y: (e.clientY / window.innerHeight - 0.5) * 2,
+      }
+    }
+    window.addEventListener('mousemove', onMove)
+
+    let raf
+    const tick = () => {
+      if (floatRef.current) {
+        gsap.to(floatRef.current, {
+          x: mousePos.current.x * 30,
+          y: mousePos.current.y * 20,
+          duration: 1.2,
+          ease: 'power2.out',
+        })
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf) }
+  }, [])
+
+  // Entrance animations
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.hero-word', {
-        y: '110%', duration: 1, stagger: 0.08, ease: 'power4.out', delay: 0.3,
-      })
-      gsap.from(['.hero-sub', '.hero-cta'], {
-        opacity: 0, y: 24, duration: 0.8, stagger: 0.15, delay: 1.0, ease: 'power3.out',
-      })
+      gsap.from('.hero-label', { opacity: 0, y: 20, duration: 0.7, delay: 0.3, ease: 'power3.out' })
+      gsap.from('.hero-line',  { opacity: 0, y: 60, duration: 0.9, stagger: 0.12, delay: 0.5, ease: 'power4.out' })
+      gsap.from('.hero-sub',   { opacity: 0, y: 20, duration: 0.7, delay: 1.1, ease: 'power3.out' })
+      gsap.from('.hero-cta',   { opacity: 0, y: 20, duration: 0.7, delay: 1.3, ease: 'power3.out' })
+      gsap.from(floatRef.current, { opacity: 0, scale: 0.8, duration: 1, delay: 0.8, ease: 'power3.out' })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
 
-      const tl = gsap.timeline({
+  // Scroll pin + zoom out
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=90%',
+          end: '+=80%',
           pin: true,
-          scrub: 1.5,
+          scrub: 1.2,
         }
       })
-      tl.to(contentRef.current,  { y: -120, opacity: 0, scale: 0.94 })
-        .to(videoWrapRef.current, { scale: 1.12 }, '<')
-        .to(overlayRef.current,   { opacity: 0.9 }, '<0.2')
-        .to(whiteRef.current,     { scaleY: 1, ease: 'power4.inOut' }, '-=0.15')
+      .to('.hero-content', { y: -100, opacity: 0, scale: 0.97 })
+      .to(videoRef.current, { scale: 1.1, opacity: 0.15 }, '<')
     }, sectionRef)
     return () => ctx.revert()
   }, [])
 
   return (
-    <section ref={sectionRef} id="inicio"
-      style={{ height: '100vh', position: 'relative', overflow: 'hidden', background: '#0a0a0a' }}>
+    <section ref={sectionRef} id="inicio" style={{
+      height: '100vh', position: 'relative', overflow: 'hidden', background: '#080808',
+    }}>
+      <VideoBackground videoRef={videoRef} />
 
-      <div ref={videoWrapRef} style={{ position: 'absolute', inset: 0, transformOrigin: 'center' }}>
-        <video ref={videoRef}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.55 }}
-          autoPlay muted loop playsInline crossOrigin="anonymous" aria-hidden="true" />
-      </div>
-
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0a0a0a 0%, transparent 55%)' }} />
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #0a0a0a 0%, transparent 65%)' }} />
-      <div ref={overlayRef} style={{ position: 'absolute', inset: 0, background: '#0a0a0a', opacity: 0.25 }} />
-
-      <div ref={whiteRef} style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: '100%',
-        background: '#f8f6f1', transform: 'scaleY(0)', transformOrigin: 'bottom', zIndex: 5,
+      {/* Noise grain */}
+      <div style={{ position:'absolute', inset:0, opacity:0.03, zIndex:1, pointerEvents:'none',
+        backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
       }} />
 
-      <div ref={contentRef} style={{
-        position: 'absolute', inset: 0, zIndex: 4,
-        display: 'flex', flexDirection: 'column', justifyContent: 'center',
-        padding: 'clamp(24px, 5vw, 80px)', maxWidth: 920,
+      {/* Floating decorative element — parallax */}
+      <div ref={floatRef} style={{
+        position: 'absolute', top: '12%', right: '8%', zIndex: 2,
+        pointerEvents: 'none',
       }}>
-        <p style={{
-          fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 700,
-          fontSize: 11, color: '#5ed29c',
-          letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 28,
+        <div style={{
+          width: 'clamp(180px, 20vw, 300px)',
+          height: 'clamp(180px, 20vw, 300px)',
+          borderRadius: '50%',
+          border: '1px solid rgba(94,210,156,0.15)',
+          position: 'relative',
+          animation: 'spin 20s linear infinite',
         }}>
-          Agencia de Diseño Web · Argentina
-        </p>
+          <div style={{
+            position: 'absolute', inset: 20,
+            borderRadius: '50%',
+            border: '1px solid rgba(94,210,156,0.08)',
+          }} />
+          <div style={{
+            position: 'absolute', inset: 40,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(94,210,156,0.08) 0%, transparent 70%)',
+          }} />
+          {/* Orbit dot */}
+          <div style={{
+            position:'absolute', top: -4, left:'50%', marginLeft:-4,
+            width: 8, height: 8, borderRadius:'50%',
+            background: '#5ed29c',
+            boxShadow: '0 0 12px rgba(94,210,156,0.8)',
+          }} />
+        </div>
+      </div>
 
-        <h1 style={{ margin: 0, lineHeight: 1.0 }}>
-          {[['Diseño', 'web'], ['que', 'convierte'], ['visitas', 'en'], ['clientes.']].map((line, li) => (
-            <div key={li} style={{ overflow: 'hidden' }}>
-              {line.map((word, wi) => (
-                <span key={wi} className="hero-word" style={{
-                  display: 'inline-block',
-                  fontFamily: 'Inter, sans-serif', fontWeight: 900,
-                  fontSize: 'clamp(44px, 7.5vw, 96px)',
-                  color: (li === 3) ? '#5ed29c' : '#ffffff',
-                  textShadow: (li === 3) ? '0 0 60px rgba(94,210,156,0.4)' : 'none',
-                  marginRight: '0.22em',
-                }}>
-                  {word}
-                </span>
-              ))}
+      {/* Main content */}
+      <div className="hero-content" style={{
+        position: 'absolute', inset: 0, zIndex: 3,
+        display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        padding: 'clamp(20px, 5vw, 80px)',
+        maxWidth: 1000,
+      }}>
+        {/* Label */}
+        <div className="hero-label" style={{ display:'flex', alignItems:'center', gap:12, marginBottom:32 }}>
+          <span style={{ width:32, height:1, background:'#5ed29c', opacity:0.7 }} />
+          <span style={{
+            fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
+            color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase',
+          }}>Agencia de Diseño Web · Argentina</span>
+        </div>
+
+        {/* Headline */}
+        <h1 style={{ margin:0, lineHeight:0.95 }}>
+          {[line1, line2].map((line, i) => (
+            <div key={i} className="hero-line" style={{ overflow:'hidden' }}>
+              <span style={{
+                display:'block',
+                fontFamily:'Inter,sans-serif', fontWeight:900,
+                fontSize:'clamp(48px, 8vw, 108px)',
+                color:'#f0ede6',
+                letterSpacing:'-0.03em',
+                fontVariantNumeric:'tabular-nums',
+              }}>{line}</span>
             </div>
           ))}
+          <div className="hero-line" style={{ overflow:'hidden' }}>
+            <span style={{
+              display:'block',
+              fontFamily:'Inter,sans-serif', fontWeight:900,
+              fontSize:'clamp(48px, 8vw, 108px)',
+              letterSpacing:'-0.03em',
+            }}>
+              <span style={{ color:'#f0ede6' }}>en </span>
+              <span style={{
+                color:'#5ed29c',
+                textShadow:'0 0 80px rgba(94,210,156,0.4)',
+              }}>clientes.</span>
+            </span>
+          </div>
         </h1>
 
         <p className="hero-sub" style={{
-          fontFamily: 'Inter, sans-serif', fontSize: 15, lineHeight: 1.75,
-          color: 'rgba(255,255,255,0.52)', maxWidth: 460, margin: '28px 0 36px',
+          fontFamily:'Inter,sans-serif', fontSize:'clamp(14px,1.4vw,17px)',
+          color:'rgba(240,237,230,0.45)', maxWidth:440, lineHeight:1.75,
+          margin:'32px 0 40px',
         }}>
           Creamos páginas web, tiendas online y soluciones digitales que hacen crecer tu negocio.
         </p>
 
-        <div className="hero-cta" style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-          <a href={WA} target="_blank" rel="noopener noreferrer" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: '#5ed29c', color: '#0a0a0a',
-            fontFamily: 'Inter, sans-serif', fontWeight: 700,
-            fontSize: 13, letterSpacing: '0.08em', textTransform: 'uppercase',
-            padding: '14px 28px', borderRadius: 999, textDecoration: 'none',
-            transition: 'transform 0.2s, box-shadow 0.2s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.transform='scale(1.05)'; e.currentTarget.style.boxShadow='0 0 32px rgba(94,210,156,0.45)' }}
-          onMouseLeave={e => { e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.boxShadow='none' }}>
-            Quiero mi web <ArrowRight size={14} />
-          </a>
-          <a href="#portfolio" style={{
-            fontFamily: 'Inter, sans-serif', fontWeight: 600,
-            fontSize: 13, color: 'rgba(255,255,255,0.4)', textDecoration: 'none',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={e => e.currentTarget.style.color='#fff'}
-          onMouseLeave={e => e.currentTarget.style.color='rgba(255,255,255,0.4)'}>
-            Ver trabajos →
-          </a>
+        {/* CTAs */}
+        <div className="hero-cta" style={{ display:'flex', alignItems:'center', gap:20, flexWrap:'wrap' }}>
+          <MagneticButton
+            href={WA} target="_blank" rel="noopener noreferrer"
+            style={{
+              background:'#5ed29c', color:'#080808',
+              fontFamily:'Inter,sans-serif', fontWeight:700,
+              fontSize:13, letterSpacing:'0.06em', textTransform:'uppercase',
+              padding:'15px 32px', borderRadius:999,
+              textDecoration:'none',
+              boxShadow:'0 0 0 0 rgba(94,210,156,0)',
+              transition:'box-shadow 0.3s',
+            }}
+          >
+            Quiero mi web →
+          </MagneticButton>
+          <MagneticButton
+            href="#portfolio"
+            style={{
+              fontFamily:'Inter,sans-serif', fontWeight:600, fontSize:14,
+              color:'rgba(240,237,230,0.45)',
+              textDecoration:'none',
+              padding:'15px 0',
+              transition:'color 0.2s',
+            }}
+          >
+            Ver trabajos
+          </MagneticButton>
         </div>
       </div>
 
+      {/* Scroll cue */}
       <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 6,
-        overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.06)',
-        padding: '12px 0', background: 'rgba(10,10,10,0.5)', backdropFilter: 'blur(8px)',
+        position:'absolute', bottom:28, left:'50%', transform:'translateX(-50%)',
+        zIndex:4, display:'flex', flexDirection:'column', alignItems:'center', gap:6,
       }}>
-        <div style={{ display: 'flex', animation: 'ticker 22s linear infinite', whiteSpace: 'nowrap' }}>
+        <p style={{
+          fontFamily:'"Plus Jakarta Sans",sans-serif', fontSize:9,
+          color:'rgba(240,237,230,0.2)', letterSpacing:'0.25em', textTransform:'uppercase',
+        }}>scroll</p>
+        <div style={{
+          width:1, height:36,
+          background:'linear-gradient(to bottom, rgba(94,210,156,0.5), transparent)',
+        }} />
+      </div>
+
+      {/* Ticker */}
+      <div style={{
+        position:'absolute', bottom:0, left:0, right:0, zIndex:4,
+        borderTop:'1px solid rgba(240,237,230,0.05)',
+        padding:'10px 0', overflow:'hidden',
+        background:'rgba(8,8,8,0.6)', backdropFilter:'blur(10px)',
+      }}>
+        <div style={{ display:'flex', animation:'ticker 20s linear infinite', whiteSpace:'nowrap' }}>
           {TICKER.map((item, i) => (
             <span key={i} style={{
-              display: 'inline-flex', alignItems: 'center', gap: 10, marginRight: 36,
-              fontFamily: '"Plus Jakarta Sans", sans-serif', fontWeight: 600,
-              fontSize: 11, color: 'rgba(255,255,255,0.2)',
-              letterSpacing: '0.18em', textTransform: 'uppercase', flexShrink: 0,
+              display:'inline-flex', alignItems:'center', gap:10, marginRight:40,
+              fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:600,
+              fontSize:10, color:'rgba(240,237,230,0.18)',
+              letterSpacing:'0.2em', textTransform:'uppercase', flexShrink:0,
             }}>
-              <span style={{ color: '#5ed29c', opacity: 0.5 }}>✦</span>{item}
+              <span style={{ color:'#5ed29c', opacity:0.4, fontSize:12 }}>✦</span>{item}
             </span>
           ))}
         </div>
       </div>
+
+      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
     </section>
   )
 }

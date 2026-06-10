@@ -18,10 +18,12 @@ export default function App() {
     <>
       <IntroScreen onComplete={() => setIntroComplete(true)} />
       <LenisProvider>
-        <div
-          className="relative overflow-x-hidden"
-          style={{ background: '#f8f6f1', opacity: introComplete ? 1 : 0, transition: 'opacity 0.8s ease', pointerEvents: introComplete ? 'auto' : 'none' }}
-        >
+        <div style={{
+          background: '#080808',
+          opacity: introComplete ? 1 : 0,
+          transition: 'opacity 0.8s ease',
+          pointerEvents: introComplete ? 'auto' : 'none',
+        }}>
           <CustomCursor />
           <ScrollProgress />
           <Navigation />

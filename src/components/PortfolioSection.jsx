@@ -11,10 +11,10 @@ const PROJECTS = [
     cat: 'Inmobiliaria',
     year: '2026',
     bg: 'linear-gradient(160deg, #0c1628 0%, #1a3258 100%)',
-    accent: '#c9a84c',
+    accent: '#5b9bd5',
     url: 'https://benmacompanis-sketch.github.io/ovelar-propiedades/',
     img: '/codenest/portfolio/ovelar.png',
-    imgPos: '6% 30%',
+    imgPos: '6% 5%',
     tag: 'Inmuebles · CABA',
   },
   {

@@ -44,7 +44,7 @@ export default function IntroScreen({ onComplete }) {
   return (
     <div ref={containerRef} style={{
       position: 'fixed', inset: 0, zIndex: 9999,
-      background: '#080808',
+      background: '#ffffff',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
       <video
@@ -59,14 +59,14 @@ export default function IntroScreen({ onComplete }) {
       <div style={{
         position: 'absolute', bottom: 0, right: 0,
         width: 220, height: 60,
-        background: '#080808',
+        background: '#ffffff',
         zIndex: 5, pointerEvents: 'none',
       }} />
       {/* Cover any top-left watermark too */}
       <div style={{
         position: 'absolute', bottom: 0, left: 0,
         width: 220, height: 60,
-        background: '#080808',
+        background: '#ffffff',
         zIndex: 5, pointerEvents: 'none',
       }} />
       {/* Flash overlay for transition */}

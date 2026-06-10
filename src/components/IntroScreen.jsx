@@ -242,7 +242,7 @@ export default function IntroScreen({ onComplete }) {
           fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 700,
           fontSize: 'clamp(9px,1.1vw,12px)', color: 'rgba(240,237,230,0.4)',
           letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0,
-        }}>Agencia de Diseño Web · Argentina</p>
+        }}>Agencia de Diseño Web y Automatizaciones · Argentina</p>
       </div>
 
       {/* Flash */}

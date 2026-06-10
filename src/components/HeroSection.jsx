@@ -164,7 +164,7 @@ export default function HeroSection() {
             <span style={{
               fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
               color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase',
-            }}>Agencia de Diseño Web · Argentina</span>
+            }}>Agencia de Diseño Web y Automatizaciones · Argentina</span>
           </div>
         </div>
 

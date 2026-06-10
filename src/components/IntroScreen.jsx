@@ -213,7 +213,7 @@ export default function IntroScreen({ onComplete }) {
         position: 'absolute', zIndex: 3,
         opacity: 0, transform: 'scale(0.8)', textAlign: 'center',
       }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, justifyContent: 'center' }}>
           <span style={{
             fontFamily: 'Inter,sans-serif', fontWeight: 900,
             fontSize: 'clamp(40px,8vw,80px)', color: '#f0ede6',
@@ -229,8 +229,8 @@ export default function IntroScreen({ onComplete }) {
         </div>
         <p style={{
           fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 600,
-          fontSize: 'clamp(9px,1.2vw,12px)', color: 'rgba(240,237,230,0.5)',
-          letterSpacing: '0.26em', textTransform: 'uppercase', margin: '10px 0 0',
+          fontSize: 'clamp(10px,1.4vw,14px)', color: 'rgba(240,237,230,0.5)',
+          letterSpacing: '0.28em', textTransform: 'uppercase', margin: '18px 0 0',
         }}>Agencia de Diseño Web · Argentina</p>
       </div>
 

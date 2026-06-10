@@ -20,7 +20,7 @@ export default function App() {
       <LenisProvider>
         <div
           className="relative overflow-x-hidden"
-          style={{ background: '#f8f6f1', opacity: introComplete ? 1 : 0, transition: 'opacity 0.6s ease' }}
+          style={{ background: '#f8f6f1', opacity: introComplete ? 1 : 0, transition: 'opacity 0.8s ease', pointerEvents: introComplete ? 'auto' : 'none' }}
         >
           <CustomCursor />
           <ScrollProgress />

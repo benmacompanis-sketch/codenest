@@ -101,43 +101,71 @@ export default function IntroScreen({ onComplete }) {
         background: 'radial-gradient(circle, #5ed29c 0%, rgba(94,210,156,0) 65%)',
         borderRadius: '50%',
         opacity: 0, transform: 'scale(0)',
-        top: '28%', left: '50%', marginLeft: '-40vw', marginTop: '-40vw',
+        top: '30%', left: '50%', marginLeft: '-40vw', marginTop: '-40vw',
         pointerEvents: 'none',
       }} />
 
-      {/* Lightbulb */}
+      {/* Foquito / Lamparita */}
       <div ref={bulbRef} style={{ opacity: 0, position: 'relative', zIndex: 2 }}>
-        {/* Glow behind bulb */}
+        {/* Halo de luz detrás del foco */}
         <div ref={bulbGlowRef} style={{
-          position: 'absolute', top: '50%', left: '50%',
+          position: 'absolute', top: '38%', left: '50%',
           transform: 'translate(-50%,-50%) scale(1)',
-          width: 120, height: 120, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(94,210,156,0.8) 0%, transparent 70%)',
-          filter: 'blur(16px)',
+          width: 160, height: 160, borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(94,210,156,0.9) 0%, transparent 70%)',
+          filter: 'blur(24px)',
           opacity: 0, pointerEvents: 'none',
         }} />
 
-        <svg width="80" height="100" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Rays */}
-          <g ref={raysRef} style={{ opacity: 0, transformOrigin: '40px 42px' }}>
-            <line x1="40" y1="4"  x2="40" y2="14" stroke="#5ed29c" strokeWidth="2.5" strokeLinecap="round"/>
-            <line x1="68" y1="14" x2="61" y2="21" stroke="#5ed29c" strokeWidth="2.5" strokeLinecap="round"/>
-            <line x1="76" y1="42" x2="66" y2="42" stroke="#5ed29c" strokeWidth="2.5" strokeLinecap="round"/>
-            <line x1="12" y1="42" x2="4"  y2="42" stroke="#5ed29c" strokeWidth="2.5" strokeLinecap="round"/>
-            <line x1="12" y1="14" x2="19" y2="21" stroke="#5ed29c" strokeWidth="2.5" strokeLinecap="round"/>
+        <svg width="100" height="140" viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Rayos de luz */}
+          <g ref={raysRef} style={{ opacity: 0, transformOrigin: '50px 46px' }}>
+            {/* Arriba */}
+            <line x1="50" y1="2"  x2="50" y2="16" stroke="#5ed29c" strokeWidth="3" strokeLinecap="round"/>
+            {/* Arriba derecha */}
+            <line x1="79" y1="11" x2="70" y2="20" stroke="#5ed29c" strokeWidth="3" strokeLinecap="round"/>
+            {/* Derecha */}
+            <line x1="90" y1="42" x2="76" y2="42" stroke="#5ed29c" strokeWidth="3" strokeLinecap="round"/>
+            {/* Arriba izquierda */}
+            <line x1="21" y1="11" x2="30" y2="20" stroke="#5ed29c" strokeWidth="3" strokeLinecap="round"/>
+            {/* Izquierda */}
+            <line x1="10" y1="42" x2="24" y2="42" stroke="#5ed29c" strokeWidth="3" strokeLinecap="round"/>
+            {/* Abajo derecha diagonal */}
+            <line x1="78" y1="70" x2="69" y2="63" stroke="#5ed29c" strokeWidth="2.5" strokeLinecap="round"/>
+            {/* Abajo izquierda diagonal */}
+            <line x1="22" y1="70" x2="31" y2="63" stroke="#5ed29c" strokeWidth="2.5" strokeLinecap="round"/>
           </g>
-          {/* Bulb glass */}
-          <path d="M40 18C27.9 18 18 27.9 18 40C18 48.5 22.8 55.8 30 59.5V68H50V59.5C57.2 55.8 62 48.5 62 40C62 27.9 52.1 18 40 18Z"
-            fill="#1a1a1a" stroke="#333" strokeWidth="1.5"/>
-          {/* Bulb fill (lights up) */}
-          <path ref={bulbFillRef} d="M40 18C27.9 18 18 27.9 18 40C18 48.5 22.8 55.8 30 59.5V68H50V59.5C57.2 55.8 62 48.5 62 40C62 27.9 52.1 18 40 18Z"
+
+          {/* Vidrio del foco — fondo oscuro */}
+          <path d="M50 10 C28 10 14 24 14 42 C14 56 21 67 33 73 L33 88 L67 88 L67 73 C79 67 86 56 86 42 C86 24 72 10 50 10 Z"
+            fill="#141414" stroke="#2a2a2a" strokeWidth="1.5"/>
+
+          {/* Brillo interno del vidrio (reflejo) */}
+          <path d="M34 20 Q38 15 46 14" stroke="rgba(255,255,255,0.08)" strokeWidth="3" strokeLinecap="round" fill="none"/>
+
+          {/* Relleno de luz (se prende) */}
+          <path ref={bulbFillRef}
+            d="M50 10 C28 10 14 24 14 42 C14 56 21 67 33 73 L33 88 L67 88 L67 73 C79 67 86 56 86 42 C86 24 72 10 50 10 Z"
             fill="#5ed29c" opacity="0"/>
-          {/* Base */}
-          <rect x="30" y="68" width="20" height="5" rx="2" fill="#2a2a2a" stroke="#444" strokeWidth="1"/>
-          <rect x="32" y="73" width="16" height="4" rx="2" fill="#222" stroke="#444" strokeWidth="1"/>
-          <rect x="34" y="77" width="12" height="4" rx="2" fill="#1a1a1a" stroke="#444" strokeWidth="1"/>
-          {/* Filament */}
-          <path d="M34 55 Q37 48 40 52 Q43 56 46 49" stroke="#555" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+
+          {/* Filamento — en forma de W */}
+          <path d="M38 68 L41 56 L45 65 L50 54 L55 65 L59 56 L62 68"
+            stroke="#666" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+
+          {/* Soporte del filamento */}
+          <line x1="44" y1="68" x2="44" y2="74" stroke="#555" strokeWidth="1.5"/>
+          <line x1="56" y1="68" x2="56" y2="74" stroke="#555" strokeWidth="1.5"/>
+
+          {/* Base — estrías metálicas */}
+          <rect x="33" y="88" width="34" height="9" rx="3" fill="#252525" stroke="#3a3a3a" strokeWidth="1"/>
+          <line x1="33" y1="93" x2="67" y2="93" stroke="#1a1a1a" strokeWidth="1"/>
+          <rect x="35" y="97" width="30" height="8" rx="2.5" fill="#1e1e1e" stroke="#333" strokeWidth="1"/>
+          <line x1="35" y1="101" x2="65" y2="101" stroke="#161616" strokeWidth="1"/>
+          <rect x="37" y="105" width="26" height="8" rx="2" fill="#181818" stroke="#2e2e2e" strokeWidth="1"/>
+
+          {/* Contacto inferior (culote) */}
+          <rect x="44" y="113" width="12" height="6" rx="2" fill="#111" stroke="#333" strokeWidth="1"/>
+          <rect x="46" y="119" width="8" height="4" rx="1.5" fill="#0a0a0a" stroke="#2a2a2a" strokeWidth="1"/>
         </svg>
       </div>
 

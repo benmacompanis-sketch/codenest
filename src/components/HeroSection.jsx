@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const HLS   = 'https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8'
 const WA    = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
-const LINES = ['Innovación que', 'convierte visitas', 'en clientes.']
+const LINES = ['Presencia digital.', 'Automatización.', 'Resultados.']
 
 const TICKER = [
   'Páginas Web','E-commerce','Menú QR','Landing Pages','Branding Digital',
@@ -56,7 +56,7 @@ export default function HeroSection() {
 
   const { display: line1 } = useTextScramble(LINES[0], ready, 1100)
   const { display: line2 } = useTextScramble(LINES[1], ready, 1300)
-  const { display: line3 } = useTextScramble('em clientes.', ready, 1500)
+  const { display: line3 } = useTextScramble('Resultados.', ready, 1500)
 
   // Trigger scramble after mount
   useEffect(() => {
@@ -189,11 +189,10 @@ export default function HeroSection() {
               fontSize:'clamp(48px, 8vw, 108px)',
               letterSpacing:'-0.03em',
             }}>
-              <span style={{ color:'#f0ede6' }}>en </span>
               <span style={{
                 color:'#5ed29c',
                 textShadow:'0 0 80px rgba(94,210,156,0.4)',
-              }}>clientes.</span>
+              }}>Resultados.</span>
             </span>
           </div>
         </h1>

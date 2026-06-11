@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const HLS   = 'https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8'
 const WA    = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
-const LINES = ['Soluciones digitales', 'que hacen crecer', 'tu negocio.']
+const LINES = ['Innovación que', 'convierte visitas', 'en clientes.']
 
 const TICKER = [
   'Páginas Web','E-commerce','Menú QR','Landing Pages','Branding Digital',

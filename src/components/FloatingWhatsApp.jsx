@@ -44,7 +44,8 @@ export default function FloatingWhatsApp() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="relative glass-card rounded-xl px-4 py-3 mr-1"
+                className="relative rounded-xl px-4 py-3 mr-1"
+                style={{ background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.08)' }}
               >
                 <button
                   onClick={() => setDismissed(true)}

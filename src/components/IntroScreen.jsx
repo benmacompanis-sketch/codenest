@@ -64,24 +64,18 @@ export default function IntroScreen({ onComplete }) {
       .to(bulbGlowRef.current,  { opacity: 1, scale: 1.4, duration: 0.3, ease: 'power2.out' }, '<')
       .to(raysRef.current,      { opacity: 1, scale: 1.1, duration: 0.3, ease: 'back.out(2)' }, '<')
 
-      if (isTouch) {
-        // Mobile: skip GPU-heavy scale explosion, go straight to flash
-        tl.to([switchWrapperRef.current, bulbRef.current, cursorRef.current],
-          { opacity: 0, duration: 0.2 }
-        )
-        .to(logoRef.current, { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(1.5)' })
-        .to(flashRef.current, { opacity: 1, duration: 0.25 })
-      } else {
-        // Desktop: full glow explosion
-        tl.to(glowRef.current, { opacity: 1, scale: 5, duration: 0.7, ease: 'power3.in' }, '-=0.1')
-        .to(switchWrapperRef.current, { opacity: 0, duration: 0.15 }, '-=0.4')
-        .to(bulbRef.current,          { opacity: 0, duration: 0.15 }, '-=0.4')
-        .to(cursorRef.current,        { opacity: 0, duration: 0.15 }, '-=0.4')
-        .to(logoRef.current, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.5)' }, '-=0.1')
-        .to(flashRef.current, { opacity: 1, duration: 0.3, delay: 0.6 })
-      }
+      // 6. Light explosion from bulb
+      .to(glowRef.current,      { opacity: 1, scale: isTouch ? 3 : 5, duration: isTouch ? 0.5 : 0.7, ease: 'power3.in' }, '-=0.1')
+      .to(switchWrapperRef.current, { opacity: 0, duration: 0.15 }, '-=0.4')
+      .to(bulbRef.current,          { opacity: 0, duration: 0.15 }, '-=0.4')
+      .to(cursorRef.current,        { opacity: 0, duration: 0.15 }, '-=0.4')
 
-      tl.to(containerRef.current, {
+      // 7. Logo appears
+      .to(logoRef.current, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.5)' }, '-=0.1')
+
+      // 8. Flash → reveal
+      .to(flashRef.current, { opacity: 1, duration: 0.3, delay: isTouch ? 0.4 : 0.6 })
+      .to(containerRef.current, {
         opacity: 0, duration: 0.4, ease: 'power2.inOut',
         onComplete: () => { clearTimeout(fallback); finish() },
       })
@@ -118,8 +112,7 @@ export default function IntroScreen({ onComplete }) {
           position: 'absolute', top: '38%', left: '50%',
           transform: 'translate(-50%,-50%) scale(1)',
           width: 160, height: 160, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(94,210,156,0.9) 0%, transparent 70%)',
-          filter: 'blur(24px)',
+          background: 'radial-gradient(circle, rgba(94,210,156,0.7) 0%, rgba(94,210,156,0.2) 40%, transparent 70%)',
           opacity: 0, pointerEvents: 'none',
         }} />
 

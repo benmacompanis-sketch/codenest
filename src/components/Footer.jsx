@@ -86,7 +86,7 @@ export default function Footer() {
               </div>
             </div>
             <p style={{ fontFamily:'Inter,sans-serif', fontSize:13, color:'rgba(240,237,230,0.35)', lineHeight:1.7, margin:'0 0 24px' }}>
-              Diseño web que convierte visitas en clientes. Estudiantes de ORT comprometidos con tu negocio.
+              Soluciones digitales que hacen crecer tu negocio. Estudiantes de ORT comprometidos con cada proyecto.
             </p>
             {/* Social icons */}
             <div style={{ display:'flex', gap:12 }}>

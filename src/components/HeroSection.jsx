@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const HLS   = 'https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8'
 const WA    = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
-const LINES = ['Diseño web que', 'convierte visitas', 'en clientes.']
+const LINES = ['Soluciones digitales', 'que hacen crecer', 'tu negocio.']
 
 const TICKER = [
   'Páginas Web','E-commerce','Menú QR','Landing Pages','Branding Digital',
@@ -164,7 +164,7 @@ export default function HeroSection() {
             <span style={{
               fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
               color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase',
-            }}>Agencia de Diseño Web y Automatizaciones · Argentina</span>
+            }}>Agencia Digital · Argentina</span>
           </div>
         </div>
 
@@ -203,7 +203,7 @@ export default function HeroSection() {
           color:'rgba(240,237,230,0.45)', maxWidth:440, lineHeight:1.75,
           margin:'32px 0 40px',
         }}>
-          Creamos páginas web, tiendas online y soluciones digitales que hacen crecer tu negocio.
+          Webs, automatizaciones, tiendas online y más — todo lo que tu negocio necesita para crecer en internet.
         </p>
 
         {/* CTAs */}

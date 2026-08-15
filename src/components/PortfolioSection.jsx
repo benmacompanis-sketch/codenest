@@ -8,8 +8,8 @@ gsap.registerPlugin(ScrollTrigger)
 
 const PROJECTS = [
   {
-    name: 'Impacto Láser',
-    cat: 'Limpieza Láser',
+    name: 'Impacto Laser',
+    cat: 'Limpieza Láser y Restauración',
     year: '2026',
     bg: 'linear-gradient(160deg, #000814 0%, #001a33 100%)',
     accent: '#5ed29c',

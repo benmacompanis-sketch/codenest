@@ -14,7 +14,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #000814 0%, #001a33 100%)',
     accent: '#5ed29c',
     url: 'https://impactolaser.vercel.app/',
-    img: '/portfolio/impactolaser.png',
+    img: '/portfolio/impactolaser.jpg',
     imgPos: 'center center',
     tag: 'Restauración de superficies',
   },

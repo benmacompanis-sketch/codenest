@@ -8,6 +8,17 @@ gsap.registerPlugin(ScrollTrigger)
 
 const PROJECTS = [
   {
+    name: 'Impacto Láser',
+    cat: 'Limpieza Láser',
+    year: '2026',
+    bg: 'linear-gradient(160deg, #000814 0%, #001a33 100%)',
+    accent: '#5ed29c',
+    url: 'https://impactolaser.vercel.app/',
+    img: '/portfolio/impactolaser.png',
+    imgPos: 'center center',
+    tag: 'Restauración de superficies',
+  },
+  {
     name: 'Ovelar Propiedades',
     cat: 'Inmobiliaria',
     year: '2026',
@@ -39,17 +50,6 @@ const PROJECTS = [
     img: '/portfolio/cuchadelpari.png',
     imgPos: '0% 35%',
     tag: 'Bar & Cocina · Buenos Aires',
-  },
-  {
-    name: 'Barre Estudio',
-    cat: 'Fitness & Danza',
-    year: '2026',
-    bg: 'linear-gradient(160deg, #f5f0eb 0%, #ede6dd 100%)',
-    accent: '#5ed29c',
-    url: 'https://benmacompanis-sketch.github.io/barre-estudio/',
-    img: '/portfolio/barre.png',
-    imgPos: 'center center',
-    tag: 'Estudio · Buenos Aires',
   },
 ]
 

@@ -171,7 +171,7 @@ export default function HeroSection() {
         {/* Headline */}
         <h1 style={{ margin:0, lineHeight:0.95 }}>
           {[line1, line2].map((line, i) => (
-            <div key={i} className="hero-line" style={{ overflow:'hidden', paddingBottom:'0.14em', marginBottom:'-0.14em' }}>
+            <div key={i} className="hero-line" style={{ overflow:'hidden', fontSize:'clamp(48px, 8vw, 108px)', paddingBottom:'0.2em', marginBottom:'-0.2em' }}>
               <span style={{
                 display:'block',
                 fontFamily:'Inter,sans-serif', fontWeight:900,
@@ -182,7 +182,7 @@ export default function HeroSection() {
               }}>{line}</span>
             </div>
           ))}
-          <div className="hero-line" style={{ overflow:'hidden', paddingBottom:'0.14em', marginBottom:'-0.14em' }}>
+          <div className="hero-line" style={{ overflow:'hidden', fontSize:'clamp(48px, 8vw, 108px)', paddingBottom:'0.2em', marginBottom:'-0.2em' }}>
             <span style={{
               display:'block',
               fontFamily:'Inter,sans-serif', fontWeight:900,

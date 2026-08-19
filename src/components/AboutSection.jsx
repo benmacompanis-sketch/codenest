@@ -56,14 +56,20 @@ function QACard({ q, a }) {
   const bodyRef = useRef(null)
 
   useEffect(() => {
-    if (!bodyRef.current) return
+    const el = bodyRef.current
+    if (!el) return
+    gsap.killTweensOf(el)
     if (open) {
-      gsap.fromTo(bodyRef.current,
+      gsap.fromTo(el,
         { height: 0, opacity: 0 },
-        { height: 'auto', opacity: 1, duration: 0.4, ease: 'power3.out' }
+        { height: el.scrollHeight, opacity: 1, duration: 0.4, ease: 'power3.out',
+          onComplete: () => { el.style.height = 'auto' } }
       )
     } else {
-      gsap.to(bodyRef.current, { height: 0, opacity: 0, duration: 0.28, ease: 'power3.in' })
+      gsap.fromTo(el,
+        { height: el.scrollHeight },
+        { height: 0, opacity: 0, duration: 0.28, ease: 'power3.in' }
+      )
     }
   }, [open])
 

@@ -13,14 +13,20 @@ function ServiceRow({ num, icon: Icon, title, desc, index }) {
   const descRef = useRef(null)
 
   useEffect(() => {
-    if (!descRef.current) return
+    const el = descRef.current
+    if (!el) return
+    gsap.killTweensOf(el)
     if (open) {
-      gsap.fromTo(descRef.current,
+      gsap.fromTo(el,
         { height: 0, opacity: 0 },
-        { height: 'auto', opacity: 1, duration: 0.4, ease: 'power3.out' }
+        { height: el.scrollHeight, opacity: 1, duration: 0.4, ease: 'power3.out',
+          onComplete: () => { el.style.height = 'auto' } }
       )
     } else {
-      gsap.to(descRef.current, { height: 0, opacity: 0, duration: 0.3, ease: 'power3.in' })
+      gsap.fromTo(el,
+        { height: el.scrollHeight },
+        { height: 0, opacity: 0, duration: 0.3, ease: 'power3.in' }
+      )
     }
   }, [open])
 

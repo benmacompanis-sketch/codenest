@@ -65,7 +65,7 @@ export const TRANSLATIONS = {
       label: 'Nosotros',
       title: 'Somos',
       titleAccent: 'I.D.E.A Code.',
-      p1: 'Somos dos adolescentes estudiantes de ORT que creen que cada negocio merece una presencia digital profesional y efectiva — sin importar el tamaño.',
+      p1: 'Somos dos jóvenes emprendedores que creen que cada negocio merece una presencia digital profesional y efectiva — sin importar el tamaño.',
       p2: 'Trabajamos de forma rápida y transparente: te mostramos avances reales durante todo el proceso, sin sorpresas ni esperas eternas.',
       p3a: 'Incorporamos ',
       p3b: 'inteligencia artificial',
@@ -73,7 +73,7 @@ export const TRANSLATIONS = {
       stats: ['Proyectos entregados', 'Clientes satisfechos', 'Tipos de soluciones', 'Tiempo de respuesta'],
       faqLabel: 'Preguntas frecuentes',
       qa: [
-        { q: '¿Quiénes son?', a: 'Somos Benicio Nasello Bruno y Andrés Mayo, dos adolescentes estudiantes de ORT apasionados por el desarrollo web y la tecnología. Armamos I.D.E.A Code con una misión clara: que cualquier negocio pueda tener una presencia digital profesional sin pagar una fortuna.' },
+        { q: '¿Quiénes son?', a: 'Somos Benicio Nasello Bruno y Andrés Mayo, CEO y fundadores de I.D.E.A Code. Nos apasiona el desarrollo web y la tecnología, y armamos la agencia con una misión clara: que cualquier negocio pueda tener una presencia digital profesional sin pagar una fortuna.' },
         { q: '¿Qué significa I.D.E.A?', a: 'Innovación Digital para Empresas y Agencias. Creemos que una buena idea, bien ejecutada, puede transformar un negocio — y eso es exactamente lo que hacemos.' },
         { q: '¿Cómo trabajan?', a: 'Arrancamos entendiendo tu negocio y te pasamos un diseño para que lo apruebes antes de programar nada. Incorporamos inteligencia artificial en el proceso para entregar resultados más rápidos y creativos. Vas viendo avances reales en cada etapa.' },
         { q: '¿Dónde están?', a: 'Somos 100% remotos y trabajamos desde Argentina para todo el mundo. Nos manejamos por WhatsApp, video llamada o donde te sea más cómodo.' },
@@ -87,7 +87,7 @@ export const TRANSLATIONS = {
       note: 'Respondemos en menos de 24hs',
     },
     footer: {
-      desc: 'Soluciones digitales que hacen crecer tu negocio. Estudiantes de ORT comprometidos con cada proyecto.',
+      desc: 'Soluciones digitales que hacen crecer tu negocio. Comprometidos con cada proyecto, de principio a fin.',
       navLabel: 'Navegación',
       contactLabel: 'Contacto',
       mailSoon: 'Mail próximamente',
@@ -170,7 +170,7 @@ export const TRANSLATIONS = {
       label: 'About us',
       title: 'We are',
       titleAccent: 'I.D.E.A Code.',
-      p1: 'We are two teenage students at ORT who believe every business deserves a professional and effective digital presence — no matter its size.',
+      p1: 'We are two young entrepreneurs who believe every business deserves a professional and effective digital presence — no matter its size.',
       p2: 'We work fast and transparently: you see real progress throughout the entire process, with no surprises or endless waiting.',
       p3a: 'We bring ',
       p3b: 'artificial intelligence',
@@ -178,7 +178,7 @@ export const TRANSLATIONS = {
       stats: ['Projects delivered', 'Happy clients', 'Types of solutions', 'Response time'],
       faqLabel: 'Frequently asked questions',
       qa: [
-        { q: 'Who are you?', a: 'We are Benicio Nasello Bruno and Andrés Mayo, two teenage ORT students passionate about web development and technology. We built I.D.E.A Code with a clear mission: that any business can have a professional digital presence without paying a fortune.' },
+        { q: 'Who are you?', a: 'We are Benicio Nasello Bruno and Andrés Mayo, CEOs and founders of I.D.E.A Code. We are passionate about web development and technology, and we built the agency with a clear mission: that any business can have a professional digital presence without paying a fortune.' },
         { q: 'What does I.D.E.A mean?', a: 'Digital Innovation for Businesses and Agencies (Innovación Digital para Empresas y Agencias). We believe a good idea, well executed, can transform a business — and that\'s exactly what we do.' },
         { q: 'How do you work?', a: 'We start by understanding your business and send you a design to approve before writing any code. We use artificial intelligence in the process to deliver faster and more creative results. You see real progress at every stage.' },
         { q: 'Where are you based?', a: 'We are 100% remote and work from Argentina for clients worldwide. We communicate via WhatsApp, video call or wherever is most comfortable for you.' },
@@ -192,7 +192,7 @@ export const TRANSLATIONS = {
       note: 'We reply in under 24h',
     },
     footer: {
-      desc: 'Digital solutions that grow your business. ORT students committed to every project.',
+      desc: 'Digital solutions that grow your business. Committed to every project, start to finish.',
       navLabel: 'Navigation',
       contactLabel: 'Contact',
       mailSoon: 'Email coming soon',

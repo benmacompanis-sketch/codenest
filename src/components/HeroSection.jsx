@@ -15,8 +15,8 @@ const WA    = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me in
 const LINES = ['Presencia digital.', 'Soluciones.', 'Resultados.']
 
 const TICKER = [
-  'Páginas Web','E-commerce','Menú QR','Landing Pages','Branding Digital',
-  'Páginas Web','E-commerce','Menú QR','Landing Pages','Branding Digital',
+  'Sitios Web','E-commerce','Automatizaciones','Inteligencia Artificial','Branding','Landing Pages',
+  'Sitios Web','E-commerce','Automatizaciones','Inteligencia Artificial','Branding','Landing Pages',
 ]
 
 function VideoBackground({ videoRef }) {
@@ -164,7 +164,7 @@ export default function HeroSection() {
             <span style={{
               fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
               color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase',
-            }}>Agencia Digital · Argentina</span>
+            }}>Agencia de IA y Marketing Digital · Argentina</span>
           </div>
         </div>
 

@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Calendar, ShoppingBag, UtensilsCrossed, Home, FileText, GraduationCap, Stethoscope, Zap } from 'lucide-react'
+import { Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Sparkles, Palette, LifeBuoy } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const SERVICES = [
-  { num:'01', icon: Calendar,        title:'Sistema de Reservas / Turnos',  desc:'Para barberías, médicos, veterinarias, salones, estudios de yoga. Calendario online, formulario de turno y panel de administración.' },
-  { num:'02', icon: ShoppingBag,     title:'Tienda / Catálogo Online',       desc:'E-commerce completo con carrito, filtros, panel de admin y checkout. Ideal para ropa, accesorios, alimentos y cualquier producto físico.' },
-  { num:'03', icon: UtensilsCrossed, title:'Menú Digital + Pedidos',         desc:'Menú por categorías con fotos, sistema de pedidos por mesa o para llevar, y panel de cocina en tiempo real.' },
-  { num:'04', icon: Home,            title:'Catálogo Inmobiliario',          desc:'Listado de propiedades con filtros, galería de fotos y formulario de consulta. Para inmobiliarias y desarrolladoras.' },
-  { num:'05', icon: FileText,        title:'Servicios + Presupuesto Online', desc:'Presentación de servicios con formulario de presupuesto. Para contadores, abogados, diseñadores y técnicos independientes.' },
-  { num:'06', icon: GraduationCap,   title:'Cursos / Membresías',            desc:'Listado de cursos o planes, área de miembros y pasarela de pago. Para academias, profesores y coaches.' },
-  { num:'07', icon: Stethoscope,     title:'Ficha de Pacientes / Clientes',  desc:'Registro con historial, próximas citas y notas por visita. Para veterinarias, médicos, psicólogos y odontólogos.' },
-  { num:'08', icon: Zap,             title:'Automatizaciones Personalizadas', desc:'Flujos automáticos para tu negocio: notificaciones, recordatorios, integración con WhatsApp, emails automáticos y conexión entre herramientas. Ahorrás tiempo y no perdés ningún cliente.' },
+  { num:'01', icon: Globe,      title:'Sitios Web y Landing Pages',   desc:'Tu presencia profesional en internet: diseño a medida, carga rápida, optimizado para Google y perfecto en celular. La base de todo negocio digital.' },
+  { num:'02', icon: ShoppingBag, title:'Tiendas Online',              desc:'E-commerce completo con carrito, filtros, pasarela de pago y panel de administración. Vendé tus productos las 24 horas, sin intermediarios.' },
+  { num:'03', icon: Calendar,   title:'Sistemas de Reservas y Turnos', desc:'Calendario online, confirmación automática y panel de gestión. Ideal para barberías, consultorios, veterinarias, salones y estudios.' },
+  { num:'04', icon: LayoutGrid, title:'Portales y Catálogos',         desc:'Listados con filtros avanzados, galería y formulario de consulta. Para inmobiliarias, productos, propiedades, cursos o cualquier catálogo.' },
+  { num:'05', icon: Gauge,      title:'Paneles de Gestión',           desc:'Fichas de clientes con historial, próximas citas, notas y métricas de tu negocio. Toda tu operación ordenada en un solo lugar.' },
+  { num:'06', icon: Sparkles,   title:'Automatizaciones e IA',        desc:'Recordatorios por WhatsApp, respuestas automáticas, emails, chatbots con inteligencia artificial y conexión entre tus herramientas. Ahorrás tiempo y no perdés ningún cliente.' },
+  { num:'07', icon: Palette,    title:'Branding e Identidad Visual',  desc:'Logo, paleta de colores, tipografías y guía de estilo. Una identidad coherente en tu web, tus redes y todo tu material digital.' },
+  { num:'08', icon: LifeBuoy,   title:'Mantenimiento y Soporte',      desc:'Plan mensual con cambios, actualizaciones, corrección de errores y mejoras continuas. No te dejamos solo después del lanzamiento.' },
 ]
 
 function ServiceRow({ num, icon: Icon, title, desc, index }) {

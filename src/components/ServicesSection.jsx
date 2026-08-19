@@ -104,12 +104,12 @@ export default function ServicesSection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.srv-title', {
-        scrollTrigger: { trigger: '.srv-title', start: 'top 85%' },
+        scrollTrigger: { trigger: '.srv-title', start: 'top 96%' },
         y: 80, opacity: 0, duration: 1, ease: 'power4.out',
       })
       gsap.utils.toArray('.srv-row').forEach((row) => {
         gsap.from(row, {
-          scrollTrigger: { trigger: row, start: 'top 90%' },
+          scrollTrigger: { trigger: row, start: 'top 96%' },
           x: -40, opacity: 0, duration: 0.6, ease: 'power3.out',
         })
       })

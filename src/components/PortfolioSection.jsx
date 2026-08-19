@@ -60,9 +60,9 @@ function ProjectCard({ project, index }) {
 
   useEffect(() => {
     gsap.from(cardRef.current, {
-      scrollTrigger: { trigger: cardRef.current, start: 'top 85%' },
+      scrollTrigger: { trigger: cardRef.current, start: 'top 96%' },
       y: 60, opacity: 0, duration: 0.8,
-      delay: index * 0.1,
+      delay: index * 0.05,
       ease: 'power3.out',
     })
   }, [index])
@@ -91,7 +91,6 @@ function ProjectCard({ project, index }) {
       <img
         src={asset(project.img)}
         alt={project.name}
-        loading={index === 0 ? 'eager' : 'lazy'}
         decoding="async"
         style={{
           position: 'absolute', inset: 0,
@@ -163,15 +162,15 @@ export default function PortfolioSection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.port-label', {
-        scrollTrigger: { trigger: '.port-label', start: 'top 88%' },
+        scrollTrigger: { trigger: '.port-label', start: 'top 96%' },
         x: -30, opacity: 0, duration: 0.7, ease: 'power3.out',
       })
       gsap.from('.port-title', {
-        scrollTrigger: { trigger: '.port-title', start: 'top 85%' },
+        scrollTrigger: { trigger: '.port-title', start: 'top 96%' },
         y: 70, opacity: 0, duration: 1, ease: 'power4.out',
       })
       gsap.from('.port-sub', {
-        scrollTrigger: { trigger: '.port-sub', start: 'top 88%' },
+        scrollTrigger: { trigger: '.port-sub', start: 'top 96%' },
         opacity: 0, x: 30, duration: 0.8, delay: 0.2, ease: 'power3.out',
       })
     }, sectionRef)

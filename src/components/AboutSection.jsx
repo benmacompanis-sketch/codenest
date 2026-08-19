@@ -21,7 +21,7 @@ function AnimatedStat({ value, suffix, label }) {
   useEffect(() => {
     const trigger = ScrollTrigger.create({
       trigger: ref.current,
-      start: 'top 85%',
+      start: 'top 96%',
       onEnter: () => {
         gsap.to({ n: 0 }, {
           n: value, duration: 1.8, ease: 'power3.out',
@@ -115,21 +115,21 @@ export default function AboutSection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.about-left', {
-        scrollTrigger: { trigger: '.about-left', start: 'top 80%' },
+        scrollTrigger: { trigger: '.about-left', start: 'top 96%' },
         x: -60, opacity: 0, duration: 1, ease: 'power3.out',
       })
       gsap.from('.about-right', {
-        scrollTrigger: { trigger: '.about-right', start: 'top 80%' },
+        scrollTrigger: { trigger: '.about-right', start: 'top 96%' },
         x: 60, opacity: 0, duration: 1, delay: 0.15, ease: 'power3.out',
       })
       gsap.from('.about-qa-label', {
-        scrollTrigger: { trigger: '.about-qa-label', start: 'top 88%' },
+        scrollTrigger: { trigger: '.about-qa-label', start: 'top 96%' },
         x: -30, opacity: 0, duration: 0.7, ease: 'power3.out',
       })
       gsap.utils.toArray('.about-qa-item').forEach((el, i) => {
         gsap.from(el, {
-          scrollTrigger: { trigger: el, start: 'top 90%' },
-          x: -24, opacity: 0, duration: 0.6, delay: i * 0.07, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 96%' },
+          x: -24, opacity: 0, duration: 0.6, delay: i * 0.04, ease: 'power3.out',
         })
       })
       // Parallax watermark

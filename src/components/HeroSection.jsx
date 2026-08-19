@@ -101,7 +101,7 @@ export default function HeroSection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.hero-label', { opacity: 0, y: 20, duration: 0.7, delay: 0.3, ease: 'power3.out' })
-      gsap.from('.hero-line',  { opacity: 0, y: 60, duration: 0.9, stagger: 0.12, delay: 0.5, ease: 'power4.out' })
+      gsap.from('.hero-line',  { opacity: 0, y: 60, duration: 0.9, stagger: 0.08, delay: 0.5, ease: 'power4.out' })
       gsap.from('.hero-sub',   { opacity: 0, y: 20, duration: 0.7, delay: 1.1, ease: 'power3.out' })
       gsap.from('.hero-cta',   { opacity: 0, y: 20, duration: 0.7, delay: 1.3, ease: 'power3.out' })
       gsap.from(floatRef.current, { opacity: 0, scale: 0.8, duration: 1, delay: 0.8, ease: 'power3.out' })

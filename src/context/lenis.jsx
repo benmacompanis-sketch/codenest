@@ -21,12 +21,20 @@ export function LenisProvider({ children }) {
 
     // Sync Lenis with GSAP ScrollTrigger
     l.on('scroll', ScrollTrigger.update)
-    gsap.ticker.add((time) => { l.raf(time * 1000) })
+    const raf = (time) => l.raf(time * 1000)
+    gsap.ticker.add(raf)
     gsap.ticker.lagSmoothing(0)
 
+    // Fonts and images change element positions after first paint. Without a
+    // refresh, ScrollTrigger keeps the stale offsets and reveals fire late.
+    const refresh = () => ScrollTrigger.refresh()
+    document.fonts?.ready.then(refresh)
+    window.addEventListener('load', refresh)
+
     return () => {
+      window.removeEventListener('load', refresh)
+      gsap.ticker.remove(raf)
       l.destroy()
-      gsap.ticker.remove((time) => { l.raf(time * 1000) })
     }
   }, [])
 

@@ -70,17 +70,17 @@ export default function ProcessSection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.proc-label', {
-        scrollTrigger: { trigger: '.proc-label', start: 'top 88%' },
+        scrollTrigger: { trigger: '.proc-label', start: 'top 96%' },
         x: -30, opacity: 0, duration: 0.7, ease: 'power3.out',
       })
       gsap.from('.proc-title', {
-        scrollTrigger: { trigger: '.proc-title', start: 'top 85%' },
+        scrollTrigger: { trigger: '.proc-title', start: 'top 96%' },
         y: 70, opacity: 0, duration: 1, ease: 'power4.out',
       })
       gsap.utils.toArray('.proc-step').forEach((el, i) => {
         gsap.from(el, {
-          scrollTrigger: { trigger: el, start: 'top 88%' },
-          y: 60, opacity: 0, duration: 0.8, delay: i * 0.12, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 96%' },
+          y: 60, opacity: 0, duration: 0.8, delay: i * 0.06, ease: 'power3.out',
         })
       })
       gsap.to('.proc-bg-num', {

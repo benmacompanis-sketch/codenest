@@ -21,15 +21,15 @@ export default function CTASection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.cta-word', {
-        scrollTrigger: { trigger: '.cta-word', start: 'top 85%' },
+        scrollTrigger: { trigger: '.cta-word', start: 'top 96%' },
         y: 100, opacity: 0, duration: 1, stagger: 0.08, ease: 'power4.out',
       })
       gsap.from('.cta-sub', {
-        scrollTrigger: { trigger: '.cta-sub', start: 'top 90%' },
+        scrollTrigger: { trigger: '.cta-sub', start: 'top 96%' },
         opacity: 0, y: 20, duration: 0.8, ease: 'power3.out',
       })
       gsap.from('.cta-btn', {
-        scrollTrigger: { trigger: '.cta-btn', start: 'top 92%' },
+        scrollTrigger: { trigger: '.cta-btn', start: 'top 96%' },
         scale: 0.8, opacity: 0, duration: 0.7, ease: 'back.out(1.7)',
       })
       // Breathing glow

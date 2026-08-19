@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Sparkles, Palette, LifeBuoy } from 'lucide-react'
+import { Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Code2, Sparkles, Palette, LifeBuoy } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,9 +11,10 @@ const SERVICES = [
   { num:'03', icon: Calendar,   title:'Sistemas de Reservas y Turnos', desc:'Calendario online, confirmación automática y panel de gestión. Ideal para barberías, consultorios, veterinarias, salones y estudios.' },
   { num:'04', icon: LayoutGrid, title:'Portales y Catálogos',         desc:'Listados con filtros avanzados, galería y formulario de consulta. Para inmobiliarias, productos, propiedades, cursos o cualquier catálogo.' },
   { num:'05', icon: Gauge,      title:'Paneles de Gestión',           desc:'Fichas de clientes con historial, próximas citas, notas y métricas de tu negocio. Toda tu operación ordenada en un solo lugar.' },
-  { num:'06', icon: Sparkles,   title:'Automatizaciones e IA',        desc:'Recordatorios por WhatsApp, respuestas automáticas, emails, chatbots con inteligencia artificial y conexión entre tus herramientas. Ahorrás tiempo y no perdés ningún cliente.' },
-  { num:'07', icon: Palette,    title:'Branding e Identidad Visual',  desc:'Logo, paleta de colores, tipografías y guía de estilo. Una identidad coherente en tu web, tus redes y todo tu material digital.' },
-  { num:'08', icon: LifeBuoy,   title:'Mantenimiento y Soporte',      desc:'Plan mensual con cambios, actualizaciones, corrección de errores y mejoras continuas. No te dejamos solo después del lanzamiento.' },
+  { num:'06', icon: Code2,      title:'Desarrollo de Software a Medida', desc:'¿Tu negocio necesita algo que no existe? Lo construimos desde cero: aplicaciones web, sistemas internos, calculadoras, integraciones con APIs y herramientas hechas exactamente para tu operación.' },
+  { num:'07', icon: Sparkles,   title:'Automatizaciones e IA',        desc:'Recordatorios por WhatsApp, respuestas automáticas, emails, chatbots con inteligencia artificial y conexión entre tus herramientas. Ahorrás tiempo y no perdés ningún cliente.' },
+  { num:'08', icon: Palette,    title:'Branding e Identidad Visual',  desc:'Logo, paleta de colores, tipografías y guía de estilo. Una identidad coherente en tu web, tus redes y todo tu material digital.' },
+  { num:'09', icon: LifeBuoy,   title:'Mantenimiento y Soporte',      desc:'Plan mensual con cambios, actualizaciones, corrección de errores y mejoras continuas. No te dejamos solo después del lanzamiento.' },
 ]
 
 function ServiceRow({ num, icon: Icon, title, desc, index }) {

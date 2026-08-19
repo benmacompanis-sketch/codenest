@@ -15,8 +15,8 @@ const WA    = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me in
 const LINES = ['Presencia digital.', 'Soluciones.', 'Resultados.']
 
 const TICKER = [
-  'Sitios Web','E-commerce','Automatizaciones','Inteligencia Artificial','Branding','Landing Pages',
-  'Sitios Web','E-commerce','Automatizaciones','Inteligencia Artificial','Branding','Landing Pages',
+  'Sitios Web','E-commerce','Software a Medida','Automatizaciones','Inteligencia Artificial','Branding',
+  'Sitios Web','E-commerce','Software a Medida','Automatizaciones','Inteligencia Artificial','Branding',
 ]
 
 function VideoBackground({ videoRef }) {

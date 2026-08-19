@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Hls from 'hls.js'
 import MagneticButton from './MagneticButton'
 import { useTextScramble } from '../hooks/useTextScramble'
 import Logo from './Logo'
@@ -19,14 +18,22 @@ function VideoBackground({ videoRef }) {
     const v = videoRef.current
     if (!v) return
     let hls
-    if (Hls.isSupported()) {
-      hls = new Hls({ enableWorker: false })
-      hls.loadSource(HLS)
-      hls.attachMedia(v)
-    } else if (v.canPlayType('application/vnd.apple.mpegurl')) {
+    let cancelled = false
+
+    // Safari plays HLS natively — no need to ship the 500KB library there.
+    if (v.canPlayType('application/vnd.apple.mpegurl')) {
       v.src = HLS
+    } else {
+      // Load hls.js only once the page is interactive, so it never blocks first paint.
+      import('hls.js').then(({ default: Hls }) => {
+        if (cancelled || !Hls.isSupported()) return
+        hls = new Hls({ enableWorker: false })
+        hls.loadSource(HLS)
+        hls.attachMedia(v)
+      })
     }
-    return () => hls?.destroy()
+
+    return () => { cancelled = true; hls?.destroy() }
   }, [])
 
   return (

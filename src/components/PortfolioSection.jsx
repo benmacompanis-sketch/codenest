@@ -26,7 +26,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #0c1628 0%, #1a3258 100%)',
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/ovelar-propiedades/',
-    img: '/portfolio/ovelar.png',
+    img: '/portfolio/ovelar.jpg',
     imgPos: '6% 30%',
     tag: 'Inmuebles · CABA',
   },
@@ -37,7 +37,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #030d12 0%, #062534 100%)',
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/Veterinaria/',
-    img: '/portfolio/veterinaria.png',
+    img: '/portfolio/veterinaria.jpg',
     imgPos: 'center center',
     tag: 'Clínica · Caballito',
   },
@@ -48,7 +48,7 @@ const PROJECTS = [
     bg: 'linear-gradient(160deg, #100500 0%, #2a1200 100%)',
     accent: '#5ed29c',
     url: 'https://benmacompanis-sketch.github.io/Cuchadelpari/',
-    img: '/portfolio/cuchadelpari.png',
+    img: '/portfolio/cuchadelpari.jpg',
     imgPos: '0% 35%',
     tag: 'Bar & Cocina · Buenos Aires',
   },
@@ -87,10 +87,12 @@ function ProjectCard({ project, index }) {
         outline: `1px solid ${hovered ? 'rgba(94,210,156,0.6)' : 'rgba(240,237,230,0.12)'}`,
       }}
     >
-      {/* Screenshot via thum.io */}
+      {/* Screenshot */}
       <img
         src={asset(project.img)}
         alt={project.name}
+        loading={index === 0 ? 'eager' : 'lazy'}
+        decoding="async"
         style={{
           position: 'absolute', inset: 0,
           width: '100%', height: '100%',

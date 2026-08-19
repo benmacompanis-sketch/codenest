@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
+import { useLang } from '../i18n'
 
 const WAIcon = () => (
   <svg viewBox="0 0 24 24" width="26" height="26" fill="white">
@@ -8,12 +9,14 @@ const WAIcon = () => (
   </svg>
 )
 
-const WA_URL = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa saber más sobre I.D.E.A Code. ¿Podemos hablar?')}`
+
 
 export default function FloatingWhatsApp() {
   const [visible, setVisible] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
   const [dismissed, setDismissed] = useState(false)
+  const { t } = useLang()
+  const WA_URL = `https://wa.me/541134076364?text=${encodeURIComponent(t.wa.msg)}`
 
   useEffect(() => {
     const onScroll = () => {
@@ -54,8 +57,8 @@ export default function FloatingWhatsApp() {
                 >
                   <X size={10} />
                 </button>
-                <p className="font-inter font-semibold text-white text-[13px] whitespace-nowrap">¡Hablemos de tu proyecto!</p>
-                <p className="font-inter text-white/45 text-[11px] mt-0.5">Respuesta en menos de 24h</p>
+                <p className="font-inter font-semibold text-white text-[13px] whitespace-nowrap">{t.wa.title}</p>
+                <p className="font-inter text-white/45 text-[11px] mt-0.5">{t.wa.sub}</p>
               </motion.div>
             )}
           </AnimatePresence>

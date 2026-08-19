@@ -2,20 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Code2, Sparkles, Palette, LifeBuoy } from 'lucide-react'
+import { useLang } from '../i18n'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const SERVICES = [
-  { num:'01', icon: Globe,      title:'Sitios Web y Landing Pages',   desc:'Tu presencia profesional en internet: diseño a medida, carga rápida, optimizado para Google y perfecto en celular. La base de todo negocio digital.' },
-  { num:'02', icon: ShoppingBag, title:'Tiendas Online',              desc:'E-commerce completo con carrito, filtros, pasarela de pago y panel de administración. Vendé tus productos las 24 horas, sin intermediarios.' },
-  { num:'03', icon: Calendar,   title:'Sistemas de Reservas y Turnos', desc:'Calendario online, confirmación automática y panel de gestión. Ideal para barberías, consultorios, veterinarias, salones y estudios.' },
-  { num:'04', icon: LayoutGrid, title:'Portales y Catálogos',         desc:'Listados con filtros avanzados, galería y formulario de consulta. Para inmobiliarias, productos, propiedades, cursos o cualquier catálogo.' },
-  { num:'05', icon: Gauge,      title:'Paneles de Gestión',           desc:'Fichas de clientes con historial, próximas citas, notas y métricas de tu negocio. Toda tu operación ordenada en un solo lugar.' },
-  { num:'06', icon: Code2,      title:'Desarrollo de Software a Medida', desc:'¿Tu negocio necesita algo que no existe? Lo construimos desde cero: aplicaciones web, sistemas internos, calculadoras, integraciones con APIs y herramientas hechas exactamente para tu operación.' },
-  { num:'07', icon: Sparkles,   title:'Automatizaciones e IA',        desc:'Recordatorios por WhatsApp, respuestas automáticas, emails, chatbots con inteligencia artificial y conexión entre tus herramientas. Ahorrás tiempo y no perdés ningún cliente.' },
-  { num:'08', icon: Palette,    title:'Branding e Identidad Visual',  desc:'Logo, paleta de colores, tipografías y guía de estilo. Una identidad coherente en tu web, tus redes y todo tu material digital.' },
-  { num:'09', icon: LifeBuoy,   title:'Mantenimiento y Soporte',      desc:'Plan mensual con cambios, actualizaciones, corrección de errores y mejoras continuas. No te dejamos solo después del lanzamiento.' },
-]
+const ICONS = [Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Code2, Sparkles, Palette, LifeBuoy]
 
 function ServiceRow({ num, icon: Icon, title, desc, index }) {
   const [open, setOpen] = useState(false)
@@ -95,6 +86,13 @@ function ServiceRow({ num, icon: Icon, title, desc, index }) {
 }
 
 export default function ServicesSection() {
+  const { t } = useLang()
+  const SERVICES = t.services.items.map((it, i) => ({
+    num: String(i + 1).padStart(2, '0'),
+    icon: ICONS[i],
+    title: it.title,
+    desc: it.desc,
+  }))
   const sectionRef = useRef(null)
 
   useEffect(() => {
@@ -126,20 +124,20 @@ export default function ServicesSection() {
             <p style={{
               fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
               color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:16,
-            }}>Servicios</p>
+            }}>{t.services.label}</p>
             <h2 className="srv-title" style={{
               fontFamily:'Inter,sans-serif', fontWeight:900,
               fontSize:'clamp(36px,5vw,64px)', color:'#f0ede6',
               lineHeight:1.05, margin:0, letterSpacing:'-0.02em',
             }}>
-              Todo lo que necesitás<br /><span style={{ color:'#5ed29c' }}>online.</span>
+              {t.services.title}<br /><span style={{ color:'#5ed29c' }}>{t.services.titleAccent}</span>
             </h2>
           </div>
           <p style={{
             fontFamily:'Inter,sans-serif', fontSize:14,
             color:'rgba(240,237,230,0.35)', maxWidth:280, lineHeight:1.7, margin:0,
           }}>
-            Hacé click en cualquier servicio para saber más.
+            {t.services.hint}
           </p>
         </div>
 
@@ -160,14 +158,14 @@ export default function ServicesSection() {
         }}>
           <div>
             <p style={{ fontFamily:'Inter,sans-serif', fontWeight:700, fontSize:16, color:'#f0ede6', margin:'0 0 6px' }}>
-              ¿No encontrás lo que buscás?
+              {t.services.customTitle}
             </p>
             <p style={{ fontFamily:'Inter,sans-serif', fontSize:14, color:'rgba(240,237,230,0.4)', margin:0 }}>
-              Contanos tu idea y vemos si podemos hacerlo. Los precios siempre se hablan por privado.
+              {t.services.customDesc}
             </p>
           </div>
           <a
-            href={`https://wa.me/541134076364?text=${encodeURIComponent('Hola! Tengo una idea que no está en el listado, ¿podemos hablar?')}`}
+            href={`https://wa.me/541134076364?text=${encodeURIComponent(t.services.customWa)}`}
             target="_blank" rel="noopener noreferrer"
             style={{
               fontFamily:'Inter,sans-serif', fontWeight:700, fontSize:13,
@@ -176,7 +174,7 @@ export default function ServicesSection() {
               letterSpacing:'0.04em', flexShrink:0, whiteSpace:'nowrap',
             }}
           >
-            Hablemos →
+            {t.services.customBtn}
           </a>
         </div>
 

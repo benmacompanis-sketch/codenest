@@ -3,6 +3,7 @@ import { asset } from '../utils/assetPath'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowUpRight } from 'lucide-react'
+import { useLang } from '../i18n'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -154,6 +155,8 @@ function ProjectCard({ project, index }) {
 
 export default function PortfolioSection() {
   const sectionRef = useRef(null)
+  const { t } = useLang()
+  const projects = PROJECTS.map((p, i) => ({ ...p, cat: t.portfolio.cats[i], tag: t.portfolio.tags[i] }))
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -186,20 +189,20 @@ export default function PortfolioSection() {
             <p className="port-label" style={{
               fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
               color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:16,
-            }}>Portfolio</p>
+            }}>{t.portfolio.label}</p>
             <h2 className="port-title" style={{
               fontFamily:'Inter,sans-serif', fontWeight:900,
               fontSize:'clamp(36px,5vw,64px)', color:'#f0ede6',
               lineHeight:1.05, margin:0, letterSpacing:'-0.02em',
             }}>
-              Proyectos que<br />hablan por sí <span style={{ color:'#5ed29c' }}>solos.</span>
+              {t.portfolio.title}<br />{t.portfolio.title2} <span style={{ color:'#5ed29c' }}>{t.portfolio.titleAccent}</span>
             </h2>
           </div>
           <p className="port-sub" style={{
             fontFamily:'Inter,sans-serif', fontSize:14,
             color:'rgba(240,237,230,0.35)', maxWidth:260, lineHeight:1.7, margin:0,
           }}>
-            Diseño a medida para cada rubro y objetivo.
+            {t.portfolio.sub}
           </p>
         </div>
 
@@ -208,7 +211,7 @@ export default function PortfolioSection() {
           gridTemplateColumns:'repeat(auto-fill, minmax(min(100%, 480px), 1fr))',
           gap:16,
         }}>
-          {PROJECTS.map((p, i) => <ProjectCard key={i} project={p} index={i} />)}
+          {projects.map((p, i) => <ProjectCard key={i} project={p} index={i} />)}
         </div>
 
       </div>

@@ -2,14 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+import { useLang } from '../i18n'
+
 gsap.registerPlugin(ScrollTrigger)
 
-const STEPS = [
-  { num:'01', title:'Consulta',    desc:'Nos contás tu proyecto, entendemos tus objetivos y te damos un presupuesto claro.' },
-  { num:'02', title:'Diseño',      desc:'Creamos el diseño visual para que lo apruebes antes de escribir una línea de código.' },
-  { num:'03', title:'Desarrollo',  desc:'Construimos tu web con tecnología moderna, rápida y optimizada para Google.' },
-  { num:'04', title:'Lanzamiento', desc:'Publicamos tu web y te entregamos todo. Ofrecemos mantenimiento mensual para cambios, actualizaciones y corrección de errores.' },
-]
 
 function StepCard({ num, title, desc }) {
   const [hovered, setHovered] = useState(false)
@@ -68,6 +64,8 @@ function StepCard({ num, title, desc }) {
 
 export default function ProcessSection() {
   const sectionRef = useRef(null)
+  const { t } = useLang()
+  const STEPS = t.process.steps.map((st, i) => ({ num: String(i + 1).padStart(2, '0'), ...st }))
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -112,13 +110,13 @@ export default function ProcessSection() {
         <p className="proc-label" style={{
           fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
           color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:16,
-        }}>Cómo trabajamos</p>
+        }}>{t.process.label}</p>
         <h2 className="proc-title" style={{
           fontFamily:'Inter,sans-serif', fontWeight:900,
           fontSize:'clamp(36px,5vw,64px)', color:'#f0ede6',
           lineHeight:1.05, margin:'0 0 72px', letterSpacing:'-0.02em', maxWidth:560,
         }}>
-          Simple, claro<br />y <span style={{ color:'#5ed29c' }}>sin vueltas.</span>
+          {t.process.title}<br />{t.process.title2} <span style={{ color:'#5ed29c' }}>{t.process.titleAccent}</span>
         </h2>
 
         <div style={{

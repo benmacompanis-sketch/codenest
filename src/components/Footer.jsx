@@ -1,6 +1,7 @@
 import { asset } from '../utils/assetPath'
+import { useLang } from '../i18n'
 
-const WA_URL = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
+
 const IG_URL = 'https://instagram.com/ideacode._'
 const TK_URL = 'https://tiktok.com/@idea.code'
 
@@ -43,12 +44,7 @@ const IconGmail = () => (
   </svg>
 )
 
-const LINKS = [
-  { label:'Servicios', href:'#servicios' },
-  { label:'Portfolio',  href:'#portfolio' },
-  { label:'Proceso',    href:'#proceso' },
-  { label:'Nosotros',   href:'#nosotros' },
-]
+const HREFS = ['#servicios', '#portfolio', '#proceso', '#nosotros']
 
 const scroll = (e, href) => {
   e.preventDefault()
@@ -56,6 +52,9 @@ const scroll = (e, href) => {
 }
 
 export default function Footer() {
+  const { t } = useLang()
+  const WA_URL = `https://wa.me/541134076364?text=${encodeURIComponent(t.wa.msgLong)}`
+  const LINKS = HREFS.map((href, i) => ({ href, label: t.nav.links[i] }))
   return (
     <footer style={{
       background: '#050505',
@@ -81,12 +80,12 @@ export default function Footer() {
                   I.D.E.A <span style={{ color:'#5ed29c' }}>Code</span>
                 </div>
                 <div style={{ fontFamily:'"Plus Jakarta Sans",sans-serif', fontSize:7, color:'rgba(240,237,230,0.3)', letterSpacing:'0.12em', textTransform:'uppercase', marginTop:2 }}>
-                  Innovación Digital para Empresas y Agencias
+                  {t.nav.tagline}
                 </div>
               </div>
             </div>
             <p style={{ fontFamily:'Inter,sans-serif', fontSize:13, color:'rgba(240,237,230,0.35)', lineHeight:1.7, margin:'0 0 24px' }}>
-              Soluciones digitales que hacen crecer tu negocio. Estudiantes de ORT comprometidos con cada proyecto.
+              {t.footer.desc}
             </p>
             {/* Social icons */}
             <div style={{ display:'flex', gap:12 }}>
@@ -115,7 +114,7 @@ export default function Footer() {
 
           {/* Nav */}
           <div>
-            <p style={{ fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:10, color:'rgba(240,237,230,0.3)', letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:20 }}>Navegación</p>
+            <p style={{ fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:10, color:'rgba(240,237,230,0.3)', letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:20 }}>{t.footer.navLabel}</p>
             <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
               {LINKS.map(({ label, href }) => (
                 <a key={href} href={href} onClick={e => scroll(e,href)} style={{ fontFamily:'Inter,sans-serif', fontSize:14, color:'rgba(240,237,230,0.45)', textDecoration:'none', transition:'color 0.2s' }}
@@ -128,7 +127,7 @@ export default function Footer() {
 
           {/* Contacto */}
           <div>
-            <p style={{ fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:10, color:'rgba(240,237,230,0.3)', letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:20 }}>Contacto</p>
+            <p style={{ fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:10, color:'rgba(240,237,230,0.3)', letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:20 }}>{t.footer.contactLabel}</p>
             <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
               {[
                 { icon:<IconWhatsApp/>, href:WA_URL, text:'+54 11 3407-6364' },
@@ -144,7 +143,7 @@ export default function Footer() {
                 </a>
               ))}
               <span style={{ fontFamily:'Inter,sans-serif', fontSize:14, color:'rgba(240,237,230,0.25)', display:'flex', alignItems:'center', gap:8, fontStyle:'italic', marginTop:4 }}>
-                <IconGmail /> Mail próximamente
+                <IconGmail /> {t.footer.mailSoon}
               </span>
             </div>
           </div>
@@ -154,15 +153,15 @@ export default function Footer() {
         {/* Divider */}
         <div style={{ borderTop:'1px solid rgba(240,237,230,0.06)', paddingTop:28, display:'flex', flexWrap:'wrap', justifyContent:'space-between', alignItems:'center', gap:16 }}>
           <p style={{ fontFamily:'Inter,sans-serif', fontSize:12, color:'rgba(240,237,230,0.2)', margin:0 }}>
-            © {new Date().getFullYear()} I.D.E.A Code — Todos los derechos reservados.
+            © {new Date().getFullYear()} I.D.E.A Code — {t.footer.rights}
           </p>
           <div style={{ display:'flex', gap:24, flexWrap:'wrap' }}>
             <span style={{ fontFamily:'Inter,sans-serif', fontSize:11, color:'rgba(240,237,230,0.15)', display:'flex', alignItems:'center', gap:6 }}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="13" height="13"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              Sitio protegido con HTTPS
+              {t.footer.https}
             </span>
             <span style={{ fontFamily:'Inter,sans-serif', fontSize:11, color:'rgba(240,237,230,0.15)' }}>
-              Diseñado y desarrollado por I.D.E.A Code
+              {t.footer.madeBy}
             </span>
           </div>
         </div>

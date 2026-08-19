@@ -2,37 +2,17 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+import { useLang } from '../i18n'
+
 gsap.registerPlugin(ScrollTrigger)
 
-const STATS = [
-  { value: 12, suffix: '+', label: 'Proyectos entregados' },
-  { value: 100, suffix: '%', label: 'Clientes satisfechos' },
-  { value: 9,  suffix: '',  label: 'Tipos de soluciones' },
-  { value: 48, suffix: 'hs', label: 'Tiempo de respuesta' },
+const STAT_VALUES = [
+  { value: 12, suffix: '+' },
+  { value: 100, suffix: '%' },
+  { value: 9, suffix: '' },
+  { value: 48, suffix: 'hs' },
 ]
 
-const QA = [
-  {
-    q: '¿Quiénes son?',
-    a: 'Somos Benicio Nasello Bruno y Andrés Mayo, dos adolescentes estudiantes de ORT apasionados por el desarrollo web y la tecnología. Armamos I.D.E.A Code con una misión clara: que cualquier negocio pueda tener una presencia digital profesional sin pagar una fortuna.',
-  },
-  {
-    q: '¿Qué significa I.D.E.A?',
-    a: 'Innovación Digital para Empresas y Agencias. Creemos que una buena idea, bien ejecutada, puede transformar un negocio — y eso es exactamente lo que hacemos.',
-  },
-  {
-    q: '¿Cómo trabajan?',
-    a: 'Arrancamos entendiendo tu negocio y te pasamos un diseño para que lo apruebes antes de programar nada. Incorporamos inteligencia artificial en el proceso para entregar resultados más rápidos y creativos. Vas viendo avances reales en cada etapa.',
-  },
-  {
-    q: '¿Dónde están?',
-    a: 'Somos 100% remotos y trabajamos desde Argentina para todo el país. Nos manejamos por WhatsApp, video llamada o donde te sea más cómodo.',
-  },
-  {
-    q: '¿Cuánto cuesta?',
-    a: 'Cada proyecto es distinto, por eso los precios se hablan por privado. Escribinos por WhatsApp y te damos un presupuesto sin compromiso en menos de 24 horas.',
-  },
-]
 
 function AnimatedStat({ value, suffix, label }) {
   const [display, setDisplay] = useState(0)
@@ -123,6 +103,8 @@ function QACard({ q, a }) {
 
 export default function AboutSection() {
   const sectionRef = useRef(null)
+  const { t } = useLang()
+  const STATS = STAT_VALUES.map((s, i) => ({ ...s, label: t.about.stats[i] }))
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -184,31 +166,31 @@ export default function AboutSection() {
             <p style={{
               fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
               color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:20,
-            }}>Nosotros</p>
+            }}>{t.about.label}</p>
             <h2 style={{
               fontFamily:'Inter,sans-serif', fontWeight:900,
               fontSize:'clamp(32px,4vw,52px)', color:'#f0ede6',
               lineHeight:1.1, margin:'0 0 28px', letterSpacing:'-0.02em',
             }}>
-              Somos<br /><span style={{ color:'#5ed29c' }}>I.D.E.A Code.</span>
+              {t.about.title}<br /><span style={{ color:'#5ed29c' }}>{t.about.titleAccent}</span>
             </h2>
             <p style={{
               fontFamily:'Inter,sans-serif', fontSize:15,
               color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:'0 0 20px',
             }}>
-              Somos dos adolescentes estudiantes de ORT que creen que cada negocio merece una presencia digital profesional y efectiva — sin importar el tamaño.
+              {t.about.p1}
             </p>
             <p style={{
               fontFamily:'Inter,sans-serif', fontSize:15,
               color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:'0 0 32px',
             }}>
-              Trabajamos de forma rápida y transparente: te mostramos avances reales durante todo el proceso, sin sorpresas ni esperas eternas.
+              {t.about.p2}
             </p>
             <p style={{
               fontFamily:'Inter,sans-serif', fontSize:15,
               color:'rgba(240,237,230,0.5)', lineHeight:1.8, margin:'0 0 32px',
             }}>
-              Incorporamos <span style={{ color:'#5ed29c', fontWeight:600 }}>inteligencia artificial</span> en nuestro flujo de trabajo para entregar resultados más rápidos, más creativos y con mayor nivel de detalle — sin perder el toque humano.
+              {t.about.p3a}<span style={{ color:'#5ed29c', fontWeight:600 }}>{t.about.p3b}</span>{t.about.p3c}
             </p>
 
             {/* Redes sociales */}
@@ -245,8 +227,8 @@ export default function AboutSection() {
           <p className="about-qa-label" style={{
             fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
             color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase', marginBottom:32,
-          }}>Preguntas frecuentes</p>
-          {QA.map((item, i) => (
+          }}>{t.about.faqLabel}</p>
+          {t.about.qa.map((item, i) => (
             <div key={i} className="about-qa-item">
               <QACard {...item} />
             </div>

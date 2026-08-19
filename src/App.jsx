@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { LanguageProvider } from './i18n'
 import { LenisProvider } from './context/lenis'
 import CustomCursor from './components/CustomCursor'
 import Navigation from './components/Navigation'
@@ -16,7 +17,7 @@ import Footer from './components/Footer'
 export default function App() {
   const [introComplete, setIntroComplete] = useState(false)
   return (
-    <>
+    <LanguageProvider>
       <IntroScreen onComplete={() => setIntroComplete(true)} />
       <LenisProvider>
         <div style={{
@@ -40,6 +41,6 @@ export default function App() {
           <FloatingWhatsApp />
         </div>
       </LenisProvider>
-    </>
+    </LanguageProvider>
   )
 }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { useLang } from '../i18n'
 
 export default function IntroScreen({ onComplete }) {
   const containerRef     = useRef(null)
@@ -15,6 +16,7 @@ export default function IntroScreen({ onComplete }) {
   const bulbFillRef      = useRef(null)
   const raysRef          = useRef(null)
   const [gone, setGone]  = useState(false)
+  const { t } = useLang()
 
   const finish = () => {
     document.body.style.overflow = ''
@@ -231,7 +233,7 @@ export default function IntroScreen({ onComplete }) {
               fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 600,
               fontSize: 'clamp(8px,1.1vw,12px)', color: 'rgba(240,237,230,0.45)',
               letterSpacing: '0.22em', textTransform: 'uppercase',
-            }}>Innovación Digital para Empresas y Agencias</span>
+            }}>{t.nav.tagline}</span>
           </div>
         </div>
         {/* Línea divisora */}
@@ -241,7 +243,7 @@ export default function IntroScreen({ onComplete }) {
           fontFamily: '"Plus Jakarta Sans",sans-serif', fontWeight: 700,
           fontSize: 'clamp(9px,1.1vw,12px)', color: 'rgba(240,237,230,0.4)',
           letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0,
-        }}>Agencia de IA y Marketing Digital · Argentina</p>
+        }}>{t.intro.tagline}</p>
       </div>
 
       {/* Flash */}

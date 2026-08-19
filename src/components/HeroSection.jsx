@@ -5,19 +5,14 @@ import Hls from 'hls.js'
 import MagneticButton from './MagneticButton'
 import { useTextScramble } from '../hooks/useTextScramble'
 import Logo from './Logo'
+import { useLang } from '../i18n'
 
 const ParticleGlobe = lazy(() => import('./ParticleGlobe'))
 
 gsap.registerPlugin(ScrollTrigger)
 
 const HLS   = 'https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8'
-const WA    = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
-const LINES = ['Presencia digital.', 'Soluciones.', 'Resultados.']
 
-const TICKER = [
-  'Sitios Web','E-commerce','Software a Medida','Automatizaciones','Inteligencia Artificial','Branding',
-  'Sitios Web','E-commerce','Software a Medida','Automatizaciones','Inteligencia Artificial','Branding',
-]
 
 function VideoBackground({ videoRef }) {
   useEffect(() => {
@@ -53,15 +48,18 @@ export default function HeroSection() {
   const floatRef    = useRef(null)
   const mousePos    = useRef({ x: 0, y: 0 })
   const [ready, setReady] = useState(false)
+  const { t } = useLang()
+  const WA = `https://wa.me/541134076364?text=${encodeURIComponent(t.wa.msgLong)}`
+  const TICKER = [...t.hero.ticker, ...t.hero.ticker]
 
-  const { display: line1 } = useTextScramble(LINES[0], ready, 1100)
-  const { display: line2 } = useTextScramble(LINES[1], ready, 1300)
-  const { display: line3 } = useTextScramble('Resultados.', ready, 1500)
+  const { display: line1 } = useTextScramble(t.hero.lines[0], ready, 1100)
+  const { display: line2 } = useTextScramble(t.hero.lines[1], ready, 1300)
+  const { display: line3 } = useTextScramble(t.hero.lines[2], ready, 1500)
 
   // Trigger scramble after mount
   useEffect(() => {
-    const t = setTimeout(() => setReady(true), 400)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setReady(true), 400)
+    return () => clearTimeout(timer)
   }, [])
 
   // Mouse parallax — throttled to every 2 frames
@@ -164,7 +162,7 @@ export default function HeroSection() {
             <span style={{
               fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:11,
               color:'#5ed29c', letterSpacing:'0.22em', textTransform:'uppercase',
-            }}>Agencia de IA y Marketing Digital · Argentina</span>
+            }}>{t.hero.label}</span>
           </div>
         </div>
 
@@ -192,7 +190,7 @@ export default function HeroSection() {
               <span style={{
                 color:'#5ed29c',
                 textShadow:'0 0 80px rgba(94,210,156,0.4)',
-              }}>Resultados.</span>
+              }}>{line3}</span>
             </span>
           </div>
         </h1>
@@ -202,7 +200,7 @@ export default function HeroSection() {
           color:'rgba(240,237,230,0.45)', maxWidth:440, lineHeight:1.75,
           margin:'32px 0 40px',
         }}>
-          Webs, automatizaciones, tiendas online y más — todo lo que tu negocio necesita para crecer en internet.
+          {t.hero.sub}
         </p>
 
         {/* CTAs */}
@@ -219,7 +217,7 @@ export default function HeroSection() {
               transition:'box-shadow 0.3s',
             }}
           >
-            Quiero mi web →
+            {t.hero.cta1}
           </MagneticButton>
           <MagneticButton
             href="#portfolio"
@@ -231,7 +229,7 @@ export default function HeroSection() {
               transition:'color 0.2s',
             }}
           >
-            Ver trabajos
+            {t.hero.cta2}
           </MagneticButton>
         </div>
       </div>
@@ -244,7 +242,7 @@ export default function HeroSection() {
         <p style={{
           fontFamily:'"Plus Jakarta Sans",sans-serif', fontSize:9,
           color:'rgba(240,237,230,0.2)', letterSpacing:'0.25em', textTransform:'uppercase',
-        }}>scroll</p>
+        }}>{t.hero.scroll}</p>
         <div style={{
           width:1, height:36,
           background:'linear-gradient(to bottom, rgba(94,210,156,0.5), transparent)',

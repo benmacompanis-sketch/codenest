@@ -2,18 +2,43 @@ import { useEffect, useState } from 'react'
 import MagneticButton from './MagneticButton'
 import Logo from './Logo'
 import { asset } from '../utils/assetPath'
+import { useLang } from '../i18n'
 
-const WA = `https://wa.me/541134076364?text=${encodeURIComponent('Hola! Me interesa llevar mi negocio a internet con I.D.E.A Code. ¿Podemos hablar?')}`
-const LINKS = [
-  { label:'Servicios', href:'#servicios' },
-  { label:'Portfolio',  href:'#portfolio' },
-  { label:'Proceso',   href:'#proceso' },
-  { label:'Nosotros',  href:'#nosotros' },
-]
+const HREFS = ['#servicios', '#portfolio', '#proceso', '#nosotros']
+
+function LangSwitch({ compact }) {
+  const { lang, setLang } = useLang()
+  return (
+    <div style={{
+      display:'flex', alignItems:'center',
+      border:'1px solid rgba(240,237,230,0.12)', borderRadius:999,
+      padding:2, gap:2, flexShrink:0,
+    }}>
+      {['es','en'].map(code => (
+        <button key={code} onClick={() => setLang(code)}
+          aria-label={code === 'es' ? 'Español' : 'English'}
+          style={{
+            fontFamily:'Inter,sans-serif', fontWeight:700,
+            fontSize: compact ? 13 : 11, letterSpacing:'0.08em',
+            textTransform:'uppercase', cursor:'pointer',
+            padding: compact ? '8px 16px' : '5px 11px', borderRadius:999, border:'none',
+            background: lang === code ? 'rgba(94,210,156,0.15)' : 'transparent',
+            color: lang === code ? '#5ed29c' : 'rgba(240,237,230,0.4)',
+            transition:'background 0.2s, color 0.2s',
+          }}>
+          {code}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const { t } = useLang()
+  const WA = `https://wa.me/541134076364?text=${encodeURIComponent(t.wa.msgLong)}`
+  const LINKS = HREFS.map((href, i) => ({ href, label: t.nav.links[i] }))
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50)
@@ -47,7 +72,7 @@ export default function Navigation() {
           <img src={asset('/logo-icon.png')} alt="" style={{ height:40, width:'auto' }} />
           <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
             <span style={{ fontFamily:'Inter,sans-serif', fontWeight:900, fontSize:17, color:'#f0ede6', letterSpacing:'-0.02em', lineHeight:1 }}>I.D.E.A <span style={{ color:'#5ed29c' }}>Code</span></span>
-            <span style={{ fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:500, fontSize:8, color:'rgba(240,237,230,0.35)', letterSpacing:'0.13em', textTransform:'uppercase' }}>Innovación Digital para Empresas y Agencias</span>
+            <span style={{ fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:500, fontSize:8, color:'rgba(240,237,230,0.35)', letterSpacing:'0.13em', textTransform:'uppercase' }}>{t.nav.tagline}</span>
           </div>
         </a>
 
@@ -70,16 +95,20 @@ export default function Navigation() {
               padding:'9px 20px', borderRadius:999, textDecoration:'none',
               transition:'background 0.2s, border-color 0.2s',
             }}>
-            Contacto
+            {t.nav.contact}
           </MagneticButton>
+          <LangSwitch />
         </div>
 
-        <button onClick={() => setMenuOpen(o => !o)} className="nav-mobile"
-          style={{ display:'none', background:'none', border:'none', cursor:'pointer', padding:8, flexDirection:'column', gap:5 }}>
-          {[0,1].map(i => (
-            <span key={i} style={{ display:'block', width:22, height:1.5, background:'#f0ede6', borderRadius:2 }} />
-          ))}
-        </button>
+        <div className="nav-mobile" style={{ display:'none', alignItems:'center', gap:12 }}>
+          <LangSwitch />
+          <button onClick={() => setMenuOpen(o => !o)} aria-label="Menu"
+            style={{ background:'none', border:'none', cursor:'pointer', padding:8, display:'flex', flexDirection:'column', gap:5 }}>
+            {[0,1].map(i => (
+              <span key={i} style={{ display:'block', width:22, height:1.5, background:'#f0ede6', borderRadius:2 }} />
+            ))}
+          </button>
+        </div>
       </nav>
 
       {menuOpen && (
@@ -91,7 +120,7 @@ export default function Navigation() {
             position:'absolute', top:24, right:24,
             background:'none', border:'none', cursor:'pointer',
             fontFamily:'Inter,sans-serif', fontSize:13, color:'rgba(240,237,230,0.4)',
-          }}>cerrar ✕</button>
+          }}>{t.nav.close}</button>
           {LINKS.map(({ label, href }) => (
             <a key={href} href={href} onClick={e => scroll(e,href)} style={{
               fontFamily:'Inter,sans-serif', fontWeight:900, fontSize:36,
@@ -102,7 +131,8 @@ export default function Navigation() {
             fontFamily:'Inter,sans-serif', fontWeight:700, fontSize:15,
             background:'#5ed29c', color:'#080808',
             padding:'14px 36px', borderRadius:999, textDecoration:'none', marginTop:12,
-          }}>Contacto</a>
+          }}>{t.nav.contact}</a>
+          <LangSwitch compact />
         </div>
       )}
 

@@ -17,7 +17,7 @@ export const TRANSLATIONS = {
       cta1: 'Solicitar presupuesto →',
       cta2: 'Ver trabajos',
       scroll: 'scroll',
-      ticker: ['Sitios Web', 'E-commerce', 'Software a Medida', 'Automatizaciones', 'Inteligencia Artificial', 'Branding'],
+      ticker: ['Sitios Web', 'E-commerce', 'Aplicaciones', 'Software a Medida', 'Automatizaciones', 'Inteligencia Artificial', 'Branding'],
     },
     services: {
       label: 'Servicios',
@@ -30,6 +30,7 @@ export const TRANSLATIONS = {
         { title: 'Sistemas de Reservas y Turnos', desc: 'Calendario online, confirmación automática y panel de gestión. Ideal para barberías, consultorios, veterinarias, salones y estudios.' },
         { title: 'Portales y Catálogos', desc: 'Listados con filtros avanzados, galería y formulario de consulta. Para inmobiliarias, productos, propiedades, cursos o cualquier catálogo.' },
         { title: 'Paneles de Gestión', desc: 'Fichas de clientes con historial, próximas citas, notas y métricas de tu negocio. Toda tu operación ordenada en un solo lugar.' },
+        { title: 'Aplicaciones Web y Móviles', desc: 'Aplicaciones que tus clientes instalan en el celular y quedan con ícono propio, funcionan sin conexión y envían notificaciones. Toda la potencia de una app nativa, sin depender de las tiendas.' },
         { title: 'Desarrollo de Software a Medida', desc: '¿Tu negocio necesita algo que no existe? Lo construimos desde cero: aplicaciones web, sistemas internos, calculadoras, integraciones con APIs y herramientas hechas exactamente para tu operación.' },
         { title: 'Automatizaciones e IA', desc: 'Recordatorios por WhatsApp, respuestas automáticas, emails, chatbots con inteligencia artificial y conexión entre tus herramientas. Ahorrás tiempo y no perdés ningún cliente.' },
         { title: 'Branding e Identidad Visual', desc: 'Logo, paleta de colores, tipografías y guía de estilo. Una identidad coherente en tu web, tus redes y todo tu material digital.' },
@@ -104,7 +105,7 @@ export const TRANSLATIONS = {
     intro: { tagline: 'Agencia de IA y Marketing Digital' },
     meta: {
       title: 'I.D.E.A Code — Agencia de IA y Marketing Digital',
-      desc: 'I.D.E.A Code: sitios web profesionales, tiendas online, desarrollo de software a medida, automatizaciones con inteligencia artificial y branding.',
+      desc: 'I.D.E.A Code: sitios web profesionales, tiendas online, aplicaciones, desarrollo de software a medida, automatizaciones con inteligencia artificial y branding.',
     },
   },
 
@@ -122,7 +123,7 @@ export const TRANSLATIONS = {
       cta1: 'Request a quote →',
       cta2: 'View work',
       scroll: 'scroll',
-      ticker: ['Websites', 'E-commerce', 'Custom Software', 'Automations', 'Artificial Intelligence', 'Branding'],
+      ticker: ['Websites', 'E-commerce', 'Apps', 'Custom Software', 'Automations', 'Artificial Intelligence', 'Branding'],
     },
     services: {
       label: 'Services',
@@ -135,6 +136,7 @@ export const TRANSLATIONS = {
         { title: 'Booking & Appointment Systems', desc: 'Online calendar, automatic confirmations and management panel. Ideal for barbershops, clinics, vets, salons and studios.' },
         { title: 'Portals & Catalogs', desc: 'Listings with advanced filters, gallery and inquiry form. For real estate, products, properties, courses or any catalog.' },
         { title: 'Management Dashboards', desc: 'Client records with history, upcoming appointments, notes and business metrics. Your whole operation organized in one place.' },
+        { title: 'Web & Mobile Apps', desc: 'Apps your clients install on their phone with their own icon, working offline and sending push notifications. The power of a native app, without depending on the stores.' },
         { title: 'Custom Software Development', desc: 'Does your business need something that doesn\'t exist yet? We build it from scratch: web apps, internal systems, calculators, API integrations and tools made exactly for your operation.' },
         { title: 'Automations & AI', desc: 'WhatsApp reminders, automatic replies, emails, AI-powered chatbots and connections between your tools. Save time and never lose a client.' },
         { title: 'Branding & Visual Identity', desc: 'Logo, color palette, typography and style guide. A consistent identity across your website, social media and all your digital material.' },
@@ -209,7 +211,7 @@ export const TRANSLATIONS = {
     intro: { tagline: 'AI & Digital Marketing Agency' },
     meta: {
       title: 'I.D.E.A Code — AI & Digital Marketing Agency',
-      desc: 'I.D.E.A Code: professional websites, online stores, custom software development, AI-powered automations and branding.',
+      desc: 'I.D.E.A Code: professional websites, online stores, apps, custom software development, AI-powered automations and branding.',
     },
   },
 }

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Code2, Sparkles, Palette, LifeBuoy } from 'lucide-react'
+import { Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Smartphone, Code2, Sparkles, Palette, LifeBuoy } from 'lucide-react'
 import { useLang } from '../i18n'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const ICONS = [Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Code2, Sparkles, Palette, LifeBuoy]
+const ICONS = [Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Smartphone, Code2, Sparkles, Palette, LifeBuoy]
 
 function ServiceRow({ num, icon: Icon, title, desc, index }) {
   const [open, setOpen] = useState(false)

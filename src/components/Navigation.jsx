@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import MagneticButton from './MagneticButton'
 import Logo from './Logo'
 import { asset } from '../utils/assetPath'
 import { useLang } from '../i18n'
@@ -11,17 +10,18 @@ function LangSwitch({ compact }) {
   return (
     <div style={{
       display:'flex', alignItems:'center',
-      border:'1px solid rgba(240,237,230,0.12)', borderRadius:999,
+      border:'1px solid rgba(240,237,230,0.12)', borderRadius:8,
       padding:2, gap:2, flexShrink:0,
     }}>
       {['es','en'].map(code => (
         <button key={code} onClick={() => setLang(code)}
           aria-label={code === 'es' ? 'Español' : 'English'}
+          aria-pressed={lang === code}
           style={{
             fontFamily:'Inter,sans-serif', fontWeight:700,
             fontSize: compact ? 13 : 11, letterSpacing:'0.08em',
             textTransform:'uppercase', cursor:'pointer',
-            padding: compact ? '8px 16px' : '5px 11px', borderRadius:999, border:'none',
+            padding: compact ? '8px 16px' : '5px 11px', borderRadius:6, border:'none',
             background: lang === code ? 'rgba(94,210,156,0.15)' : 'transparent',
             color: lang === code ? '#5ed29c' : 'rgba(240,237,230,0.4)',
             transition:'background 0.2s, color 0.2s',
@@ -87,16 +87,18 @@ export default function Navigation() {
               {label}
             </a>
           ))}
-          <MagneticButton href={WA} target="_blank" rel="noopener noreferrer"
+          <a href={WA} target="_blank" rel="noopener noreferrer"
             style={{
-              fontFamily:'Inter,sans-serif', fontWeight:700, fontSize:13,
-              background:'rgba(94,210,156,0.1)', color:'#5ed29c',
-              border:'1px solid rgba(94,210,156,0.25)',
-              padding:'9px 20px', borderRadius:999, textDecoration:'none',
-              transition:'background 0.2s, border-color 0.2s',
-            }}>
+              fontFamily:'Inter,sans-serif', fontWeight:600, fontSize:13,
+              background:'transparent', color:'#5ed29c',
+              border:'1px solid rgba(94,210,156,0.4)',
+              padding:'9px 18px', borderRadius:8, textDecoration:'none',
+              transition:'background 0.2s, color 0.2s, border-color 0.2s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#5ed29c'; e.currentTarget.style.color = '#080808'; e.currentTarget.style.borderColor = '#5ed29c' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#5ed29c'; e.currentTarget.style.borderColor = 'rgba(94,210,156,0.4)' }}>
             {t.nav.contact}
-          </MagneticButton>
+          </a>
           <LangSwitch />
         </div>
 
@@ -130,7 +132,7 @@ export default function Navigation() {
           <a href={WA} target="_blank" rel="noopener noreferrer" style={{
             fontFamily:'Inter,sans-serif', fontWeight:700, fontSize:15,
             background:'#5ed29c', color:'#080808',
-            padding:'14px 36px', borderRadius:999, textDecoration:'none', marginTop:12,
+            padding:'14px 36px', borderRadius:8, textDecoration:'none', marginTop:12,
           }}>{t.nav.contact}</a>
           <LangSwitch compact />
         </div>

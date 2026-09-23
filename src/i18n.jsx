@@ -71,7 +71,7 @@ export const TRANSLATIONS = {
       p3a: 'Incorporamos ',
       p3b: 'inteligencia artificial',
       p3c: ' en nuestro flujo de trabajo para acelerar tiempos y elevar el nivel de detalle, sin resignar el criterio humano detrás de cada decisión.',
-      stats: ['Proyectos entregados', 'Clientes satisfechos', 'Tipos de soluciones', 'Tiempo de respuesta'],
+      stats: ['Tipos de soluciones', 'Tiempo de respuesta'],
       faqLabel: 'Preguntas frecuentes',
       qa: [
         { q: '¿Quiénes son?', a: 'Benicio Nasello Bruno y Andrés Mayo, CEO y fundadores de I.D.E.A Code. Combinamos desarrollo, diseño y automatización para entregar soluciones digitales completas, con el mismo estándar de calidad sin importar la escala del proyecto.' },
@@ -179,7 +179,7 @@ export const TRANSLATIONS = {
       p3a: 'We bring ',
       p3b: 'artificial intelligence',
       p3c: ' into our workflow to accelerate delivery and raise the level of detail, without giving up the human judgement behind every decision.',
-      stats: ['Projects delivered', 'Happy clients', 'Types of solutions', 'Response time'],
+      stats: ['Types of solutions', 'Response time'],
       faqLabel: 'Frequently asked questions',
       qa: [
         { q: 'Who are you?', a: 'Benicio Nasello Bruno and Andrés Mayo, CEOs and founders of I.D.E.A Code. We combine development, design and automation to deliver complete digital solutions, holding the same quality standard regardless of project scale.' },

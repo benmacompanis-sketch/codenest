@@ -6,10 +6,9 @@ import { useLang } from '../i18n'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Only figures we can back up. Services must match t.services.items.length.
 const STAT_VALUES = [
-  { value: 12, suffix: '+' },
-  { value: 100, suffix: '%' },
-  { value: 9, suffix: '' },
+  { value: 10, suffix: '' },
   { value: 24, suffix: 'hs' },
 ]
 

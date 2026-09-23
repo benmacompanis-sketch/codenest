@@ -10,48 +10,64 @@ const ParticleGlobe = lazy(() => import('./ParticleGlobe'))
 
 gsap.registerPlugin(ScrollTrigger)
 
-const HLS   = 'https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8'
 
 
-function VideoBackground({ videoRef }) {
-  useEffect(() => {
-    const v = videoRef.current
-    if (!v) return
-    let hls
-    let cancelled = false
+// Vertical light beams drawn in CSS: same look the old stock video gave, with no
+// download, no third-party stream and only transform/opacity animations (GPU-cheap).
+function seeded(n) {
+  let x = n * 9301 + 49297
+  return () => ((x = (x * 9301 + 49297) % 233280) / 233280)
+}
+const rand = seeded(7)
+const BEAMS = Array.from({ length: 18 }, (_, i) => {
+  const soft = i % 3 !== 0
+  return {
+    left: 28 + rand() * 70,                 // weighted to the right half, behind the globe
+    top: rand() * 25,
+    height: 45 + rand() * 50,
+    width: soft ? 24 + rand() * 60 : 2 + rand() * 3,
+    alpha: soft ? 0.10 + rand() * 0.14 : 0.35 + rand() * 0.3,
+    hue: rand() > 0.5 ? '94,210,156' : '120,225,200',
+    dur: 6 + rand() * 8,
+    delay: -rand() * 12,
+  }
+})
 
-    // Safari plays HLS natively — no need to ship the 500KB library there.
-    if (v.canPlayType('application/vnd.apple.mpegurl')) {
-      v.src = HLS
-    } else {
-      // Load hls.js only once the page is interactive, so it never blocks first paint.
-      import('hls.js').then(({ default: Hls }) => {
-        if (cancelled || !Hls.isSupported()) return
-        hls = new Hls({ enableWorker: false })
-        hls.loadSource(HLS)
-        hls.attachMedia(v)
-      })
-    }
-
-    return () => { cancelled = true; hls?.destroy() }
-  }, [])
-
+function LightBeams({ beamsRef }) {
   return (
-    <div style={{ position: 'absolute', inset: 0 }}>
-      <video ref={videoRef}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4 }}
-        autoPlay muted loop playsInline crossOrigin="anonymous" />
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+      <div ref={beamsRef} style={{ position: 'absolute', inset: 0 }}>
+        {BEAMS.map((b, i) => (
+          <span key={i} className="hero-beam" style={{
+            position: 'absolute',
+            left: `${b.left}%`, top: `${b.top}%`,
+            width: b.width, height: `${b.height}%`,
+            background: `linear-gradient(to bottom, rgba(${b.hue},0) 0%, rgba(${b.hue},${b.alpha}) 45%, rgba(${b.hue},${b.alpha * 0.6}) 70%, rgba(${b.hue},0) 100%)`,
+            WebkitMaskImage: 'linear-gradient(to right, transparent, #000 50%, transparent)',
+            maskImage: 'linear-gradient(to right, transparent, #000 50%, transparent)',
+            animation: `heroBeam ${b.dur}s ease-in-out ${b.delay}s infinite alternate`,
+          }} />
+        ))}
+      </div>
       {/* Vignette */}
       <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse at center, transparent 30%, #080808 100%)' }} />
       {/* Bottom gradient */}
       <div style={{ position:'absolute', inset:0, background:'linear-gradient(to top, #080808 0%, transparent 50%)' }} />
+      <style>{`
+        @keyframes heroBeam {
+          from { transform: translateY(-5%); opacity: 0.35; }
+          to   { transform: translateY(5%);  opacity: 1; }
+        }
+        @media (max-width: 768px) { .hero-beam:nth-child(2n) { display: none; } }
+        @media (prefers-reduced-motion: reduce) { .hero-beam { animation: none !important; } }
+      `}</style>
     </div>
   )
 }
 
 export default function HeroSection() {
   const sectionRef  = useRef(null)
-  const videoRef    = useRef(null)
+  const beamsRef    = useRef(null)
   const floatRef    = useRef(null)
   const mousePos    = useRef({ x: 0, y: 0 })
   const [ready, setReady] = useState(false)
@@ -123,7 +139,7 @@ export default function HeroSection() {
         }
       })
       .to('.hero-content', { y: -80, opacity: 0, duration: 1 })
-      .to(videoRef.current, { opacity: 0.1, duration: 1 }, '<')
+      .to(beamsRef.current, { opacity: 0.1, duration: 1 }, '<')
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -132,7 +148,7 @@ export default function HeroSection() {
     <section ref={sectionRef} id="inicio" style={{
       height: '100vh', position: 'relative', overflow: 'hidden', background: '#080808',
     }}>
-      <VideoBackground videoRef={videoRef} />
+      <LightBeams beamsRef={beamsRef} />
 
       {/* Noise grain */}
       <div style={{ position:'absolute', inset:0, opacity:0.03, zIndex:1, pointerEvents:'none',

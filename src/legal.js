@@ -34,11 +34,10 @@ export const LEGAL = {
             'Este sitio no tiene formularios, no pide registrarse y no utiliza cookies, herramientas de analítica ni rastreadores publicitarios. Los únicos datos que se tratan son:',
             { list: [
               'Datos técnicos de navegación: al visitar el sitio, nuestro proveedor de alojamiento (Vercel Inc.) registra automáticamente la dirección IP, el tipo de navegador y la fecha de acceso, con fines de seguridad y funcionamiento. No usamos estos datos para identificarte.',
-              'Video de portada: el video de fondo se transmite desde los servidores de Mux, Inc., que recibe tu dirección IP para poder enviarlo.',
               'Preferencia de idioma: el idioma que elegís se guarda en el almacenamiento local de tu navegador. Permanece en tu dispositivo, no se nos envía y podés borrarlo desde la configuración del navegador.',
               'Datos de contacto: si nos escribís por WhatsApp, recibimos los datos que decidas compartir (nombre, número y contenido del mensaje). WhatsApp es un servicio de Meta Platforms, Inc. y se rige por sus propias condiciones y política de privacidad.',
             ] },
-            'Las tipografías del sitio se sirven desde nuestro propio servidor, por lo que no se comparte tu información con servicios de fuentes externos.',
+            'Las tipografías y todos los elementos visuales del sitio se sirven desde nuestro propio servidor: no se comparte tu información con servicios externos de fuentes, video ni analítica.',
           ],
         },
         {
@@ -56,7 +55,7 @@ export const LEGAL = {
         {
           h: '5. Proveedores y transferencia internacional',
           body: [
-            'Vercel Inc. y Mux, Inc. procesan datos en servidores ubicados, entre otros países, en Estados Unidos. Ambos proveedores aplican medidas de seguridad acordes a estándares internacionales.',
+            'Vercel Inc. procesa los datos técnicos de navegación en servidores ubicados, entre otros países, en Estados Unidos, y aplica medidas de seguridad acordes a estándares internacionales.',
           ],
         },
         {
@@ -150,11 +149,10 @@ export const LEGAL = {
             'This site has no forms, requires no sign-up, and uses no cookies, analytics tools or advertising trackers. The only data processed is:',
             { list: [
               'Technical browsing data: when you visit the site, our hosting provider (Vercel Inc.) automatically logs your IP address, browser type and access time for security and operational purposes. We do not use this data to identify you.',
-              'Hero video: the background video is streamed from the servers of Mux, Inc., which receives your IP address in order to deliver it.',
               'Language preference: the language you choose is stored in your browser\'s local storage. It stays on your device, is never sent to us, and can be cleared from your browser settings.',
               'Contact data: if you message us on WhatsApp, we receive whatever you choose to share (name, number and message content). WhatsApp is a service of Meta Platforms, Inc. and is governed by its own terms and privacy policy.',
             ] },
-            'The site\'s fonts are served from our own server, so no information is shared with external font services.',
+            'The site\'s fonts and all visual assets are served from our own server: no information is shared with external font, video or analytics services.',
           ],
         },
         {
@@ -172,7 +170,7 @@ export const LEGAL = {
         {
           h: '5. Providers and international transfers',
           body: [
-            'Vercel Inc. and Mux, Inc. process data on servers located in, among other countries, the United States. Both apply security measures in line with international standards.',
+            'Vercel Inc. processes technical browsing data on servers located in, among other countries, the United States, and applies security measures in line with international standards.',
           ],
         },
         {

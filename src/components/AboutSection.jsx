@@ -10,7 +10,7 @@ const STAT_VALUES = [
   { value: 12, suffix: '+' },
   { value: 100, suffix: '%' },
   { value: 9, suffix: '' },
-  { value: 48, suffix: 'hs' },
+  { value: 24, suffix: 'hs' },
 ]
 
 

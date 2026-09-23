@@ -155,7 +155,13 @@ export default function Footer() {
           <p style={{ fontFamily:'Inter,sans-serif', fontSize:12, color:'rgba(240,237,230,0.2)', margin:0 }}>
             © {new Date().getFullYear()} I.D.E.A Code — {t.footer.rights}
           </p>
-          <div style={{ display:'flex', gap:24, flexWrap:'wrap' }}>
+          <div style={{ display:'flex', gap:24, flexWrap:'wrap', alignItems:'center' }}>
+            {[['#privacidad', t.footer.privacy], ['#legal', t.footer.legal]].map(([href, label]) => (
+              <a key={href} href={href} style={{ fontFamily:'Inter,sans-serif', fontSize:12, color:'rgba(240,237,230,0.4)', textDecoration:'none', transition:'color 0.2s' }}
+                onMouseEnter={e => e.currentTarget.style.color='#f0ede6'}
+                onMouseLeave={e => e.currentTarget.style.color='rgba(240,237,230,0.4)'}
+              >{label}</a>
+            ))}
             <span style={{ fontFamily:'Inter,sans-serif', fontSize:11, color:'rgba(240,237,230,0.15)', display:'flex', alignItems:'center', gap:6 }}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="13" height="13"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               {t.footer.https}

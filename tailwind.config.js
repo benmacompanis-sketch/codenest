@@ -9,7 +9,6 @@ export default {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
         jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
-        instrument: ['"Instrument Serif"', 'serif'],
       },
       colors: {
         brand: '#5ed29c',

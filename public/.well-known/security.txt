@@ -1,0 +1,6 @@
+# Si encontraste una vulnerabilidad en este sitio, avisanos antes de publicarla.
+# If you found a security issue on this site, please report it privately first.
+Contact: https://wa.me/541134076364
+Expires: 2027-09-23T00:00:00.000Z
+Preferred-Languages: es, en
+Canonical: https://idea-code.vercel.app/.well-known/security.txt

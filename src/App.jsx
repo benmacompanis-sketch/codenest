@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { LanguageProvider } from './i18n'
 import { LenisProvider } from './context/lenis'
 import CustomCursor from './components/CustomCursor'
@@ -13,12 +13,30 @@ import ScrollProgress from './components/ScrollProgress'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import IntroScreen from './components/IntroScreen'
 import Footer from './components/Footer'
+import LegalPage from './components/LegalPage'
+import { LEGAL_PAGES } from './legal'
+
+const legalFromHash = () => LEGAL_PAGES[window.location.hash] ?? null
 
 export default function App() {
-  const [introComplete, setIntroComplete] = useState(false)
+  const [legal, setLegal] = useState(legalFromHash)
+  // Someone opening a shared link to the privacy policy wants to read it, not watch the intro.
+  const [introComplete, setIntroComplete] = useState(() => legalFromHash() !== null)
+
+  useEffect(() => {
+    const onHash = () => setLegal(legalFromHash())
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
+  const closeLegal = useCallback(() => {
+    history.replaceState(null, '', window.location.pathname + window.location.search)
+    setLegal(null)
+  }, [])
+
   return (
     <LanguageProvider>
-      <IntroScreen onComplete={() => setIntroComplete(true)} />
+      {!introComplete && <IntroScreen onComplete={() => setIntroComplete(true)} />}
       <LenisProvider>
         <div style={{
           background: '#080808',
@@ -40,6 +58,7 @@ export default function App() {
           <Footer />
           <FloatingWhatsApp />
         </div>
+        {legal && <LegalPage page={legal} onClose={closeLegal} />}
       </LenisProvider>
     </LanguageProvider>
   )

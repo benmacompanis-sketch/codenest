@@ -298,30 +298,20 @@ export default function HeroSection() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @media (max-width: 768px) {
-          /* Text right under the nav; globe fills the space below the buttons */
-          .hero-globe {
-            top: auto !important;
-            bottom: 70px !important;
-            right: 50% !important;
-            transform: translateX(50%) !important;
-            width: 230px !important;
-            height: 230px !important;
-            opacity: 0.55;
-          }
+          /* Phones: no globe, big centered headline filling the screen */
+          .hero-globe { display: none !important; }
           .hero-content {
             max-width: 100% !important;
-            justify-content: flex-start !important;
-            padding-top: 118px !important;
+            justify-content: center !important;
+            padding-top: 84px !important;
+            padding-bottom: 64px !important;
           }
-          .hero-label { margin-bottom: 20px !important; }
-          .hero-sub { margin: 20px 0 26px !important; font-size: 15px !important; }
+          .hero-label { margin-bottom: 22px !important; }
+          .hero-sub { margin: 24px 0 30px !important; font-size: 16px !important; }
           .hero-scroll { display: none !important; }
-          /* "Presencia digital." must fit on one line on a 360–430px phone */
-          .hero-title, .hero-title > span { font-size: 9.4vw !important; }
-        }
-        /* Short phones: no room for the globe under the buttons */
-        @media (max-width: 768px) and (max-height: 720px) {
-          .hero-globe { display: none !important; }
+          .hero-title, .hero-title > span { font-size: 15.5vw !important; line-height: 0.98 !important; }
+          .hero-cta { flex-direction: column !important; align-items: stretch !important; gap: 8px !important; }
+          .hero-cta > * { text-align: center !important; justify-content: center !important; }
         }
       `}</style>
     </section>

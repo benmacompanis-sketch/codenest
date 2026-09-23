@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Globe, ShoppingBag, Calendar, LayoutGrid, Gauge, Smartphone, Code2, Sparkles, Palette, LifeBuoy } from 'lucide-react'
 import { useLang } from '../i18n'
+import { LITE_MOTION } from '../utils/motion'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -102,6 +103,7 @@ export default function ServicesSection() {
   const sectionRef = useRef(null)
 
   useEffect(() => {
+    if (LITE_MOTION) return
     const ctx = gsap.context(() => {
       gsap.from('.srv-title', {
         scrollTrigger: { trigger: '.srv-title', start: 'top 96%' },

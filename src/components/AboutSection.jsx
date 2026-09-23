@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { LITE_MOTION } from '../utils/motion'
 
 import { useLang } from '../i18n'
 
@@ -14,10 +15,11 @@ const STAT_VALUES = [
 
 
 function AnimatedStat({ value, suffix, label }) {
-  const [display, setDisplay] = useState(0)
+  const [display, setDisplay] = useState(LITE_MOTION ? value : 0)
   const ref = useRef(null)
 
   useEffect(() => {
+    if (LITE_MOTION) return
     const trigger = ScrollTrigger.create({
       trigger: ref.current,
       start: 'top 96%',
@@ -112,6 +114,7 @@ export default function AboutSection() {
   const STATS = STAT_VALUES.map((s, i) => ({ ...s, label: t.about.stats[i] }))
 
   useEffect(() => {
+    if (LITE_MOTION) return
     const ctx = gsap.context(() => {
       gsap.from('.about-left', {
         scrollTrigger: { trigger: '.about-left', start: 'top 96%' },

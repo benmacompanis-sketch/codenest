@@ -5,6 +5,7 @@ import MagneticButton from './MagneticButton'
 import { useTextScramble } from '../hooks/useTextScramble'
 import Logo from './Logo'
 import { useLang } from '../i18n'
+import { LITE_MOTION } from '../utils/motion'
 
 const ParticleGlobe = lazy(() => import('./ParticleGlobe'))
 
@@ -127,6 +128,7 @@ export default function HeroSection() {
 
   // Scroll pin + fade out
   useEffect(() => {
+    if (LITE_MOTION) return
     const ctx = gsap.context(() => {
       gsap.timeline({
         scrollTrigger: {
@@ -192,7 +194,7 @@ export default function HeroSection() {
         {/* Headline */}
         <h1 style={{ margin:0, lineHeight:0.98 }}>
           {[line1, line2].map((line, i) => (
-            <div key={i} className="hero-line" style={{ overflow:'hidden', fontSize:'clamp(44px, 7.5vw, 96px)', paddingBottom:'0.2em', marginBottom:'-0.2em' }}>
+            <div key={i} className="hero-line hero-title" style={{ overflow:'hidden', fontSize:'clamp(44px, 7.5vw, 96px)', paddingBottom:'0.2em', marginBottom:'-0.2em' }}>
               <span style={{
                 display:'block',
                 fontFamily:'Inter,sans-serif', fontWeight:900,
@@ -203,7 +205,7 @@ export default function HeroSection() {
               }}>{line}</span>
             </div>
           ))}
-          <div className="hero-line" style={{ overflow:'hidden', fontSize:'clamp(44px, 7.5vw, 96px)', paddingBottom:'0.2em', marginBottom:'-0.2em' }}>
+          <div className="hero-line hero-title" style={{ overflow:'hidden', fontSize:'clamp(44px, 7.5vw, 96px)', paddingBottom:'0.2em', marginBottom:'-0.2em' }}>
             <span style={{
               display:'block',
               fontFamily:'Inter,sans-serif', fontWeight:900,
@@ -257,7 +259,7 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll cue */}
-      <div style={{
+      <div className="hero-scroll" style={{
         position:'absolute', bottom:28, left:'50%', transform:'translateX(-50%)',
         zIndex:4, display:'flex', flexDirection:'column', alignItems:'center', gap:6,
       }}>
@@ -296,16 +298,26 @@ export default function HeroSection() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @media (max-width: 768px) {
+          /* Globe sits in the empty band under the nav, text right below it */
           .hero-globe {
-            top: auto !important;
-            bottom: 60px !important;
+            top: 76px !important;
+            bottom: auto !important;
             right: 50% !important;
             transform: translateX(50%) !important;
-            width: 280px !important;
-            height: 280px !important;
-            opacity: 0.6;
+            width: 150px !important;
+            height: 150px !important;
+            opacity: 0.7;
           }
-          .hero-content { max-width: 100% !important; }
+          .hero-content {
+            max-width: 100% !important;
+            justify-content: flex-start !important;
+            padding-top: 228px !important;
+          }
+          .hero-label { margin-bottom: 20px !important; }
+          .hero-sub { margin: 20px 0 26px !important; font-size: 15px !important; }
+          .hero-scroll { display: none !important; }
+          /* "Presencia digital." must fit on one line on a 360–430px phone */
+          .hero-title, .hero-title > span { font-size: 9.4vw !important; }
         }
       `}</style>
     </section>

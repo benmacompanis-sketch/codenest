@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { LITE_MOTION } from '../utils/motion'
 
 import { useLang } from '../i18n'
 
@@ -68,6 +69,7 @@ export default function ProcessSection() {
   const STEPS = t.process.steps.map((st, i) => ({ num: String(i + 1).padStart(2, '0'), ...st }))
 
   useEffect(() => {
+    if (LITE_MOTION) return
     const ctx = gsap.context(() => {
       gsap.from('.proc-label', {
         scrollTrigger: { trigger: '.proc-label', start: 'top 96%' },

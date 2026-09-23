@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowUpRight } from 'lucide-react'
 import { useLang } from '../i18n'
+import { LITE_MOTION } from '../utils/motion'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -26,6 +27,7 @@ function ProjectCard({ project, index }) {
   const [hovered, setHovered] = useState(false)
 
   useEffect(() => {
+    if (LITE_MOTION) return
     gsap.from(cardRef.current, {
       scrollTrigger: { trigger: cardRef.current, start: 'top 96%' },
       y: 60, opacity: 0, duration: 0.8,
@@ -127,6 +129,7 @@ function ComingSoonCard({ index }) {
   const WA = `https://wa.me/541134076364?text=${encodeURIComponent(t.wa.msgLong)}`
 
   useEffect(() => {
+    if (LITE_MOTION) return
     gsap.from(cardRef.current, {
       scrollTrigger: { trigger: cardRef.current, start: 'top 96%' },
       y: 60, opacity: 0, duration: 0.8, delay: index * 0.05, ease: 'power3.out',
@@ -164,6 +167,7 @@ export default function PortfolioSection() {
   const projects = PROJECTS.map((p, i) => ({ ...p, cat: t.portfolio.cats[i], tag: t.portfolio.tags[i] }))
 
   useEffect(() => {
+    if (LITE_MOTION) return
     const ctx = gsap.context(() => {
       gsap.from('.port-label', {
         scrollTrigger: { trigger: '.port-label', start: 'top 96%' },

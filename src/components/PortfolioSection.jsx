@@ -18,40 +18,7 @@ const PROJECTS = [
     img: '/portfolio/impactolaser.jpg',
     imgPos: 'center center',
     tag: 'Restauración de superficies',
-  },
-  {
-    name: 'Ovelar Propiedades',
-    cat: 'Inmobiliaria',
-    year: '2026',
-    bg: 'linear-gradient(160deg, #0c1628 0%, #1a3258 100%)',
-    accent: '#5ed29c',
-    url: 'https://benmacompanis-sketch.github.io/ovelar-propiedades/',
-    img: '/portfolio/ovelar.jpg',
-    imgPos: '6% 30%',
-    tag: 'Inmuebles · CABA',
-  },
-  {
-    name: 'La Quinta Pata',
-    cat: 'Veterinaria',
-    year: '2026',
-    bg: 'linear-gradient(160deg, #030d12 0%, #062534 100%)',
-    accent: '#5ed29c',
-    url: 'https://benmacompanis-sketch.github.io/Veterinaria/',
-    img: '/portfolio/veterinaria.jpg',
-    imgPos: 'center center',
-    tag: 'Clínica · Caballito',
-  },
-  {
-    name: 'Cucha del Parí',
-    cat: 'Gastronomía',
-    year: '2026',
-    bg: 'linear-gradient(160deg, #100500 0%, #2a1200 100%)',
-    accent: '#5ed29c',
-    url: 'https://benmacompanis-sketch.github.io/Cuchadelpari/',
-    img: '/portfolio/cuchadelpari.jpg',
-    imgPos: '0% 35%',
-    tag: 'Bar & Cocina · Buenos Aires',
-  },
+  }
 ]
 
 function ProjectCard({ project, index }) {
@@ -154,6 +121,43 @@ function ProjectCard({ project, index }) {
   )
 }
 
+function ComingSoonCard({ index }) {
+  const { t } = useLang()
+  const cardRef = useRef(null)
+  const WA = `https://wa.me/541134076364?text=${encodeURIComponent(t.wa.msgLong)}`
+
+  useEffect(() => {
+    gsap.from(cardRef.current, {
+      scrollTrigger: { trigger: cardRef.current, start: 'top 96%' },
+      y: 60, opacity: 0, duration: 0.8, delay: index * 0.05, ease: 'power3.out',
+    })
+  }, [index])
+
+  return (
+    <div ref={cardRef} style={{
+      aspectRatio:'4/3', borderRadius:20,
+      border:'1px dashed rgba(94,210,156,0.25)',
+      background:'rgba(94,210,156,0.02)',
+      display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
+      textAlign:'center', padding:32, gap:14,
+    }}>
+      <span style={{
+        fontFamily:'"Plus Jakarta Sans",sans-serif', fontWeight:700, fontSize:10,
+        color:'#5ed29c', letterSpacing:'0.2em', textTransform:'uppercase',
+      }}>{t.portfolio.soonLabel}</span>
+      <p style={{
+        fontFamily:'Inter,sans-serif', fontWeight:800,
+        fontSize:'clamp(20px,2.4vw,28px)', color:'#f0ede6',
+        margin:0, letterSpacing:'-0.01em', lineHeight:1.2,
+      }}>{t.portfolio.soonTitle}</p>
+      <a href={WA} target="_blank" rel="noopener noreferrer" style={{
+        fontFamily:'Inter,sans-serif', fontWeight:600, fontSize:14,
+        color:'rgba(94,210,156,0.8)', textDecoration:'none', marginTop:6,
+      }}>{t.portfolio.soonCta}</a>
+    </div>
+  )
+}
+
 export default function PortfolioSection() {
   const sectionRef = useRef(null)
   const { t } = useLang()
@@ -213,6 +217,7 @@ export default function PortfolioSection() {
           gap:16,
         }}>
           {projects.map((p, i) => <ProjectCard key={i} project={p} index={i} />)}
+          <ComingSoonCard index={projects.length} />
         </div>
 
       </div>

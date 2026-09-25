@@ -203,24 +203,17 @@ export default function AboutSection() {
 
             {/* Redes sociales */}
             <div style={{ display:'flex', gap:16, flexWrap:'wrap' }}>
-              {[
-                { label:'@ideacode._', href:'https://instagram.com/ideacode._', platform:'Instagram' },
-                { label:'@idea.code',  href:'https://tiktok.com/@idea.code',    platform:'TikTok' },
-              ].map(({ label, href, platform }) => (
-                <a key={platform} href={href} target="_blank" rel="noopener noreferrer" style={{
+              {['Instagram', 'TikTok'].map(platform => (
+                <span key={platform} style={{
                   display:'inline-flex', alignItems:'center', gap:8,
                   fontFamily:'Inter,sans-serif', fontWeight:600, fontSize:12,
-                  color:'rgba(94,210,156,0.7)', textDecoration:'none',
-                  border:'1px solid rgba(94,210,156,0.2)',
+                  color:'rgba(240,237,230,0.35)',
+                  border:'1px dashed rgba(240,237,230,0.15)',
                   borderRadius:999, padding:'8px 16px',
-                  transition:'all 0.2s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.color='#5ed29c'; e.currentTarget.style.borderColor='rgba(94,210,156,0.5)' }}
-                onMouseLeave={e => { e.currentTarget.style.color='rgba(94,210,156,0.7)'; e.currentTarget.style.borderColor='rgba(94,210,156,0.2)' }}
-                >
+                }}>
                   <span style={{ fontSize:10, letterSpacing:'0.1em', textTransform:'uppercase', opacity:0.6 }}>{platform}</span>
-                  {label}
-                </a>
+                  {t.footer.soon}
+                </span>
               ))}
             </div>
           </div>

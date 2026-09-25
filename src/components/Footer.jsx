@@ -2,8 +2,6 @@ import { asset } from '../utils/assetPath'
 import { useLang } from '../i18n'
 
 
-const IG_URL = 'https://instagram.com/ideacode._'
-const TK_URL = 'https://tiktok.com/@idea.code'
 
 const IconWhatsApp = () => (
   <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
@@ -91,8 +89,6 @@ export default function Footer() {
             <div style={{ display:'flex', gap:12 }}>
               {[
                 { Icon: IconWhatsApp,  href: WA_URL,  label:'WhatsApp' },
-                { Icon: IconInstagram, href: IG_URL,  label:'Instagram' },
-                { Icon: IconTikTok,    href: TK_URL,  label:'TikTok' },
               ].map(({ Icon, href, label }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   aria-label={label}
@@ -131,8 +127,6 @@ export default function Footer() {
             <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
               {[
                 { icon:<IconWhatsApp/>, href:WA_URL, text:'+54 11 3407-6364' },
-                { icon:<IconInstagram/>, href:IG_URL, text:'@ideacode._' },
-                { icon:<IconTikTok/>, href:TK_URL, text:'@idea.code' },
               ].map(({ icon, href, text }) => (
                 <a key={text} href={href} target="_blank" rel="noopener noreferrer"
                   style={{ fontFamily:'Inter,sans-serif', fontSize:14, color:'rgba(240,237,230,0.45)', textDecoration:'none', display:'flex', alignItems:'center', gap:8, transition:'color 0.2s' }}
@@ -141,6 +135,11 @@ export default function Footer() {
                 >
                   {icon} {text}
                 </a>
+              ))}
+              {[[<IconInstagram key="ig"/>, 'Instagram'], [<IconTikTok key="tk"/>, 'TikTok']].map(([icon, name]) => (
+                <span key={name} style={{ fontFamily:'Inter,sans-serif', fontSize:14, color:'rgba(240,237,230,0.25)', display:'flex', alignItems:'center', gap:8, fontStyle:'italic' }}>
+                  {icon} {name} · {t.footer.soon}
+                </span>
               ))}
               <span style={{ fontFamily:'Inter,sans-serif', fontSize:14, color:'rgba(240,237,230,0.25)', display:'flex', alignItems:'center', gap:8, fontStyle:'italic', marginTop:4 }}>
                 <IconGmail /> {t.footer.mailSoon}

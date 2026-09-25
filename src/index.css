@@ -26,9 +26,16 @@
     color: #0a0a0a;
   }
 
-  /* Custom scrollbar — light theme */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #f0ede6; }
+  /* Nothing may push the page sideways (no horizontal scrollbar on Windows).
+     `clip` instead of `hidden`: hidden would create a scroll container and
+     break the hero pin. */
+  html, body { overflow-x: clip; }
+
+  /* Custom scrollbar — dark, matches the site */
+  html { scrollbar-color: rgba(94, 210, 156, 0.4) #080808; scrollbar-width: thin; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #080808; }
+  ::-webkit-scrollbar-corner { background: #080808; }
   ::-webkit-scrollbar-thumb {
     background: rgba(94, 210, 156, 0.4);
     border-radius: 4px;

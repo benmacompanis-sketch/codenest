@@ -28,7 +28,6 @@ export default function MagneticButton({ children, style, href, target, rel, onC
       onClick={onClick}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      data-cursor
       style={{ display: 'inline-block', ...style }}
     >
       {children}

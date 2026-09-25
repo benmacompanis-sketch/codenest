@@ -42,7 +42,6 @@ function ProjectCard({ project, index }) {
       href={project.url}
       target="_blank"
       rel="noopener noreferrer"
-      data-cursor
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
